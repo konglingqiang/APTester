@@ -1,0 +1,111 @@
+***************************************************************************************
+litepoint.dll 1.0.0.eng7  2013.2.27
+
+Features:
+	1. Change the pretrigger time of 11AC TX capture from -60us to 10us(default)
+	
+Resolved Issues:
+
+Known Issues:
+
+Tested Driver Version:
+  art2_ap135_cus223_Pre_RC_ap_Bin
+  IQmeasure API 3.0.3(FW version 1.7)
+  Windows 7(32bit)
+
+***************************************************************************************
+litepoint.dll 1.0.0.eng6  2013.1.21
+
+Features:
+	1. remove frequency shift(HT40/VHT40) from VSA&VSG control
+	2. Fixed file extension name issue while using non IQxel tester
+	
+Resolved Issues:
+
+Known Issues:
+
+Tested Driver Version:
+  art2_ap135_cus223_Pre_RC_ap_Bin
+  IQmeasure API 3.0.3(FW version 1.7)
+  Windows 7(32bit)
+
+***************************************************************************************
+litepoint.dll 1.0.0.eng5  2013.1.16
+
+Features:
+	1. rebuild for new IQmeasure API
+	
+Resolved Issues:
+
+Known Issues:
+
+Tested Driver Version:
+  art2_ap135_cus223_Pre_RC_ap_Bin
+  IQmeasure API 3.0.3(FW version 1.7)
+  Windows 7(32bit)
+
+***************************************************************************************
+litepoint.dll 1.0.0.eng4  2012.10.29
+
+Features:
+	1. Disabled some debug printed messages by default.
+	2. Disabled save captured signal files by default.
+	
+Resolved Issues:
+
+Known Issues:
+
+Tested Driver Version:
+  IQxel FW version 1.5.1
+	IQmeasure API 3.0.1
+  art2_ap135_cus223_Alpha2_BIN
+  Windows 7(32bit)
+
+***************************************************************************************
+litepoint.dll 1.0.0.eng3  
+
+Features:
+  1. Upgrade IQmeasure API to version 3.0.1
+  2. In litepoint_setup.txt , separate another set parameters for the 11AC EVM analysis. 
+	
+Resolved Issues:
+
+Known Issues:
+
+Tested Driver Version:
+  IQxel FW version 1.5.1
+	IQmeasure API 3.0.1
+  art2_ap135_cus223_Alpha2_BIN
+  Windows 7(32bit)
+  
+***************************************************************************************
+litepoint.dll 1.0.0.eng2
+
+Features:
+	1. Fixed use of incorrect .ref file while doing composite EVM testing.
+	
+Resolved Issues:
+
+Known Issues:
+
+Tested Driver Version:
+  IQxel FW version 1.4.0
+	IQmeasure API 3.0.0
+  Windows 7(32bit)
+  
+***************************************************************************************
+litepoint.dll 1.0.0.eng1
+
+Features:
+	1. Initial release.
+	
+Resolved Issues:
+
+Known Issues:
+
+Tested Driver Version:
+  IQxel FW version 1.4.0
+	IQmeasure API 3.0.0
+  Windows 7(32bit)
+  
+***************************************************************************************

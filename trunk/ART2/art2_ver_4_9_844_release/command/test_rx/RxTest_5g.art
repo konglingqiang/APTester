@@ -1,0 +1,305 @@
+
+#___________________________________________
+# RX Sensitivity Sweep Test
+#___________________________________________
+GOTO name=RxSensSweep_DONE; condition='$5G.RxSensSweep.Enable=0'
+
+test_rx\Rate\Rate_Sweep_5G.art
+
+GOTO name=RxSensSweep.SingleChain_HT20_DONE; condition='$5G.RxSensSweep.SingleChain.HT20.Enable=0'
+assign 5G.RxSensSweep.test.HT20.Enable=1
+LABEL name=RxSensSweep.SingleChain_HT20_DONE;
+
+GOTO name=RxSensSweep.AllChains_DONE; condition='$5G.RxSensSweep.AllChains.HT20.Enable=0'
+assign 5G.RxSensSweep.test.HT20.Enable=1
+LABEL name=RxSensSweep.AllChains_DONE;
+
+GOTO name=RxSensSweep.AllChains_HT40_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=RxSensSweep.SingleChain_HT40_DONE; condition='$5G.RxSensSweep.SingleChain.HT40.Enable=0'
+assign 5G.RxSensSweep.test.HT40.Enable=1
+LABEL name=RxSensSweep.SingleChain_HT40_DONE;
+
+GOTO name=RxSensSweep.AllChains_HT40_DONE; condition='$5G.RxSensSweep.AllChains.HT40.Enable=0'
+assign 5G.RxSensSweep.test.HT40.Enable=1
+LABEL name=RxSensSweep.AllChains_HT40_DONE;
+
+GOTO name=RxSensSweep_HT20_DONE; condition='$5G.RxSensSweep.test.HT20.Enable=0'
+GOTO name=SensSweep_VSG_HT20; condition='$Equipment.VSG.Chains>0'
+test_rx\RxSensSweep_5gHT20.art
+GOTO name=RxSensSweep_HT20_DONE;
+
+LABEL name=SensSweep_VSG_HT20;
+test_rx\RxSensSweep_VSG_5gHT20.art
+LABEL name=RxSensSweep_HT20_DONE;
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+
+GOTO name=RxSensSweep_HT40_DONE; condition='$5G.RxSensSweep.test.HT40.Enable=0'
+GOTO name=SensSweep_VSG_HT40; condition='$Equipment.VSG.Chains>0'
+test_rx\RxSensSweep_5gHT40.art
+GOTO name=RxSensSweep_HT40_DONE;
+
+LABEL name=SensSweep_VSG_HT40;
+test_rx\RxSensSweep_VSG_5gHT40.art
+LABEL name=RxSensSweep_HT40_DONE;
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+
+
+GOTO name=RxSensSweep.AllChains_VHT20_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=RxSensSweep.SingleChain_VHT20_DONE; condition='$5G.RxSensSweep.SingleChain.VHT20.Enable=0'
+assign 5G.RxSensSweep.test.VHT20.Enable=1
+LABEL name=RxSensSweep.SingleChain_VHT20_DONE;
+
+GOTO name=RxSensSweep.AllChains_VHT20_DONE; condition='$5G.RxSensSweep.AllChains.VHT20.Enable=0'
+assign 5G.RxSensSweep.test.VHT20.Enable=1
+LABEL name=RxSensSweep.AllChains_VHT20_DONE;
+
+GOTO name=RxSensSweep_VHT20_DONE; condition='$5G.RxSensSweep.test.VHT20.Enable=0'
+GOTO name=SensSweep_VSG_VHT20; condition='$Equipment.VSG.Chains>0'
+test_rx\RxSensSweep_5gVHT20.art
+GOTO name=RxSensSweep_VHT20_DONE;
+
+LABEL name=SensSweep_VSG_VHT20;
+test_rx\RxSensSweep_VSG_5gVHT20.art
+LABEL name=RxSensSweep_VHT20_DONE;
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+
+
+GOTO name=RxSensSweep.AllChains_VHT40_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=RxSensSweep.SingleChain_VHT40_DONE; condition='$5G.RxSensSweep.SingleChain.VHT40.Enable=0'
+assign 5G.RxSensSweep.test.VHT40.Enable=1
+LABEL name=RxSensSweep.SingleChain_VHT40_DONE;
+
+GOTO name=RxSensSweep.AllChains_VHT40_DONE; condition='$5G.RxSensSweep.AllChains.VHT40.Enable=0'
+assign 5G.RxSensSweep.test.VHT40.Enable=1
+LABEL name=RxSensSweep.AllChains_VHT40_DONE;
+
+GOTO name=RxSensSweep_VHT40_DONE; condition='$5G.RxSensSweep.test.VHT40.Enable=0'
+GOTO name=SensSweep_VSG_VHT40; condition='$Equipment.VSG.Chains>0'
+test_rx\RxSensSweep_5gVHT40.art
+GOTO name=RxSensSweep_VHT40_DONE;
+
+LABEL name=SensSweep_VSG_VHT40;
+test_rx\RxSensSweep_VSG_5gVHT40.art
+LABEL name=RxSensSweep_VHT40_DONE;
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+
+
+GOTO name=RxSensSweep.AllChains_VHT80_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=RxSensSweep.SingleChain_VHT80_DONE; condition='$5G.RxSensSweep.SingleChain.VHT80.Enable=0'
+assign 5G.RxSensSweep.test.VHT80.Enable=1
+LABEL name=RxSensSweep.SingleChain_VHT80_DONE;
+
+GOTO name=RxSensSweep.AllChains_VHT80_DONE; condition='$5G.RxSensSweep.AllChains.VHT80.Enable=0'
+assign 5G.RxSensSweep.test.VHT80.Enable=1
+LABEL name=RxSensSweep.AllChains_VHT80_DONE;
+
+GOTO name=RxSensSweep_VHT80_DONE; condition='$5G.RxSensSweep.test.VHT80.Enable=0'
+GOTO name=SensSweep_VSG_VHT80; condition='$Equipment.VSG.Chains>0'
+test_rx\RxSensSweep_5gVHT80.art
+GOTO name=RxSensSweep_VHT80_DONE;
+
+LABEL name=SensSweep_VSG_VHT80;
+test_rx\RxSensSweep_VSG_5gVHT80.art
+LABEL name=RxSensSweep_VHT80_DONE;
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+
+LABEL name=RxSensSweep_DONE;
+
+#___________________________________________
+# RX Sensitivity Point Test
+#___________________________________________
+GOTO name=RxSensPoint_DONE; condition='$5G.RxSensPoint.Enable=0'
+
+test_rx\Rate\Rate_Point_5G.art
+
+GOTO name=RxSensPoint.SingleChain_DONE; condition='$5G.RxSensPoint.SingleChain.HT20.Enable=0'
+assign 5G.RxSensPoint.test.HT20.Enable=1
+LABEL name=RxSensPoint.SingleChain_DONE;
+
+GOTO name=RxSensPoint.AllChains_DONE; condition='$5G.RxSensPoint.AllChains.HT20.Enable=0'
+assign 5G.RxSensPoint.test.HT20.Enable=1
+LABEL name=RxSensPoint.AllChains_DONE;
+
+GOTO name=RxSensPoint.AllChains_HT40_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=RxSensPoint.SingleChain_HT40_DONE; condition='$5G.RxSensPoint.SingleChain.HT40.Enable=0'
+assign 5G.RxSensPoint.test.HT40.Enable=1
+LABEL name=RxSensPoint.SingleChain_HT40_DONE;
+
+GOTO name=RxSensPoint.AllChains_HT40_DONE; condition='$5G.RxSensPoint.AllChains.HT40.Enable=0'
+assign 5G.RxSensPoint.test.HT40.Enable=1
+LABEL name=RxSensPoint.AllChains_HT40_DONE;
+
+GOTO name=RxSensPoint_HT20_DONE; condition='$5G.RxSensPoint.test.HT20.Enable=0'
+GOTO name=SensPoint_HT20_VSG; condition='$Equipment.VSG.Chains>0'
+test_rx\RxSensPoint_5gHT20.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+GOTO name=RxSensPoint_HT20_DONE;
+
+LABEL name=SensPoint_HT20_VSG;
+test_rx\RxSensPoint_VSG_5gHT20.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+LABEL name=RxSensPoint_HT20_DONE;
+
+GOTO name=RxSensPoint_HT40_DONE; condition='$5G.RxSensPoint.test.HT40.Enable=0'
+GOTO name=SensPoint_HT40_VSG; condition='$Equipment.VSG.Chains>0'
+test_rx\RxSensPoint_5gHT40.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+GOTO name=RxSensPoint_HT40_DONE;
+
+LABEL name=SensPoint_HT40_VSG;
+test_rx\RxSensPoint_VSG_5gHT40.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+LABEL name=RxSensPoint_HT40_DONE;
+
+
+GOTO name=RxSensPoint.AllChains_VHT20_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=RxSensPoint.SingleChain_VHT20_DONE; condition='$5G.RxSensPoint.SingleChain.VHT20.Enable=0'
+assign 5G.RxSensPoint.test.VHT20.Enable=1
+LABEL name=RxSensPoint.SingleChain_VHT20_DONE;
+
+GOTO name=RxSensPoint.AllChains_VHT20_DONE; condition='$5G.RxSensPoint.AllChains.VHT20.Enable=0'
+assign 5G.RxSensPoint.test.VHT20.Enable=1
+LABEL name=RxSensPoint.AllChains_VHT20_DONE;
+
+GOTO name=RxSensPoint_VHT20_DONE; condition='$5G.RxSensPoint.test.VHT20.Enable=0'
+GOTO name=SensPoint_VHT20_VSG; condition='$Equipment.VSG.Chains>0'
+test_rx\RxSensPoint_5gVHT20.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+GOTO name=RxSensPoint_VHT20_DONE;
+
+LABEL name=SensPoint_VHT20_VSG;
+test_rx\RxSensPoint_VSG_5gVHT20.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+LABEL name=RxSensPoint_VHT20_DONE;
+
+
+GOTO name=RxSensPoint.AllChains_VHT40_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=RxSensPoint.SingleChain_VHT40_DONE; condition='$5G.RxSensPoint.SingleChain.VHT40.Enable=0'
+assign 5G.RxSensPoint.test.VHT40.Enable=1
+LABEL name=RxSensPoint.SingleChain_VHT40_DONE;
+
+GOTO name=RxSensPoint.AllChains_VHT40_DONE; condition='$5G.RxSensPoint.AllChains.VHT40.Enable=0'
+assign 5G.RxSensPoint.test.VHT40.Enable=1
+LABEL name=RxSensPoint.AllChains_VHT40_DONE;
+
+GOTO name=RxSensPoint_VHT40_DONE; condition='$5G.RxSensPoint.test.VHT40.Enable=0'
+GOTO name=SensPoint_VHT40_VSG; condition='$Equipment.VSG.Chains>0'
+test_rx\RxSensPoint_5gVHT40.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+GOTO name=RxSensPoint_VHT40_DONE;
+
+LABEL name=SensPoint_VHT40_VSG;
+test_rx\RxSensPoint_VSG_5gVHT40.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+LABEL name=RxSensPoint_VHT40_DONE;
+
+
+GOTO name=RxSensPoint.AllChains_VHT80_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=RxSensPoint.SingleChain_VHT80_DONE; condition='$5G.RxSensPoint.SingleChain.VHT80.Enable=0'
+assign 5G.RxSensPoint.test.VHT80.Enable=1
+LABEL name=RxSensPoint.SingleChain_VHT80_DONE;
+
+GOTO name=RxSensPoint.AllChains_VHT80_DONE; condition='$5G.RxSensPoint.AllChains.VHT80.Enable=0'
+assign 5G.RxSensPoint.test.VHT80.Enable=1
+LABEL name=RxSensPoint.AllChains_VHT80_DONE;
+
+GOTO name=RxSensPoint_VHT80_DONE; condition='$5G.RxSensPoint.test.VHT80.Enable=0'
+GOTO name=SensPoint_VHT80_VSG; condition='$Equipment.VSG.Chains>0'
+test_rx\RxSensPoint_5gVHT80.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+GOTO name=RxSensPoint_VHT80_DONE;
+
+LABEL name=SensPoint_VHT80_VSG;
+test_rx\RxSensPoint_VSG_5gVHT80.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+LABEL name=RxSensPoint_VHT80_DONE;
+
+LABEL name=RxSensPoint_DONE;
+
+#___________________________________________
+# Tx throughput test
+#___________________________________________
+
+# assign 5G.TxTput.test.Enable=0
+
+GOTO name=TxTput_DONE; condition='$5G.TxTput.Enable=0'
+
+test_rx\Rate\Rate_TxTput_5G.art
+
+GOTO name=TxTput.Legacy_DONE; condition='$5G.TxTput.Legacy.Enable=0'
+assign 5G.TxTput.test.Enable=1
+LABEL name=TxTput.Legacy_DONE;
+
+GOTO name=TxTput.MIMO_DONE; condition='$5G.TxTput.HT20.Enable=0'
+assign 5G.TxTput.test.Enable=1
+LABEL name=TxTput.MIMO_DONE;
+
+GOTO name=TxTput.MIMO_HT40_DONE; condition='$5G.TxTput.HT40.Enable=0'
+assign 5G.TxTput.test.Enable=1
+LABEL name=TxTput.MIMO_HT40_DONE;
+
+GOTO name=TxTput.MIMO_VHT20_DONE; condition='$5G.TxTput.VHT20.Enable=0'
+assign 5G.TxTput.test.Enable=1
+LABEL name=TxTput.MIMO_VHT20_DONE;
+
+GOTO name=TxTput.MIMO_VHT40_DONE; condition='$5G.TxTput.VHT40.Enable=0'
+assign 5G.TxTput.test.Enable=1
+LABEL name=TxTput.MIMO_VHT40_DONE;
+
+GOTO name=TxTput.MIMO_VHT80_DONE; condition='$5G.TxTput.VHT80.Enable=0'
+assign 5G.TxTput.test.Enable=1
+LABEL name=TxTput.MIMO_VHT80_DONE;
+
+GOTO name=TxTput_DONE; condition='$5G.TxTput.test.Enable=0'
+test_rx\TxTput_5G.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+LABEL name=TxTput_DONE;
+
+#___________________________________________
+# Rx throughput test
+#___________________________________________
+
+# assign 5G.RxTput.test.Enable=0
+
+GOTO name=RxTput_DONE; condition='$5G.RxTput.Enable=0'
+
+test_rx\Rate\Rate_RxTput_5G.art
+
+GOTO name=RxTput.Legacy_DONE; condition='$5G.RxTput.Legacy.Enable=0'
+assign 5G.RxTput.test.Enable=1
+LABEL name=RxTput.Legacy_DONE;
+
+GOTO name=RxTput.MIMO_DONE; condition='$5G.RxTput.HT20.Enable=0'
+assign 5G.RxTput.test.Enable=1
+LABEL name=RxTput.MIMO_DONE;
+
+GOTO name=RxTput.MIMO_HT40_DONE; condition='$5G.RxTput.HT40.Enable=0'
+assign 5G.RxTput.test.Enable=1
+LABEL name=RxTput.MIMO_HT40_DONE;
+
+GOTO name=RxTput.MIMO_VHT20_DONE; condition='$5G.RxTput.VHT20.Enable=0'
+assign 5G.RxTput.test.Enable=1
+LABEL name=RxTput.MIMO_VHT20_DONE;
+
+GOTO name=RxTput.MIMO_VHT40_DONE; condition='$5G.RxTput.VHT40.Enable=0'
+assign 5G.RxTput.test.Enable=1
+LABEL name=RxTput.MIMO_VHT40_DONE;
+
+GOTO name=RxTput.MIMO_VHT80_DONE; condition='$5G.RxTput.VHT80.Enable=0'
+assign 5G.RxTput.test.Enable=1
+LABEL name=RxTput.MIMO_VHT80_DONE;
+
+GOTO name=RxTput_DONE; condition='$5G.RxTput.test.Enable=0'
+test_rx\RxTput_5G.art
+GOTO name=FT_ERROR;test='$Test.Error<>0';
+LABEL name=RxTput_DONE;
+
+
+##-----------------------------------------------------------------
+GOTO name=FT_DONE;
+
+LABEL name=FT_ERROR;
+show $Test.Error
+assign errDetected=1
+
+LABEL name=FT_DONE;

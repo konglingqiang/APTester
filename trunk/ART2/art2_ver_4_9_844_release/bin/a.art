@@ -1,0 +1,7 @@
+set rxgainTable=0;
+set antCtrlChain2g=10,10;
+set xatten1Margin2g=0xd,0xd;
+set xatten1db2g=0x1a,0x1a;
+
+
+2

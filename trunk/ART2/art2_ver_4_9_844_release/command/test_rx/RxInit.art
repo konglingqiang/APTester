@@ -1,0 +1,148 @@
+assign IsRx3Chains=1;
+assign IsRx1Chain=1;
+
+get i=$inst; rxmask
+show rxChains
+
+GOTO name=INST0; condition='$inst=0'
+GOTO name=INST1_END; condition='$rxChains1=3'
+assign IsRx3Chains=0;
+LABEL name=INST1_END;
+GOTO name=INST0_END1; condition='$rxChains1=1'
+assign IsRx1Chain=0;
+GOTO name=INST0_END1;
+
+LABEL name=INST0;
+GOTO name=INST0_END; condition='$rxChains=3'
+assign IsRx3Chains=0;
+LABEL name=INST0_END;
+GOTO name=INST0_END1; condition='$rxChains=1'
+assign IsRx1Chain=0;
+LABEL name=INST0_END1;
+
+#___________________________________________
+# RX chain List
+#___________________________________________
+GOTO name=RX3CHAIN; condition='$IsRx3Chains=1'
+assign rxChains=2;
+assign rxALLChainMask = 3
+assign rxchainList=1,2
+assign 2G.RxSensSweep.HT20.3Stream.Enable=0
+assign 2G.RxSensSweep.HT40.3Stream.Enable=0
+assign 2G.RxSensPoint.HT20.3Stream.Enable=0
+assign 2G.RxSensPoint.HT40.3Stream.Enable=0
+assign 2G.TxTput.HT20.3Stream.Enable=0
+assign 2G.TxTput.HT40.3Stream.Enable=0
+assign 2G.RxTput.HT20.3Stream.Enable=0
+assign 2G.RxTput.HT40.3Stream.Enable=0
+assign 5G.RxSensSweep.HT20.3Stream.Enable=0
+assign 5G.RxSensSweep.HT40.3Stream.Enable=0
+assign 5G.RxSensSweep.VHT20.3Stream.Enable=0
+assign 5G.RxSensSweep.VHT40.3Stream.Enable=0
+assign 5G.RxSensSweep.VHT80.3Stream.Enable=0
+assign 5G.RxSensPoint.HT20.3Stream.Enable=0
+assign 5G.RxSensPoint.HT40.3Stream.Enable=0
+assign 5G.RxSensPoint.VHT20.3Stream.Enable=0
+assign 5G.RxSensPoint.VHT40.3Stream.Enable=0
+assign 5G.RxSensPoint.VHT80.3Stream.Enable=0
+assign 5G.TxTput.HT20.3Stream.Enable=0
+assign 5G.TxTput.HT40.3Stream.Enable=0
+assign 5G.TxTput.VHT20.3Stream.Enable=0
+assign 5G.TxTput.VHT40.3Stream.Enable=0
+assign 5G.TxTput.VHT80.3Stream.Enable=0
+assign 5G.RxTput.HT20.3Stream.Enable=0
+assign 5G.RxTput.HT40.3Stream.Enable=0
+assign 5G.RxTput.VHT20.3Stream.Enable=0
+assign 5G.RxTput.VHT40.3Stream.Enable=0
+assign 5G.RxTput.VHT80.3Stream.Enable=0
+
+GOTO name=RX1CHAIN; condition='$IsRx1Chain=1'
+# done with 2 chain assign
+GOTO name=RX3CHAIN_DONE;
+
+LABEL name=RX1CHAIN;
+assign rxChains=1;
+assign rxALLChainMask = 1
+assign rxchainList=1
+assign 2G.RxSensSweep.HT20.2Stream.Enable=0
+assign 2G.RxSensSweep.HT40.2Stream.Enable=0
+assign 2G.RxSensPoint.HT20.2Stream.Enable=0
+assign 2G.RxSensPoint.HT40.2Stream.Enable=0
+assign 2G.TxTput.HT20.2Stream.Enable=0
+assign 2G.TxTput.HT40.2Stream.Enable=0
+assign 2G.RxTput.HT20.2Stream.Enable=0
+assign 2G.RxTput.HT40.2Stream.Enable=0
+assign 5G.RxSensSweep.HT20.2Stream.Enable=0
+assign 5G.RxSensSweep.HT40.2Stream.Enable=0
+assign 5G.RxSensSweep.VHT20.2Stream.Enable=0
+assign 5G.RxSensSweep.VHT40.2Stream.Enable=0
+assign 5G.RxSensSweep.VHT80.2Stream.Enable=0
+assign 5G.RxSensPoint.HT20.2Stream.Enable=0
+assign 5G.RxSensPoint.HT40.2Stream.Enable=0
+assign 5G.RxSensPoint.VHT20.2Stream.Enable=0
+assign 5G.RxSensPoint.VHT40.2Stream.Enable=0
+assign 5G.RxSensPoint.VHT80.2Stream.Enable=0
+assign 5G.TxTput.HT20.2Stream.Enable=0
+assign 5G.TxTput.HT40.2Stream.Enable=0
+assign 5G.TxTput.VHT20.2Stream.Enable=0
+assign 5G.TxTput.VHT40.2Stream.Enable=0
+assign 5G.TxTput.VHT80.2Stream.Enable=0
+assign 5G.RxTput.HT20.2Stream.Enable=0
+assign 5G.RxTput.HT40.2Stream.Enable=0
+assign 5G.RxTput.VHT20.2Stream.Enable=0
+assign 5G.RxTput.VHT40.2Stream.Enable=0
+assign 5G.RxTput.VHT80.2Stream.Enable=0
+GOTO name=RX3CHAIN_DONE;
+
+LABEL name=RX3CHAIN;
+assign rxChains=3;
+assign rxALLChainMask = 7
+assign rxchainList=1,2,4
+LABEL name=RX3CHAIN_DONE;
+#___________________________________________
+
+#___________________________________________
+# only can test 1 stream signal for Rx SENS with Litepoint 1 box manufacture flow
+GOTO name=Set_1VSG_DONE; condition='$Equipment.VSG.Chains<>1'
+assign 2G.RxSensSweep.HT20.2Stream.Enable=0
+assign 2G.RxSensSweep.HT40.2Stream.Enable=0
+assign 2G.RxSensSweep.HT20.3Stream.Enable=0
+assign 2G.RxSensSweep.HT40.3Stream.Enable=0
+assign 5G.RxSensSweep.HT20.2Stream.Enable=0
+assign 5G.RxSensSweep.HT40.2Stream.Enable=0
+assign 5G.RxSensSweep.VHT20.2Stream.Enable=0
+assign 5G.RxSensSweep.VHT40.2Stream.Enable=0
+assign 5G.RxSensSweep.VHT80.2Stream.Enable=0
+assign 5G.RxSensSweep.HT20.3Stream.Enable=0
+assign 5G.RxSensSweep.HT40.3Stream.Enable=0
+assign 5G.RxSensSweep.VHT20.3Stream.Enable=0
+assign 5G.RxSensSweep.VHT40.3Stream.Enable=0
+assign 5G.RxSensSweep.VHT80.3Stream.Enable=0
+
+assign 2G.RxSensPoint.HT20.2Stream.Enable=0
+assign 2G.RxSensPoint.HT40.2Stream.Enable=0
+assign 2G.RxSensPoint.HT20.3Stream.Enable=0
+assign 2G.RxSensPoint.HT40.3Stream.Enable=0
+assign 5G.RxSensPoint.HT20.2Stream.Enable=0
+assign 5G.RxSensPoint.HT40.2Stream.Enable=0
+assign 5G.RxSensPoint.HT20.3Stream.Enable=0
+assign 5G.RxSensPoint.HT40.3Stream.Enable=0
+
+assign 2G.RxSensPoint.CCK.Enable=1
+assign 2G.RxSensPoint.SingleChain.HT20.Enable=1
+assign 2G.RxSensPoint.SingleChain.HT40.Enable=0
+assign 2G.RxSensPoint.HT20.1Stream.Enable=1
+assign 2G.RxSensPoint.HT40.1Stream.Enable=0
+assign 5G.RxSensPoint.SingleChain.HT20.Enable=1
+assign 5G.RxSensPoint.SingleChain.HT40.Enable=0
+assign 5G.RxSensPoint.SingleChain.VHT20.Enable=1
+assign 5G.RxSensPoint.SingleChain.VHT40.Enable=0
+assign 5G.RxSensPoint.SingleChain.VHT80.Enable=0
+assign 5G.RxSensPoint.HT20.1Stream.Enable=1
+assign 5G.RxSensPoint.HT40.1Stream.Enable=0
+assign 5G.RxSensPoint.VHT20.1Stream.Enable=1
+assign 5G.RxSensPoint.VHT40.1Stream.Enable=1
+assign 5G.RxSensPoint.VHT80.1Stream.Enable=1
+
+LABEL name=Set_1VSG_DONE;
+

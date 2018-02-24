@@ -1,0 +1,60 @@
+assign 5G.TxEVM.1Stream.Pass=0
+assign 5G.TxEVM.1Stream.Fail=0
+assign 5G.TxEVMPower.1Stream.Pass=0
+assign 5G.TxEVMPower.1Stream.Fail=0
+
+
+#2 isolate, 1 combined
+
+# $chainList=1,2,4
+# $5G.TxPower.Limit.HT20=1.5
+# $5G.TxEVM.HT20.Freq=5180,5500,5805
+# $5G.TxEVM.HT40.Freq=5180,5500,5805
+# $5G.TxEVM.VHT20.Freq=5180,5500,5805
+# $5G.TxEVM.VHT40.Freq=5180,5500,5805
+# $5G.TxEVM.VHT80.Freq=5180,5500,5805
+# $5G.TxEVM.HT20.1Stream.Rate=t7
+# $5G.TxEVM.HT40.1Stream.Rate=f7
+# $5G.TxEVM.VHT20.1Stream.Rate=vt8
+# $5G.TxEVM.VHT40.1Stream.Rate=vf9
+# $5G.TxEVM.VHT80.1Stream.Rate=ve9
+
+
+tx tx=$inst; pl=4000;pc=1000000;f=$5G.TxEVM.HT20.Freq;r=$5G.TxEVM.1Stream.Rate;ir=2;txch=$chainList;evm=1;tx99=1;avg=$5G.TxEVM.Average;stop='$Test.Error';
+report style=column; f=evm.freq;l=freq;width=5;f=rate;f=tx.txchain;l=chain;f=tx.tp;l=target;f=tx.temp;l=temp;f=evm.power;l=meas pwr;f=evmv;l=meas_EVM;f=lookup(rate,@rate,@TxEVM.Limit);l=EVMLimit;f=test((evmv<=lookup(rate,@rate,@TxEVM.Limit)),$PassText,$FailText,@5G.TxEVM.1Stream.Pass,@5G.TxEVM.1Stream.Fail);l=evmP/F;type=s;width=7;f=power-tp;l=delta;f=test(((power-tp)<=$5G.TxPower.Limit.HT20 & (power-tp)>=-$5G.TxPower.Limit.HT20),$PassText,$FailText,@5G.TxEVMPower.1Stream.Pass,@5G.TxEVMPower.1Stream.Fail);l=$5G.TxPower.Limit.HT20dB;type=s;width=8;d=0;screen=1;title=5GHz EVM Accuracy with chain power;
+GOTO name=TX5G_DONE;test='$Test.Error<>0';
+
+GOTO name=TX_HT40_1S_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TX_HT40_1S_DONE; condition='$5G.TxEVM.HT40.1Stream.Enable=0'
+tx tx=$inst; pl=4000;pc=1000000;f=$5G.TxEVM.HT40.Freq;r=$5G.TxEVM.HT40.1Stream.Rate;ir=2;txch=$chainList;evm=1;tx99=1;avg=$5G.TxEVM.Average;stop='$Test.Error';
+report style=column; f=evm.freq;l=freq;width=5;f=rate;f=tx.txchain;l=chain;f=tx.tp;l=target;f=tx.temp;l=temp;f=evm.power;l=meas pwr;f=evmv;l=meas_EVM;f=lookup(rate,@rate,@TxEVM.Limit);l=EVMLimit;f=test((evmv<=lookup(rate,@rate,@TxEVM.Limit)),$PassText,$FailText,@5G.TxEVM.1Stream.Pass,@5G.TxEVM.1Stream.Fail);l=evmP/F;type=s;width=7;f=power-tp;l=delta;f=test(((power-tp)<=$5G.TxPower.Limit.HT40 & (power-tp)>=-$5G.TxPower.Limit.HT40),$PassText,$FailText,@5G.TxEVMPower.1Stream.Pass,@5G.TxEVMPower.1Stream.Fail);l=$5G.TxPower.Limit.HT40dB;type=s;width=8;d=0;screen=1;title=5GHz EVM Accuracy with chain power;
+LABEL name=TX_HT40_1S_DONE;
+
+#___________________________________________
+#TX EVM Test of VHT20 1stream
+#___________________________________________
+GOTO name=TX_VHT20_1S_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TX_VHT20_1S_DONE; condition='$5G.TxEVM.VHT20.1Stream.Enable=0'
+tx tx=$inst; pl=4000;pc=1000000;f=$5G.TxEVM.VHT20.Freq;r=$5G.TxEVM.VHT20.1Stream.Rate;ir=2;txch=$chainList;evm=1;tx99=1;avg=$5G.TxEVM.Average;stop='$Test.Error';
+report style=column; f=evm.freq;l=freq;width=5;f=rate;f=tx.txchain;l=chain;f=tx.tp;l=target;f=tx.temp;l=temp;f=evm.power;l=meas pwr;f=evmv;l=meas_EVM;f=lookup(rate,@rate,@TxEVM.Limit);l=EVMLimit;f=test((evmv<=lookup(rate,@rate,@TxEVM.Limit)),$PassText,$FailText,@5G.TxEVM.1Stream.Pass,@5G.TxEVM.1Stream.Fail);l=evmP/F;type=s;width=7;f=power-tp;l=delta;f=test(((power-tp)<=$5G.TxPower.Limit.HT20 & (power-tp)>=-$5G.TxPower.Limit.HT20),$PassText,$FailText,@5G.TxEVMPower.1Stream.Pass,@5G.TxEVMPower.1Stream.Fail);l=$5G.TxPower.Limit.HT20dB;type=s;width=8;d=0;screen=1;title=5GHz EVM Accuracy with chain power;
+LABEL name=TX_VHT20_1S_DONE;
+
+#___________________________________________
+#TX EVM Test of VHT40 1stream
+#___________________________________________
+GOTO name=TX_VHT40_1S_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TX_VHT40_1S_DONE; condition='$5G.TxEVM.VHT40.1Stream.Enable=0'
+tx tx=$inst; pl=4000;pc=1000000;f=$5G.TxEVM.VHT40.Freq;r=$5G.TxEVM.VHT40.1Stream.Rate;ir=2;txch=$chainList;evm=1;tx99=1;avg=$5G.TxEVM.Average;stop='$Test.Error';
+report style=column; f=evm.freq;l=freq;width=5;f=rate;f=tx.txchain;l=chain;f=tx.tp;l=target;f=tx.temp;l=temp;f=evm.power;l=meas pwr;f=evmv;l=meas_EVM;f=lookup(rate,@rate,@TxEVM.Limit);l=EVMLimit;f=test((evmv<=lookup(rate,@rate,@TxEVM.Limit)),$PassText,$FailText,@5G.TxEVM.1Stream.Pass,@5G.TxEVM.1Stream.Fail);l=evmP/F;type=s;width=7;f=power-tp;l=delta;f=test(((power-tp)<=$5G.TxPower.Limit.HT40 & (power-tp)>=-$5G.TxPower.Limit.HT40),$PassText,$FailText,@5G.TxEVMPower.1Stream.Pass,@5G.TxEVMPower.1Stream.Fail);l=$5G.TxPower.Limit.HT40dB;type=s;width=8;d=0;screen=1;title=5GHz EVM Accuracy with chain power;
+LABEL name=TX_VHT40_1S_DONE;
+
+#___________________________________________
+#TX EVM Test of VHT80 1stream
+#___________________________________________
+GOTO name=TX_VHT80_1S_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TX_VHT80_1S_DONE; condition='$5G.TxEVM.VHT80.1Stream.Enable=0'
+tx tx=$inst; pl=4000;pc=1000000;f=$5G.TxEVM.VHT80.Freq;r=$5G.TxEVM.VHT80.1Stream.Rate;ir=2;txch=$chainList;evm=1;tx99=1;avg=$5G.TxEVM.Average;stop='$Test.Error';
+report style=column; f=evm.freq;l=freq;width=5;f=rate;f=tx.txchain;l=chain;f=tx.tp;l=target;f=tx.temp;l=temp;f=evm.power;l=meas pwr;f=evmv;l=meas_EVM;f=lookup(rate,@rate,@TxEVM.Limit);l=EVMLimit;f=test((evmv<=lookup(rate,@rate,@TxEVM.Limit)),$PassText,$FailText,@5G.TxEVM.1Stream.Pass,@5G.TxEVM.1Stream.Fail);l=evmP/F;type=s;width=7;f=power-tp;l=delta;f=test(((power-tp)<=$5G.TxPower.Limit.HT80 & (power-tp)>=-$5G.TxPower.Limit.HT80),$PassText,$FailText,@5G.TxEVMPower.1Stream.Pass,@5G.TxEVMPower.1Stream.Fail);l=$5G.TxPower.Limit.HT80dB;type=s;width=8;d=0;screen=1;title=5GHz EVM Accuracy with chain power;
+LABEL name=TX_VHT80_1S_DONE;
+
+LABEL name=TX5G_DONE; 

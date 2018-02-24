@@ -1,0 +1,58 @@
+
+assign artreport=D:\dvt_report\txspur;
+
+#===========================================
+# User's setting area ---> 
+#===========================================
+assign SpurInst=0;
+assign SpurCheckFreqStart=1300;
+assign SpurCheckFreqStop=8500;
+assign SpurLimit=-47; 
+
+assign Spur2gDisable=0;
+assign Spur5gDisable=1;
+
+assign SpurChain=1,2,4;
+assign Spur2gFreq=2412,2437,2462;
+assign Spur2gRate=1l,6,t0,f0;
+
+assign Spur5gFreq=5180,5320,5500,5600,5700,5745,5785,5825;
+assign Spur5gRate=6,t0,f0;
+
+# dut to spectrum analyzer
+# spur scan need this pathloss to set spectrum analyzer's reference level offset.
+path device=sa;f=1300,2442,5500,8500;chain=1;loss=15.0,16.7,19.4,21.5;
+path device=sa;f=1300,2442,5500,8500;chain=2;loss=15.0,16.6,19.9,21.5;
+path device=sa;f=1300,2442,5500,8500;chain=4;loss=15.0,16.6,19.9,21.5;
+
+#===========================================
+# main script start ---> 
+#===========================================
+assign SpurPassText=.
+assign SpurFailText=FAIL
+assign Spur2gPassCount=0
+assign Spur2gFailCount=0
+assign Spur5gPassCount=0
+assign Spur5gFailCount=0
+
+comment title="=================================================================="
+comment title="SpurScan: $SpurCheckFreqStart ~ $SpurCheckFreqStop Mhz, Limit: $SpurLimit dbm"
+comment title="=================================================================="
+
+# 2g loop --->
+branch name=2GSkip; action=goto; condition='$Spur2gDisable=1'
+tx tx=$SpurInst;f=$Spur2gFreq;r=$Spur2gRate;ch=$SpurChain;att=0;pl=1500;pc=1000000;tp=target;ir=2;tx99=1;spur=1;sfstart=$SpurCheckFreqStart;sfstop=$SpurCheckFreqStop;stop='$Test.Error';
+report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp,pathloss;f=startfreq,stopfreq;f=spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $SpurLimit,$SpurPassText,$SpurFailText,@Spur2gPassCount,@Spur2gFailCount);l=Spur_P/F;type=s;width=12;title=2GHz Tx Spur Scan;
+branch name=2GSkip; action=start;
+
+# 5g loop --->
+branch name=5GSkip; action=goto; condition='$Spur5gDisable=1'
+tx tx=$SpurInst;f=$Spur5gFreq;r=$Spur5gRate;ch=$SpurChain;att=0;pl=1500;pc=1000000;tp=target;ir=2;tx99=1;spur=1;sfstart=$SpurCheckFreqStart;sfstop=$SpurCheckFreqStop;stop='$Test.Error';
+report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp,pathloss;f=startfreq,stopfreq;f=spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $SpurLimit,$SpurPassText,$SpurFailText,@Spur5gPassCount,@Spur5gFailCount);l=Spur_P/F;type=s;width=12;title=5GHz Tx Spur Scan;
+branch name=5GSkip; action=start;
+
+comment title=" "
+calculate FailTotal=$Spur2gFailCount+$Spur5gFailCount
+comment title="=================================================================="
+comment title=" Total: $FailTotal Fail" 
+comment title="=================================================================="

@@ -1,0 +1,27 @@
+GOTO name=BT_SETTING_DONE; condition='$calibration.pcie.save.enable=0'
+#
+# BT DFU Disable
+# 
+GOTO name=SET_BT_DFU_DISABLE; condition='$btDfuDisable=0'
+common\BT_DFU_disable.art
+LABEL name=SET_BT_DFU_DISABLE;
+
+#
+# BT over USB Enable
+#
+GOTO name=SET_BT_OVER_USB_ENABLE; condition='$btOverUsbEnable=0'
+refDesigns\$refdesign\btoverusb.art
+LABEL name=SET_BT_OVER_USB_ENABLE;
+
+#
+# clear user_sleep_interrupt_enable_bit
+#
+GOTO name=CLEAR_BT_SLEEP_INT_ENABLE; condition='$btClrSleepIntEnable=0'
+common\clear_user_sleep_interrupt_enable_bit.art
+LABEL name=CLEAR_BT_SLEEP_INT_ENABLE;
+
+
+LABEL name=BT_SETTING_DONE;
+deassign btDfuDisable
+deassign btOverUsbEnable
+deassign btClrSleepIntEnable

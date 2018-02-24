@@ -1,0 +1,128 @@
+assign IsTx3Chains=1
+assign IsTx1Chain=1
+
+
+get i =$inst; txmask
+show txChains
+
+show inst
+show txChains1
+
+
+
+#####set i=$inst;  txmask=1;
+
+#txChains = 1
+#inst = 0
+#txChains1 = 3
+#|get|Mask.Tx|0x1|
+
+#####set i=$inst;  txmask=3;
+# txChains = 2
+ #inst = 0
+#txChains1 = 3
+
+
+#####set i=$inst;  txmask=7;
+#txChains = 3
+#inst = 0
+#txChains1 = 3
+#get|Mask.Tx|0x7|
+
+
+
+
+GOTO name=INST0; condition='$inst=0'
+GOTO name=INST1_END; condition='$txChains1=3'
+assign IsTx3Chains=0;
+LABEL name=INST1_END;
+GOTO name=INST0_END1; condition='$txChains1=1'
+assign IsTx1Chain=0;
+GOTO name=INST0_END1;
+
+LABEL name=INST0;
+GOTO name=INST0_END; condition='$txChains=3'
+assign IsTx3Chains=0;
+LABEL name=INST0_END;
+GOTO name=INST0_END1; condition='$txChains=1'
+assign IsTx1Chain=0;
+LABEL name=INST0_END1;
+
+#show IsTx3Chains
+GOTO name=TX3CHAIN; condition='$IsTx3Chains=1'
+# target power offset for 2 stream, 2 chain DUT
+Assign tp2s=0
+assign 2G.TxPower.HT20.3Stream.Enable=0
+assign 2G.TxPower.HT40.3Stream.Enable=0
+assign 5G.TxPower.HT20.3Stream.Enable=0
+assign 5G.TxPower.HT40.3Stream.Enable=0
+assign 5G.TxPower.VHT20.3Stream.Enable=0
+assign 5G.TxPower.VHT40.3Stream.Enable=0
+assign 5G.TxPower.VHT80.3Stream.Enable=0
+assign 2G.TxEVM.HT20.3Stream.Enable=0
+assign 2G.TxEVM.HT40.3Stream.Enable=0
+assign 5G.TxEVM.HT20.3Stream.Enable=0
+assign 5G.TxEVM.HT40.3Stream.Enable=0
+assign 5G.TxEVM.VHT20.3Stream.Enable=0
+assign 5G.TxEVM.VHT40.3Stream.Enable=0
+assign 5G.TxEVM.VHT80.3Stream.Enable=0
+assign 2G.TxMask.HT20.3Stream.Enable=0
+assign 2G.TxMask.HT40.3Stream.Enable=0
+assign 5G.TxMask.HT20.3Stream.Enable=0
+assign 5G.TxMask.HT40.3Stream.Enable=0
+assign 5G.TxMask.VHT20.3Stream.Enable=0
+assign 5G.TxMask.VHT40.3Stream.Enable=0
+assign 5G.TxMask.VHT80.3Stream.Enable=0
+
+GOTO name=TX1CHAIN; condition='$IsTx1Chain=1'
+assign txALLChainMask = 3
+Assign chainList=1,2
+GOTO name=TX3CHAIN_DONE;
+
+LABEL name=TX1CHAIN;
+assign txALLChainMask = 1
+Assign chainList=1
+assign 2G.TxPower.HT20.2Stream.Enable=0
+assign 2G.TxPower.HT40.2Stream.Enable=0
+assign 5G.TxPower.HT20.2Stream.Enable=0
+assign 5G.TxPower.HT40.2Stream.Enable=0
+assign 5G.TxPower.VHT20.2Stream.Enable=0
+assign 5G.TxPower.VHT40.2Stream.Enable=0
+assign 5G.TxPower.VHT80.2Stream.Enable=0
+assign 2G.TxEVM.HT20.2Stream.Enable=0
+assign 2G.TxEVM.HT40.2Stream.Enable=0
+assign 5G.TxEVM.HT20.2Stream.Enable=0
+assign 5G.TxEVM.HT40.2Stream.Enable=0
+assign 5G.TxEVM.VHT20.2Stream.Enable=0
+assign 5G.TxEVM.VHT40.2Stream.Enable=0
+assign 5G.TxEVM.VHT80.2Stream.Enable=0
+assign 2G.TxMask.HT20.2Stream.Enable=0
+assign 2G.TxMask.HT40.2Stream.Enable=0
+assign 5G.TxMask.HT20.2Stream.Enable=0
+assign 5G.TxMask.HT40.2Stream.Enable=0
+assign 5G.TxMask.VHT20.2Stream.Enable=0
+assign 5G.TxMask.VHT40.2Stream.Enable=0
+assign 5G.TxMask.VHT80.2Stream.Enable=0
+GOTO name=TX3CHAIN_DONE;
+
+LABEL name=TX3CHAIN;
+assign txALLChainMask = 7
+Assign chainList=1,2,4	
+
+#kingeman
+#Assign chainList=1,2
+
+# target power offset for 2 stream, 3 chain DUT
+Assign tp2s=1.8
+LABEL name=TX3CHAIN_DONE;
+#___________________________________________
+
+
+#####test###
+show txChains
+show  IsTx3Chains
+show IsTx1Chain
+show txChains1
+
+get i =$inst; txmask
+

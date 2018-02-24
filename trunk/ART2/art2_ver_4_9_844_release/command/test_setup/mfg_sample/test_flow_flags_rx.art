@@ -1,0 +1,178 @@
+#___________________________________________
+# Rx Calibration settings
+#___________________________________________
+assign 2G.RxIQCal.Enable=0
+assign 5G.RxIQCal.Enable=0
+
+#___________________________________________
+# Rx Calibration settings
+#___________________________________________
+assign 2G.RxCal.Enable=0
+assign 5G.RxCal.Enable=0
+
+#___________________________________________
+# Rx Test type disable/enable
+#___________________________________________
+assign 2G.RxSensSweep.Enable=0
+assign 2G.RxSensPoint.Enable=0
+assign 2G.TxTput.Enable=0
+assign 2G.RxTput.Enable=0
+
+assign 5G.RxSensSweep.Enable=0
+assign 5G.RxSensPoint.Enable=1
+assign 5G.TxTput.Enable=0
+assign 5G.RxTput.Enable=0
+
+#___________________________________________
+# Rx Test type disable/enable for VSG
+#___________________________________________
+GOTO name=Set_1VSG_DONE; condition='$Equipment.VSG.Chains<>1'
+assign 2G.RxSensSweep.Enable=0
+assign 2G.RxSensPoint.Enable=0
+assign 2G.TxTput.Enable=0
+assign 2G.RxTput.Enable=0
+
+assign 5G.RxSensSweep.Enable=0
+assign 5G.RxSensPoint.Enable=1
+assign 5G.TxTput.Enable=0
+assign 5G.RxTput.Enable=0
+LABEL name=Set_1VSG_DONE;
+
+#___________________________________________
+# 2G RX Sensitivity test settings for sweep each Chain
+#___________________________________________
+assign 2G.RxSensSweep.CCK.Enable=0
+assign 2G.RxSensSweep.SingleChain.HT20.Enable=0
+assign 2G.RxSensSweep.SingleChain.HT40.Enable=0
+#___________________________________________
+# 2G RX Sensitivity test settings for sweep all chain together
+#___________________________________________
+assign 2G.RxSensSweep.HT20.1Stream.Enable=0
+assign 2G.RxSensSweep.HT40.1Stream.Enable=0
+assign 2G.RxSensSweep.HT20.2Stream.Enable=0
+assign 2G.RxSensSweep.HT40.2Stream.Enable=0
+assign 2G.RxSensSweep.HT20.3Stream.Enable=0
+assign 2G.RxSensSweep.HT40.3Stream.Enable=0
+
+#___________________________________________
+# 5G RX Sensitivity test settings for sweep each Chain
+#___________________________________________
+assign 5G.RxSensSweep.SingleChain.HT20.Enable=0
+assign 5G.RxSensSweep.SingleChain.HT40.Enable=0
+assign 5G.RxSensSweep.SingleChain.VHT20.Enable=0
+assign 5G.RxSensSweep.SingleChain.VHT40.Enable=0
+assign 5G.RxSensSweep.SingleChain.VHT80.Enable=0
+#___________________________________________
+# 5G RX Sensitivity test settings for sweep all chain together
+#___________________________________________
+assign 5G.RxSensSweep.HT20.1Stream.Enable=0
+assign 5G.RxSensSweep.HT40.1Stream.Enable=0
+assign 5G.RxSensSweep.VHT20.1Stream.Enable=0
+assign 5G.RxSensSweep.VHT40.1Stream.Enable=0
+assign 5G.RxSensSweep.VHT80.1Stream.Enable=0
+assign 5G.RxSensSweep.HT20.2Stream.Enable=0
+assign 5G.RxSensSweep.HT40.2Stream.Enable=0
+assign 5G.RxSensSweep.VHT20.2Stream.Enable=0
+assign 5G.RxSensSweep.VHT40.2Stream.Enable=0
+assign 5G.RxSensSweep.VHT80.2Stream.Enable=0
+assign 5G.RxSensSweep.HT20.3Stream.Enable=0
+assign 5G.RxSensSweep.HT40.3Stream.Enable=0
+assign 5G.RxSensSweep.VHT20.3Stream.Enable=0
+assign 5G.RxSensSweep.VHT40.3Stream.Enable=0
+assign 5G.RxSensSweep.VHT80.3Stream.Enable=0
+
+#___________________________________________
+# RX Sensitivity Point test settings
+#___________________________________________
+assign 2G.RxSensPoint.CCK.Enable=0
+assign 2G.RxSensPoint.SingleChain.HT20.Enable=0
+assign 2G.RxSensPoint.SingleChain.HT40.Enable=0
+assign 2G.RxSensPoint.HT20.1Stream.Enable=0
+assign 2G.RxSensPoint.HT40.1Stream.Enable=0
+assign 2G.RxSensPoint.HT20.2Stream.Enable=0
+assign 2G.RxSensPoint.HT40.2Stream.Enable=0
+assign 2G.RxSensPoint.HT20.3Stream.Enable=0
+assign 2G.RxSensPoint.HT40.3Stream.Enable=0
+
+assign 5G.RxSensPoint.AllChains.Enable=0
+assign 5G.RxSensPoint.AllChains.HT20.Enable=0
+assign 5G.RxSensPoint.AllChains.HT40.Enable=0
+assign 5G.RxSensPoint.AllChains.VHT20.Enable=0
+assign 5G.RxSensPoint.AllChains.VHT40.Enable=0
+assign 5G.RxSensPoint.AllChains.VHT80.Enable=0
+assign 5G.RxSensPoint.SingleChain.HT20.Enable=0
+assign 5G.RxSensPoint.SingleChain.HT40.Enable=0
+assign 5G.RxSensPoint.SingleChain.VHT20.Enable=0
+assign 5G.RxSensPoint.SingleChain.VHT40.Enable=0
+assign 5G.RxSensPoint.SingleChain.VHT80.Enable=0
+assign 5G.RxSensPoint.HT20.1Stream.Enable=0
+assign 5G.RxSensPoint.HT40.1Stream.Enable=0
+assign 5G.RxSensPoint.VHT20.1Stream.Enable=1
+assign 5G.RxSensPoint.VHT40.1Stream.Enable=0
+assign 5G.RxSensPoint.VHT80.1Stream.Enable=1
+assign 5G.RxSensPoint.HT20.2Stream.Enable=0
+assign 5G.RxSensPoint.HT40.2Stream.Enable=0
+assign 5G.RxSensPoint.VHT20.2Stream.Enable=0
+assign 5G.RxSensPoint.VHT40.2Stream.Enable=0
+assign 5G.RxSensPoint.VHT80.2Stream.Enable=0
+assign 5G.RxSensPoint.HT20.3Stream.Enable=0
+assign 5G.RxSensPoint.HT40.3Stream.Enable=0
+assign 5G.RxSensPoint.VHT20.3Stream.Enable=0
+assign 5G.RxSensPoint.VHT40.3Stream.Enable=0
+assign 5G.RxSensPoint.VHT80.3Stream.Enable=0
+
+#___________________________________________
+# TX Throughput test settings
+#___________________________________________
+assign 2G.TxTput.Legacy.Enable=0
+assign 2G.TxTput.HT20.1Stream.Enable=0
+assign 2G.TxTput.HT40.1Stream.Enable=0
+assign 2G.TxTput.HT20.2Stream.Enable=0
+assign 2G.TxTput.HT40.2Stream.Enable=0
+assign 2G.TxTput.HT20.3Stream.Enable=0
+assign 2G.TxTput.HT40.3Stream.Enable=0
+
+assign 5G.TxTput.Legacy.Enable=0
+assign 5G.TxTput.HT20.1Stream.Enable=0
+assign 5G.TxTput.HT40.1Stream.Enable=0
+assign 5G.TxTput.VHT20.1Stream.Enable=0
+assign 5G.TxTput.VHT40.1Stream.Enable=0
+assign 5G.TxTput.VHT80.1Stream.Enable=0
+assign 5G.TxTput.HT20.2Stream.Enable=0
+assign 5G.TxTput.HT40.2Stream.Enable=0
+assign 5G.TxTput.VHT20.2Stream.Enable=0
+assign 5G.TxTput.VHT40.2Stream.Enable=0
+assign 5G.TxTput.VHT80.2Stream.Enable=0
+assign 5G.TxTput.HT20.3Stream.Enable=0
+assign 5G.TxTput.HT40.3Stream.Enable=0
+assign 5G.TxTput.VHT20.3Stream.Enable=0
+assign 5G.TxTput.VHT40.3Stream.Enable=0
+assign 5G.TxTput.VHT80.3Stream.Enable=0
+
+#___________________________________________
+# RX Throughput test settings
+#___________________________________________
+assign 2G.RxTput.Legacy.Enable=0
+assign 2G.RxTput.HT20.1Stream.Enable=0
+assign 2G.RxTput.HT40.1Stream.Enable=0
+assign 2G.RxTput.HT20.2Stream.Enable=0
+assign 2G.RxTput.HT40.2Stream.Enable=0
+assign 2G.RxTput.HT20.3Stream.Enable=0
+assign 2G.RxTput.HT40.3Stream.Enable=0
+
+assign 5G.RxTput.Legacy.Enable=0
+assign 5G.RxTput.HT20.1Stream.Enable=0
+assign 5G.RxTput.HT40.1Stream.Enable=0
+assign 5G.RxTput.VHT20.1Stream.Enable=0
+assign 5G.RxTput.VHT40.1Stream.Enable=0
+assign 5G.RxTput.VHT80.1Stream.Enable=0
+assign 5G.RxTput.HT20.2Stream.Enable=0
+assign 5G.RxTput.HT40.2Stream.Enable=0
+assign 5G.RxTput.VHT20.2Stream.Enable=0
+assign 5G.RxTput.VHT40.2Stream.Enable=0
+assign 5G.RxTput.VHT80.2Stream.Enable=0
+assign 5G.RxTput.HT20.3Stream.Enable=0
+assign 5G.RxTput.HT40.3Stream.Enable=0
+assign 5G.RxTput.VHT20.3Stream.Enable=0
+assign 5G.RxTput.VHT40.3Stream.Enable=0
+assign 5G.RxTput.VHT80.3Stream.Enable=0

@@ -1,0 +1,711 @@
+# -*- coding: gbk -*-
+import string
+import sys
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+from myui import Ui_frmMain
+from myhelper import *
+from protest import *
+from myconfig import *
+import time
+import os
+import datetime
+import dev_rc
+from configlogic import MyConfigForm
+import re
+
+class MyForm(QDialog):
+    def __init__(self, parent=None):
+        QWidget.__init__(self,parent)
+        self.location = self.geometry()
+        self.Max = False;
+        self.ui=Ui_frmMain()
+        self.ui.setupUi(self)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowMinimizeButtonHint)
+        #self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint)
+        #self.setWindowFlags(Qt.FramelessWindowHint)
+        self.connect(self.ui.btnMenu_Close,SIGNAL("clicked()"),qApp,SLOT("quit()"))
+        self.connect(self.ui.btnMenu_Max,SIGNAL("clicked()"),self.on_btnMenu_Max_clicked)  
+        self.connect(self.ui.btnMenu_Min,SIGNAL("clicked()"),self.on_btnMenu_Min_clicked)
+        #self.connect(self.ui.pushButton,SIGNAL("clicked()"),self.pushButton_clicked)  
+        #self.connect(self.ui.pushButton_2,SIGNAL("clicked()"),self.pushButton_2_clicked)  
+        #self.connect(self.ui.pushButton_3,SIGNAL("clicked()"),self.pushButton_3_clicked)  
+        self.fontId = QFontDatabase.addApplicationFont(":/image/icomoon.ttf")
+        self.fontName = QFontDatabase.applicationFontFamilies(self.fontId).takeAt(0)
+        self.iconFont = QFont(self.fontName)
+        self.SetIcon(self.ui.btnMenu_Close, QChar(0xf00d), 10)
+        self.SetIcon(self.ui.btnMenu_Max, QChar(0xf096), 10)
+        self.SetIcon(self.ui.btnMenu_Min, QChar(0xf068), 10)
+        self.SetIcon(self.ui.btnMenu, QChar(0xf0c9), 10)
+        self.SetIcon(self.ui.btnSkin, QChar(0x42), 13)
+        self.SetIcon(self.ui.lab_Ico, QChar(0xf015), 12)
+        #self.SetIcon(self.ui.textEdit_2, QChar(0xe9e1), 12)
+        self.qssfile = ""
+
+        self.ui.lab_Title.installEventFilter(self)
+        self.ui.lab_Ico.installEventFilter(self)
+        
+        self.thread = Worker() 
+        self.ui.pushButton_2.clicked.connect(self.doTest)
+        self.connect(self.thread, SIGNAL("output"), self.makeText) 
+        self.connect(self.thread, SIGNAL("finished()"), self.updateUi) 
+        self.connect(self.thread, SIGNAL("terminated()"), self.updateUi) 
+        
+        self.connect(self.thread, SIGNAL("table_color"), self.table_get_result) 
+        
+        self.configBox = MyConfigForm()
+        self.connect(self.configBox, SIGNAL("click_ok"), self.mtk_table_init) 
+        
+        s = '''
+        i = 20
+        while(i>0):
+            self.ui.tableWidget.insertRow(0)
+            i = i-1
+        '''
+        #设置表格不可编辑
+        self.ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        
+        s='''
+        #添加表格数据
+        self.add_row(["IQ_DUT_CALIBRATION"])
+        self.add_row(["IQ_MDK_TEST_BEGIN"])
+        self.add_row(["IQ_VERIFY_TX_ALL","2412","11M","CHANI0"])
+        self.add_row(["IQ_VERIFY_TX_ALL","2412","11M","CHANI1"])
+        self.add_row(["IQ_VERIFY_TX_ALL","2412","11M","CHANI2"])
+        self.add_row(["IQ_VERIFY_TX_ALL","2412","11M","CHANI3"])
+        '''
+        
+        #self.table_add_header([u"项目", u"命令"])
+        
+        #item = self.ui.tableWidget.item(1,1)
+        #成功绿
+        #self.ui.tableWidget.itemAt(1,1).setStyleSheet("QTableView::item{background:qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #00FF00, stop:1 #00EE00);}\
+        #                                   QTableView::item:selected{background:#00CD00;}\
+        #                                   QTableView::item:hover{background:qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #00EE76, stop:1 #00CD66);}")
+        #self.ui.tableWidget.item(2,2).setBackgroundColor(Qt.red)
+
+        #失败红
+        s = '''
+        self.ui.tableWidget.setStyleSheet("QTableView::item{background:qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #EE3B3B, stop:1 #EE2C2C);}\
+                                           QTableView::item:selected{background:#B22222;}\
+                                           QTableView::item:hover{background:qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #CD2626, stop:1 #CD0000);}")
+        '''
+        
+        s = '''
+        self.table_sucess(0)
+        self.table_sucess(1)
+        self.table_fail(2)
+        self.table_sucess(3)
+        self.table_sucess(4)
+        self.table_fail(5)
+        self.table_reset()
+        '''
+        
+        self.ui.lcdNumber.display("00:00")
+        
+        #self.start_time = QDateTime.currentDateTime()
+        self.start_time = QTime.fromString("00:00","mm:ss")
+        self.timer = QTimer()
+        self.connect(self.timer, SIGNAL("timeout()"), self.lcd_flash) 
+        #self.timer.start(1000)
+        
+        s = '''
+        font = self.ui.textEdit_2.currentFont()
+        #self.iconFont.setPointSize(16)
+        self.ui.textEdit_2.setAlignment(Qt.AlignJustify)
+        self.ui.textEdit_2.setTextColor(Qt.green)
+        self.ui.textEdit_2.setCurrentFont(self.iconFont)
+        self.ui.textEdit_2.setText(QChar(0xe9e1))
+        #print self.ui.textEdit_2.currentFont().defaultFamily()
+        '''
+        
+        #生成skin按钮菜单
+        self.skin_menu = QMenu()
+        self.skin_black_action = QAction(self.skin_menu)
+        self.skin_ironblue_action = QAction(self.skin_menu)
+        self.skin_silvery_action = QAction(self.skin_menu)
+        self.skin_black_action.setCheckable(True)
+        self.skin_ironblue_action.setCheckable(True)
+        self.skin_silvery_action.setCheckable(True)
+        self.skin_menu.addAction(self.skin_black_action)
+        self.skin_menu.addAction(self.skin_ironblue_action)
+        self.skin_menu.addAction(self.skin_silvery_action)
+        self.skin_black_action.setText(u"   黑色  ")
+        self.skin_ironblue_action.setText(u"   淡钢蓝  ")
+        self.skin_silvery_action.setText(u"   银色  ")
+        self.ui.btnSkin.setMenu(self.skin_menu)
+        
+        self.connect(self.skin_black_action, SIGNAL("triggered()"), self.set_style_black) 
+        self.connect(self.skin_ironblue_action, SIGNAL("triggered()"), self.set_style_ironblue) 
+        self.connect(self.skin_silvery_action, SIGNAL("triggered()"), self.set_style_silvery) 
+        self.connect(self.skin_black_action, SIGNAL("hovered()"), self.set_style_black) 
+        self.connect(self.skin_ironblue_action, SIGNAL("hovered()"), self.set_style_ironblue) 
+        self.connect(self.skin_silvery_action, SIGNAL("hovered()"), self.set_style_silvery) 
+        
+        
+        #生成菜单
+        self.menu_menu = QMenu()
+        self.change_type_action = QAction(self.menu_menu)
+        self.change_skin_action = QAction(self.menu_menu)
+        self.do_config_action = QAction(self.menu_menu)
+        self.reset_action = QAction(self.menu_menu)
+        #self.dev_info_action = QAction(self.menu_menu)
+        self.menu_menu.addAction(self.change_type_action)
+        self.menu_menu.addAction(self.change_skin_action)
+        self.menu_menu.addAction(self.do_config_action)
+        self.menu_menu.addAction(self.reset_action)
+        #self.menu_menu.addAction(self.dev_info_action)
+        self.change_type_action.setText(u"  切换型号    ")
+        self.change_skin_action.setText(u"  皮肤    ")
+        self.do_config_action.setText(u"  设置    ")
+        self.reset_action.setText(u"  清空输出    ")
+        #self.dev_info_action.setText(u"  设备信息    ")
+        self.ui.btnMenu.setMenu(self.menu_menu)
+        self.type_menu = QMenu()
+        self.type_mt7620a_action = QAction(self.type_menu)
+        self.type_ar934x_action = QAction(self.type_menu)
+        self.type_octeon_action = QAction(self.type_menu)
+        self.type_mt7620a_action.setCheckable(True)
+        self.type_ar934x_action.setCheckable(True)
+        self.type_octeon_action.setCheckable(True)
+        self.type_menu.addAction(self.type_mt7620a_action)
+        self.type_menu.addAction(self.type_ar934x_action)
+        self.type_menu.addAction(self.type_octeon_action)
+        self.type_mt7620a_action.setText(u"   mt7620a系列  ")
+        self.type_ar934x_action.setText(u"   ar934x系列  ")
+        self.type_octeon_action.setText(u"   octeon系列  ")
+        self.change_type_action.setMenu(self.type_menu)
+        self.change_skin_action.setMenu(self.skin_menu)
+        
+        self.connect(self.type_mt7620a_action, SIGNAL("triggered()"), self.set_type_mt7620a) 
+        self.connect(self.type_ar934x_action, SIGNAL("triggered()"), self.set_type_ar934x) 
+        self.connect(self.type_octeon_action, SIGNAL("triggered()"), self.set_type_octeon) 
+        self.connect(self.type_mt7620a_action, SIGNAL("hovered()"), self.set_type_mt7620a) 
+        self.connect(self.type_ar934x_action, SIGNAL("hovered()"), self.set_type_ar934x) 
+        self.connect(self.type_octeon_action, SIGNAL("hovered()"), self.set_type_octeon) 
+        self.connect(self.reset_action, SIGNAL("triggered()"), self.reset_window) 
+        self.connect(self.do_config_action, SIGNAL("triggered()"), self.show_config_window) 
+        
+        #定义右键菜单
+        self.right_menu = QMenu()
+        self.right_close_action = QAction(self.right_menu)
+        self.right_max_action = QAction(self.right_menu)
+        self.right_min_action = QAction(self.right_menu)
+        #self.right_logo_action = QAction(self.right_menu)
+        self.right_menu.addAction(self.right_min_action)
+        self.right_menu.addAction(self.right_max_action)
+        self.right_menu.addAction(self.right_close_action)
+        #self.right_menu.addAction(self.right_logo_action)
+        self.right_close_action.setText(u"  关闭    ")
+        self.right_max_action.setText(u"  最大化    ")
+        self.right_min_action.setText(u"  最小化    ")
+        #self.right_logo_action.setFont(self.iconFont)
+        #self.SetIcon(self.right_logo_action, "1", 10)
+        #self.right_logo_action.setIconText(QChar(0xFFE5))
+        #print self.right_logo_action.font().family()
+        #self.right_logo_action.setIcon(QIcon(":/image/checkbox_checked.png"))
+        #self.SetIcon(self.right_logo_action, QChar(0xf015), 10)
+        self.right_close_action.setShortcuts(QKeySequence("Alt+F4"))
+        
+        self.connect(self.right_close_action, SIGNAL("triggered()"), qApp, SLOT("quit()")) 
+        self.connect(self.right_max_action, SIGNAL("triggered()"), self.on_btnMenu_Max_clicked) 
+        self.connect(self.right_min_action, SIGNAL("triggered()"), self.on_btnMenu_Min_clicked) 
+        
+        #设置配置(放在界面定义后)
+        self.set_skin()
+        self.set_type()
+        
+        #self.emit(SIGNAL("table_color"), 0,"success")
+        #self.emit(SIGNAL("table_color"), 1,"fail")
+        
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.dragPosition = event.globalPos() - self.frameGeometry().topLeft()
+            QApplication.postEvent(self, QEvent(174))
+            event.accept()
+ 
+    def mouseMoveEvent(self, event):
+        if(event.buttons() == Qt.LeftButton and not self.Max):
+            self.move(event.globalPos() - self.dragPosition)
+            event.accept()
+    
+    def on_btnMenu_Max_clicked(self):
+        w = QDesktopWidget()
+        if(self.Max):
+            self.setGeometry(self.location);
+            self.SetIcon(self.ui.btnMenu_Max, QChar(0xf096), 10)
+            self.ui.btnMenu_Max.setToolTip(u"最大化")
+            self.right_max_action.setText(u"  最大化    ")
+        else:
+            self.location = self.geometry();
+            self.setGeometry(w.availableGeometry())
+            self.SetIcon(self.ui.btnMenu_Max, QChar(0xf079), 10)
+            self.ui.btnMenu_Max.setToolTip(u"还原")
+            self.right_max_action.setText(u"  还原    ")
+        self.Max = not self.Max
+    
+    def on_btnMenu_Min_clicked(self):
+        self.showMinimized()
+    
+    def SetIcon(self, obj, text, size):
+        self.iconFont.setPointSize(size)
+        obj.setFont(self.iconFont)
+        obj.setText(text)
+    
+    def eventFilter(self, obj, event):
+        if(obj == self.ui.lab_Title):
+            if(event.type() == QEvent.MouseButtonDblClick):
+                self.on_btnMenu_Max_clicked()
+                return True
+            elif(event.type() == QEvent.MouseButtonPress and event.button() == Qt.RightButton):
+                self.right_button_click()
+                return True
+        elif(obj == self.ui.lab_Ico):
+            if(event.type() == QEvent.MouseButtonDblClick):
+                self.accept()
+                return True
+            elif(event.type() == QEvent.MouseButtonPress and event.button() == Qt.RightButton):
+                self.right_button_click()
+                return True
+            elif(event.type() == QEvent.MouseButtonPress and event.button() == Qt.LeftButton):
+                pos = self.ui.widget_main.geometry();
+                self.right_menu.exec_(self.geometry().topLeft() + pos.topLeft())
+                return True
+        return QObject.eventFilter(self, obj, event)
+    
+    def makeText(self,mystr,color):
+        self.ui.textEdit.moveCursor(11, 0)
+        self.ui.textEdit.setTextColor(color)
+        self.ui.textEdit.insertPlainText(mystr)
+    
+    def doTest(self):
+        if(self.get_and_set_mac()):
+            #msg = myHelper()
+            msg = MyMSGForm()
+            qss = QFile(self.qssfile); 
+            qss.open(QFile.ReadOnly); 
+            q = QString(qss.readAll())
+            msg.setStyleSheet(q); 
+            #msg.ShowMessageBoxError(u"设置mac地址错误，请检查mac地址是否正确！")
+            msg.SetMessage(u"设置mac地址错误，请检查mac地址是否正确！", 2)
+            return msg.exec_()
+        s = '''
+        self.ui.lcdNumber.display("00:00")
+        #self.ui.lineEdit.setReadOnly(1)
+        self.ui.pushButton_2.clicked.disconnect(self.doTest)
+        #self.ui.pushButton_2.clicked.disconnect(self.config)
+        self.ui.pushButton_2.setText(u"测试中...")
+        x = time.localtime(time.time())
+        t = time.strftime('%Y-%m-%d %H:%M:%S',x)
+        self.thread.printstr(u"------ 开始测试 - %s -------\n" % t,QColor(255, 0, 0, 127))
+        #self.thread.render(self.ui.lineEdit.text())
+        self.thread.render("192.168.1.2")
+        self.start_time = QTime.fromString("00:00","mm:ss")
+        self.timer.start(1000)
+        self.change_type_action.setEnabled(False)
+        self.reset_action.setEnabled(False)
+        self.table_init()
+        '''
+    
+    def updateUi(self): 
+        #self.ui.lineEdit.setReadOnly(0)
+        self.ui.pushButton_2.clicked.connect(self.doTest)
+        #self.ui.pushButton_2.clicked.connect(self.config)
+        self.ui.pushButton_2.setText(u"开始")
+        x = time.localtime(time.time())
+        t = time.strftime('%Y-%m-%d %H:%M:%S',x)
+        self.thread.printstr(u"------ 测试结束 - %s -------\n" % t,QColor(255, 0, 0, 127))
+        self.timer.stop()
+        self.change_type_action.setEnabled(True)
+        self.reset_action.setEnabled(True)
+        self.save_log_2_file()
+    
+    def save_log_2_file(self):
+        if(os.path.exists('mylog') == False):
+            os.makedirs('mylog')
+        t = time.strftime("%Y%m%d%H%M%S", time.localtime(time.time()))
+        file1 = open("mylog\\"+t+".log", "w")
+        file1.write(self.ui.textEdit.toPlainText())
+        file1.close()
+    
+    def lcd_flash(self):
+        #current_time = QDateTime.currentDateTime()
+        self.start_time = self.start_time.addSecs(1)
+        self.ui.lcdNumber.display(self.start_time.toString("mm:ss"))
+    
+    #def table_item_sucess(self, line):
+    def add_row(self, item_list):
+        length = len(item_list)
+        total_row = self.ui.tableWidget.rowCount()
+        total_column = self.ui.tableWidget.columnCount()
+        self.ui.tableWidget.insertRow(total_row)
+        for j in range(total_column):
+            if(j < length):
+                newItem = QTableWidgetItem(item_list[j])
+                self.ui.tableWidget.setItem(total_row, j, newItem)
+            else:
+                newItem = QTableWidgetItem("")
+                self.ui.tableWidget.setItem(total_row, j, newItem)
+            
+    def row_set_color(self, n, color):
+        total_column = self.ui.tableWidget.columnCount()
+        #print "column = " + str(total_column)
+        for j in range(total_column):
+            #print n,j
+            self.ui.tableWidget.item(n, j).setBackgroundColor(color)
+    
+    def table_sucess(self, n):
+        #light_green = QColor(Qt.green).lighter(factor = 128)
+        light_green = QColor(Qt.green).lighter(factor = 150)
+        self.row_set_color(n, light_green)
+    
+    def table_fail(self, n):
+        self.row_set_color(n, Qt.red)
+    
+    def table_reset(self):
+        total_row = self.ui.tableWidget.rowCount()
+        for n in range(total_row):
+            self.row_set_color(n, Qt.white)
+    
+    def set_style(self, qssfile):
+        qss = QFile(qssfile); 
+        qss.open(QFile.ReadOnly); 
+        q = QString(qss.readAll())
+        self.setStyleSheet(q); 
+        self.skin_menu.setStyleSheet(q); 
+        self.menu_menu.setStyleSheet(q); 
+        self.type_menu.setStyleSheet(q); 
+        self.right_menu.setStyleSheet(q); 
+    
+    def set_style_black(self):
+        myconf = MyConf()
+        myconf.set_skin_black()
+        self.set_style("black.css")
+        self.qssfile = "black.css"
+        self.skin_uncheck_all()
+        self.skin_black_action.setChecked(True)
+    
+    def set_style_ironblue(self):
+        myconf = MyConf()
+        myconf.set_skin_ironblue()
+        self.set_style("ironblue.css")
+        self.qssfile = "ironblue.css"
+        self.skin_uncheck_all()
+        self.skin_ironblue_action.setChecked(True)
+        
+    def set_style_silvery(self):
+        myconf = MyConf()
+        myconf.set_skin_silvery()
+        self.set_style("silvery.css")
+        self.qssfile = "silvery.css"
+        self.skin_uncheck_all()
+        self.skin_silvery_action.setChecked(True)
+    
+    def set_skin(self):
+        myconf = MyConf()
+        skin = myconf.get_skin()
+        
+        if(skin == "black"):
+            #self.set_style("black.css")
+            self.set_style_black()
+        elif(skin == 'ironblue'):
+            #self.set_style("ironblue.css")
+            self.set_style_ironblue()
+        elif(skin == 'silvery'):
+            #self.set_style("silvery.css")
+            self.set_style_silvery()
+    
+    def skin_uncheck_all(self):
+        self.skin_black_action.setChecked(False)
+        self.skin_ironblue_action.setChecked(False)
+        self.skin_silvery_action.setChecked(False)
+    
+    def set_type_mt7620a(self):
+        myconf = MyConf()
+        myconf.set_type_mt7620a()
+        self.type_uncheck_all()
+        self.type_mt7620a_action.setChecked(True)
+        #self.table_add_header([u"项目", u"命令"])
+        self.mtk_table_init()
+        self.info_window_flush()
+    
+    def set_type_ar934x(self):
+        myconf = MyConf()
+        myconf.set_type_ar934x()
+        self.type_uncheck_all()
+        self.type_ar934x_action.setChecked(True)
+        #self.table_add_header([u"项目", u"命令"])
+        self.ar934x_table_init()
+        self.info_window_flush()
+        
+    def set_type_octeon(self):
+        myconf = MyConf()
+        myconf.set_type_octeon()
+        self.type_uncheck_all()
+        self.type_octeon_action.setChecked(True)
+        #self.table_add_header([u"项目", u"命令"])
+        self.octeon_table_init()
+        self.info_window_flush()
+    
+    def set_type(self):
+        myconf = MyConf()
+        mytype = myconf.get_type()
+        
+        if(mytype == "mt7620a"):
+            self.set_type_mt7620a()
+        elif(mytype == 'ar934x'):
+            self.set_type_ar934x()
+        elif(mytype == 'octeon'):
+            self.set_type_octeon()
+    
+    def type_uncheck_all(self):
+        self.type_mt7620a_action.setChecked(False)
+        self.type_ar934x_action.setChecked(False)
+        self.type_octeon_action.setChecked(False)
+    
+    def right_button_click(self):
+        cur = self.cursor()
+        self.right_menu.exec_(cur.pos())
+    
+    #添加表头
+    def table_add_header(self, item_list):
+        length = len(item_list)
+        #print length
+        #total_row = self.ui.tableWidget.rowCount()
+        #total_column = self.ui.tableWidget.columnCount()
+        #self.ui.tableWidget.insertRow(total_row)
+        self.ui.tableWidget.setRowCount(0)
+        self.ui.tableWidget.setColumnCount(length)
+        for j in range(length):
+            item = QTableWidgetItem()
+            self.ui.tableWidget.setHorizontalHeaderItem(j, item)
+            self.ui.tableWidget.horizontalHeaderItem(j).setText(item_list[j])
+            #if(j < length):
+            #    newItem = QTableWidgetItem(item_list[j])
+            #    self.ui.tableWidget.setItem(total_row, j, newItem)
+            #else:
+            #    newItem = QTableWidgetItem("")
+            #    self.ui.tableWidget.setItem(total_row, j, newItem)
+    
+    def info_window_flush(self):
+        myconf = MyConf()
+        mytype = myconf.get_type()
+        self.ui.textEdit_2.setText(u"型号：%s" % mytype)
+        
+    def table_init(self):
+        myconf = MyConf()
+        mytype = myconf.get_type()
+        if(mytype == "mt7620a"):
+            self.mtk_table_init()
+        elif(mytype == 'ar934x'):
+            self.ar934x_table_init()
+        elif(mytype == 'octeon'):
+            self.octeon_table_init()
+    
+    def add_table_row(self, name, freq_all, rate_all, chain_all):
+        for freq in freq_all:
+            for rate in rate_all:
+                for chain in chain_all:
+                    self.add_row([name,freq,rate,chain])
+    
+    def add_2G_table(self):
+        testconf = TestConf()
+        self.add_row([u"2G校准"])
+        self.add_row([u"2G频偏校准"])
+        #print "tx_power_ht20_freq",testconf.get_num_of_something("2G","tx_power_ht20_freq")
+        tx_ht20_freq = testconf.get_something("2G","tx_ht20_freq").split(",")
+        tx_ht20_rate = testconf.get_something("2G","tx_ht20_rate").split(",")
+        tx_ht20_chain = testconf.get_something("2G","tx_ht20_chain").split(",")
+        self.add_table_row("2G tx ht20", tx_ht20_freq, tx_ht20_rate, tx_ht20_chain)
+        tx_ht40_freq = testconf.get_something("2G","tx_ht40_freq").split(",")
+        tx_ht40_rate = testconf.get_something("2G","tx_ht40_rate").split(",")
+        tx_ht40_chain = testconf.get_something("2G","tx_ht40_chain").split(",")
+        self.add_table_row("2G tx ht40", tx_ht40_freq, tx_ht40_rate, tx_ht40_chain)
+        s = '''
+        tx_evm_ht20_freq = testconf.get_something("2G","tx_evm_ht20_freq").split(",")
+        tx_evm_ht20_rate = testconf.get_something("2G","tx_evm_ht20_rate").split(",")
+        tx_evm_ht20_chain = testconf.get_something("2G","tx_evm_ht20_chain").split(",")
+        self.add_table_row("2G tx evm ht20", tx_evm_ht20_freq, tx_evm_ht20_rate, tx_evm_ht20_chain)
+        tx_evm_ht40_freq = testconf.get_something("2G","tx_evm_ht40_freq").split(",")
+        tx_evm_ht40_rate = testconf.get_something("2G","tx_evm_ht40_rate").split(",")
+        tx_evm_ht40_chain = testconf.get_something("2G","tx_evm_ht40_chain").split(",")
+        self.add_table_row("2G tx evm ht40", tx_evm_ht40_freq, tx_evm_ht40_rate, tx_evm_ht40_chain)
+        tx_evm_ppm_freq = testconf.get_something("2G","tx_evm_ppm_freq").split(",")
+        tx_evm_ppm_rate = testconf.get_something("2G","tx_evm_ppm_rate").split(",")
+        tx_evm_ppm_chain = testconf.get_something("2G","tx_evm_ppm_chain").split(",")
+        self.add_table_row("2G tx evm.ppm", tx_evm_ppm_freq, tx_evm_ppm_rate, tx_evm_ppm_chain)
+        tx_mask_freq = testconf.get_something("2G","tx_mask_freq").split(",")
+        tx_mask_rate = testconf.get_something("2G","tx_mask_rate").split(",")
+        tx_mask_chain = testconf.get_something("2G","tx_mask_chain").split(",")
+        self.add_table_row(u"2G频谱模板", tx_mask_freq, tx_mask_rate, tx_mask_chain)
+        '''
+        rx_freq = testconf.get_something("2G","rx_freq").split(",")
+        rx_rate = testconf.get_something("2G","rx_rate").split(",")
+        rx_chain = testconf.get_something("2G","rx_chain").split(",")
+        self.add_table_row("2G rx", rx_freq, rx_rate, rx_chain)
+    
+    def add_5G_table(self):
+        testconf = TestConf()
+        self.add_row([u"5G校准"])
+        self.add_row([u"5G频偏校准"])
+        tx_ht20_freq = testconf.get_something("5G","tx_ht20_freq").split(",")
+        tx_ht20_rate = testconf.get_something("5G","tx_ht20_rate").split(",")
+        tx_ht20_chain = testconf.get_something("5G","tx_ht20_chain").split(",")
+        self.add_table_row("5G tx ht20", tx_ht20_freq, tx_ht20_rate, tx_ht20_chain)
+        tx_ht40_freq = testconf.get_something("5G","tx_ht40_freq").split(",")
+        tx_ht40_rate = testconf.get_something("5G","tx_ht40_rate").split(",")
+        tx_ht40_chain = testconf.get_something("5G","tx_ht40_chain").split(",")
+        self.add_table_row("5G tx ht40", tx_ht40_freq, tx_ht40_rate, tx_ht40_chain)
+        s = '''
+        tx_evm_ht20_freq = testconf.get_something("5G","tx_evm_ht20_freq").split(",")
+        tx_evm_ht20_rate = testconf.get_something("5G","tx_evm_ht20_rate").split(",")
+        tx_evm_ht20_chain = testconf.get_something("5G","tx_evm_ht20_chain").split(",")
+        self.add_table_row("5G tx evm ht20", tx_evm_ht20_freq, tx_evm_ht20_rate, tx_evm_ht20_chain)
+        tx_evm_ht40_freq = testconf.get_something("5G","tx_evm_ht40_freq").split(",")
+        tx_evm_ht40_rate = testconf.get_something("5G","tx_evm_ht40_rate").split(",")
+        tx_evm_ht40_chain = testconf.get_something("5G","tx_evm_ht40_chain").split(",")
+        self.add_table_row("5G tx evm ht40", tx_evm_ht40_freq, tx_evm_ht40_rate, tx_evm_ht40_chain)
+        tx_evm_ppm_freq = testconf.get_something("5G","tx_evm_ppm_freq").split(",")
+        tx_evm_ppm_rate = testconf.get_something("5G","tx_evm_ppm_rate").split(",")
+        tx_evm_ppm_chain = testconf.get_something("5G","tx_evm_ppm_chain").split(",")
+        self.add_table_row("5G tx evm.ppm", tx_evm_ppm_freq, tx_evm_ppm_rate, tx_evm_ppm_chain)
+        tx_mask_freq = testconf.get_something("5G","tx_mask_freq").split(",")
+        tx_mask_rate = testconf.get_something("5G","tx_mask_rate").split(",")
+        tx_mask_chain = testconf.get_something("5G","tx_mask_chain").split(",")
+        self.add_table_row(u"5G频谱模板", tx_mask_freq, tx_mask_rate, tx_mask_chain)
+        '''
+        rx_freq = testconf.get_something("5G","rx_freq").split(",")
+        rx_rate = testconf.get_something("5G","rx_rate").split(",")
+        rx_chain = testconf.get_something("5G","rx_chain").split(",")
+        self.add_table_row("5G rx", rx_freq, rx_rate, rx_chain)
+    
+    def mtk_table_init(self):
+        testconf = TestConf()
+        self.table_add_header([u"测试项目", u"信道", u"速率", u"天线"])
+        how_to_test = testconf.get_something("global","how_to_test")
+        if(how_to_test == "0"):
+            self.add_2G_table()
+        elif(how_to_test == "1"):
+            self.add_5G_table()
+        else:
+            self.add_2G_table()
+            self.add_5G_table()
+            
+    s = '''
+    def mtk_table_init(self):
+        self.table_add_header([u"项目", u"命令"])
+        self.add_row([u"测试软件版本：","protest --software"])
+        self.add_row([u"测试硬件版本：","protest --hardware"])
+        self.add_row([u"禁用按键正常功能：","protest --button -ban"])
+        self.add_row([u"恢复按键正常功能：","protest --button -resume"])
+        self.add_row([u"USB测试：","protest --usb"])
+        self.add_row([u"LAN/WAN口测试：","protest --lanwantest"])
+        self.add_row([u"检查是否处于恢复出厂默认配置状态：","protest --restore -status"])
+        self.add_row([u"无线速率读取：","wifi_get rate"])
+        self.add_row([u"无线速率设置：","wifi_set set %s"])
+        self.add_row([u"无线信道读取：","wifi_get channel"])
+        self.add_row([u"无线信道设置：","wifi_set channel %s"])
+        self.add_row([u"无线国家代码读取：","wifi_get country"])
+        self.add_row([u"无线国家代码设置：","wifi_set country %s"])
+        self.add_row([u"写入MAC：","protest --mac -w %s"])
+        self.add_row([u"检查MAC：","protest --mac -r"])
+        
+        self.add_row([u"查看产品无线SSID(2.4G)：","protest --ssid -r"])
+        #self.add_row([u"查看产品无线SSID(5G)：","protest5g --ssid -r"])
+        self.add_row([u"写入产品无线SSID(2.4G)：","protest --ssid -w %s"])
+        #self.add_row([u"写入产品无线SSID(5G)：","protest5g --ssid -w %s"])
+        self.add_row([u"TF卡支持测试：","protest --tf"])
+        self.add_row([u"检查端口MAC：","ifconfig | grep HWaddr"])
+        self.add_row([u"设置wan口地址：","protest --wanip -add %s 255.255.255.0"])
+        self.add_row([u"恢复wan口配置：","protest --wanip -del"])
+        #self.add_row([""])
+    '''
+    
+    def ar934x_table_init(self):
+        self.table_add_header([u"项目", u"命令"])
+    
+    def octeon_table_init(self):
+        self.table_add_header([u"项目", u"命令"])
+        
+    def table_get_result(self, line, result):
+        #print "table_get_result", line, result
+        if(result == "success"):
+            self.table_sucess(line)
+        else:
+            self.table_fail(line)
+    
+    def reset_window(self):
+        self.ui.textEdit.setText("")
+        self.ui.lcdNumber.display("00:00")
+        self.set_type()
+    
+    def show_config_window(self):
+        testconfig = TestConf()
+        qss = QFile(self.qssfile); 
+        qss.open(QFile.ReadOnly); 
+        q = QString(qss.readAll())
+        s = '''
+        configBox = MyConfigForm()
+        configBox.setStyleSheet(q); 
+        configBox.exec_()
+        '''
+        self.configBox.setStyleSheet(q); 
+        self.configBox.exec_()
+    
+    def change_test_file_mac(self, filename, mac):
+        file_object = open(filename)
+        try:
+            all_the_text = file_object.read()
+        finally:
+            file_object.close()
+        #print re.findall(r"set mac=.*\n", all_the_text)
+        result, number = re.subn(r"set mac=.*\n", "set mac="+mac+";\n", all_the_text)
+        file_object = open(filename,"w")
+        file_object.write(result)
+        file_object.close()
+    
+    def unpackMAC(self, mac):
+        blocks=[mac[x:x+2] for x in xrange(0, len(mac), 2)]
+        return ':'.join(blocks)
+    
+    def calc_mac_add_8(self, mac):
+        macstr = mac.replace("-","").replace(":","")
+        mac_int = int(macstr,16)
+        mac_int = mac_int+8
+        mac_hex = "%x" %mac_int
+        return self.unpackMAC(mac_hex.replace("0x","").replace("L",""))
+    
+    def mac_is_right_format(self, mac):
+        pattern = re.compile(r'^([0-9a-fA-F]{2})(([/\s:-][0-9a-fA-F]{2}){5})$')
+        if(pattern.match(mac)):
+            return 1
+        else:
+            return 0
+    
+    def get_and_set_mac(self):
+        mac = str(self.ui.lineEdit.text())
+        if(mac == ""):
+            return -1
+        if(not self.mac_is_right_format(mac)):
+            return -1
+        mac = mac.lower().replace("-",":")
+        testconf = TestConf()
+        how_to_test = testconf.get_howtotest()
+        try:
+            if(how_to_test == "0"):
+                self.change_test_file_mac("test_cmd_2g.txt",mac)
+            elif(how_to_test == "1"):
+                self.change_test_file_mac("test_cmd_5g.txt",mac)
+            else:
+                self.change_test_file_mac("test_cmd_2g.txt",mac)
+                mac2 = self.calc_mac_add_8(mac)
+                self.change_test_file_mac("test_cmd_5g.txt",mac2)
+        except:
+            return -1
+        return 0
+        
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    myapp=MyForm()
+    myapp.show()
+    sys.exit(app.exec_())

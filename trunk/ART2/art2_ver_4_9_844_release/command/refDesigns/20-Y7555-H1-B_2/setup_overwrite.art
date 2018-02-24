@@ -1,0 +1,350 @@
+#########################################################################
+# DEVICE NAME: AP152-020_2     											#
+# FILE TYPE:   setup_overwrite     										#
+#                             											#
+# 																		#
+#########################################################################
+#									#
+# The "_loaded" is a variable to be used for error checking		#
+# within the test flow. Valid data values are:				#
+#	0: 	file was never loaded, flow should halt with error 	#
+#		indicating file missing					#
+#	1: 	blank placeholder was loaded, no values will be 	#
+#		applied							#
+#	2:	populated file was loaded and values 			#
+#		will be applied						#
+#									#
+#########################################################################
+
+#########################################################################
+
+        assign setup_overwrite_loaded = 2;
+
+# all the setup here might be design or customer specified.
+# This will overwrite all the setup you had in test_setup folder (not overwrite .ref file)
+
+show refdesign
+
+assign tx_pwr_pack_len=15000
+
+assign 5G.TxPowerCal.Freq=5180,5240,5320,5520,5640,5745,5785,5825;
+
+assign 5G.TxMASK.Freq=5500
+
+assign 5G.XtalCal.11AC=1
+
+# Perform an element by element assignment as TxPowerCal.Freq may not be overwritten in some designs.
+calculate elem_1 = element(5G.TxPowerCal.Freq,1);
+calculate elem_2 = element(5G.TxPowerCal.Freq,2);
+calculate elem_3 = element(5G.TxPowerCal.Freq,3);
+calculate elem_4 = element(5G.TxPowerCal.Freq,4);
+calculate elem_5 = element(5G.TxPowerCal.Freq,5);
+calculate elem_6 = element(5G.TxPowerCal.Freq,6);
+calculate elem_7 = element(5G.TxPowerCal.Freq,7);
+calculate elem_8 = element(5G.TxPowerCal.Freq,8);
+assign 5G.RxCal.Freq=$elem_1,$elem_2,$elem_3,$elem_4,$elem_5,$elem_6,$elem_7,$elem_8;
+
+#kingeman
+assign 5G.TxPowerCal.Limit=416;
+#assign 5G.TxPowerCal.Limit=120;
+
+assign 5G.TxEVM.HT20.2Stream.Enable=0
+assign 5G.TxEVM.HT40.2Stream.Enable=0
+assign 5G.TxEVM.HT20.3Stream.Enable=0
+assign 5G.TxEVM.HT40.3Stream.Enable=0
+
+assign 5G.VHT20.Disable = 0
+assign 5G.VHT40.Disable = 0
+assign 5G.VHT80.Disable = 0
+
+assign 2G.Test.Disable=1
+
+assign 5G.TxMASK.Enable = 1
+assign 5G.TxFreqAccuracy.Enable=1
+
+# Save Calibration Result
+## 0: disable, 1: enable alway, 2: enable only when test pass.
+#kingeman
+#assign calibration.data.save.enable=2
+assign calibration.data.save.enable=1
+assign calibration.pcie.save.enable=0
+
+assign HAL.Memory.Output.Disable=1;
+assign HAL.Memory.Output=flash;
+
+assign 2G.Disable = 1
+assign 5G.Disable = 0
+
+assign 5G.TxEVM.VHT20.2Stream.Enable=0
+assign 5G.TxEVM.VHT40.2Stream.Enable=0
+assign 5G.TxEVM.VHT80.2Stream.Enable=0
+
+assign 5G.RxSensSweep.Enable = 0
+assign 5G.RxSensPoint.Enable = 1
+assign 5G.TxTput.Enable = 0
+assign 5G.RxTput.Enable = 0
+
+sw i=$inst;a=BB_heavy_clip_1.heavy_clip_enable; v=0x0;
+
+
+
+
+#################################################################
+##########                              BDCOM            ########
+#################################################################
+
+assign RxSens.Rate=      6, 54, vt0, vt8, vf0, vf9, ve0,ve9,
+assign RxSens.isslimit= -87,-70,-83, -59, -80, -54,-76,-51,
+#assign RxSens.isslimit= -90,-73,-86, -59, -83, -54,-76,-51,
+
+assign 5G.Disable = 0
+assign ptTestDisable=0
+assign ftTestDisable=1
+
+
+##################################################################
+###########                         TX                  ##########
+##################################################################
+
+
+#TX test flow flags
+
+assign 5G.TxPowerCal.Enable=1
+
+assign 5G.XtalCal.Enable=1
+assign 5G.XtalCal.11AC=1
+
+assign 5G.TxPower.Enable=0
+assign 5G.TxMASK.Enable=0
+assign 5G.TxEVM.Enable=0
+assign 5G.TxFreqAccuracy.Enable=0
+
+
+#### calibration#######
+assign 5G.txgain.init=35   
+assign 5G.TxPowerCal.Limit=416
+
+#### xcal#######
+assign 5G.xtalCal.txgain=10	
+
+
+#### TX:power#######
+#1.HT20
+assign 5G.TxPower.HT20.1Stream.Enable=1
+assign 5G.TxPower.HT20.Freq=5180,5500,5785
+#assign 5G.TxPower.1Stream.Rate = 6,54
+assign 5G.TxPower.1Stream.Rate = 6,54
+
+
+#2.ht40
+assign 5G.TxPower.HT40.1Stream.Enable=0
+#assign 5G.TxPower.HT40.Freq=5180,5500,5785
+assign 5G.TxPower.HT40.1Stream.Rate=f0,f7
+
+
+#3.vht20 
+assign 5G.TxPower.VHT20.1Stream.Enable=1
+
+
+assign 5G.TxPower.VHT20.Freq=5180,5500,5785
+assign 5G.TxPower.VHT20.1Stream.Rate=vt0,vt8
+
+
+#vht40
+assign 5G.TxPower.VHT40.1Stream.Enable=1
+
+assign 5G.TxPower.VHT40.Freq=5180,5500,5785
+assign 5G.TxPower.VHT40.1Stream.Rate=vf0,vf9
+
+#vht80
+ assign 5G.TxPower.VHT80.1Stream.Enable=1
+ assign 5G.TxPower.VHT80.Freq=5210,5290,5530,5610,5775
+ assign 5G.TxPower.VHT80.1Stream.Rate=ve0,ve9
+
+ 
+#### TX:Evm#######
+ 
+#ht20
+assign 5G.TxEVM.HT20.1Stream.Enable=0
+assign 5G.TxEVM.HT20.Freq=5180,5500,5785
+assign 5G.TxEVM.1Stream.Rate =6,54,t0,t7
+
+#ht40
+assign 5G.TxEVM.HT40.1Stream.Enable=0
+assign 5G.TxEVM.HT40.Freq=5180,5500,5785
+assign 5G.TxEVM.HT40.1Stream.Rate=f0,f7
+
+#vht20
+assign 5G.TxEVM.VHT20.1Stream.Enable=1
+assign 5G.TxEVM.VHT20.Freq=5180,5500,5785
+assign 5G.TxEVM.VHT20.1Stream.Rate=vt0,vt8
+
+#vht40
+assign 5G.TxEVM.VHT40.1Stream.Enable=1
+assign 5G.TxEVM.VHT40.Freq=5180,5500,5785
+assign 5G.TxEVM.VHT40.1Stream.Rate=vf0,vf9
+
+
+#vht80
+assign 5G.TxEVM.VHT80.1Stream.Enable=1
+assign 5G.TxEVM.VHT80.Freq=5210,5290,5530,5610,5775
+assign 5G.TxEVM.VHT80.1Stream.Rate=ve0,ve9
+
+
+#### TX: freq#######
+assign 5G.TxFreqAccuracy.Freq=5500
+
+assign 5G.TxFreqAccuracy.Rate=6,54,vt0,vt8,vf0,vf9
+
+
+
+#### TX: mask#######
+
+#assign 5G.TxMASK.Freq=5180,5320,5500,5600,5745,5825
+
+assign 5G.TxMASK.1stream.Freq=5180,5500,5785
+#ht20
+assign 5G.TxMASK.Legacy.Rate=6,54
+
+#assign 5G.TxMASK.HT20.1Stream.Rate=t0,t7
+
+
+assign 5G.TxMASK.HT40.1Stream.Enable=0
+assign 5G.TxMASK.HT40.1Stream.Rate= f0,f7
+
+assign 5G.TxMASK.VHT20.1Stream.Rate=vt0,vt8
+
+#vht40
+assign 5G.TxMASK.VHT40.Freq=5180,5500,5785
+
+assign 5G.TxMask.VHT40.1Stream.Rate=vf0,vf9
+
+
+#vht80
+assign 5G.TxMASK.VHT80.Freq=5210,5290,5530,5610,5775
+
+assign 5G.TxMask.VHT80.1Stream.Rate=ve0,ve9
+
+
+
+
+####################################################################
+
+#########                                         RX                                                       ##########
+
+####################################################################
+
+
+#RX test flow flags
+assign 5G.RxSensPoint.SingleChain.HT20.Enable=1
+assign 5G.RxSensPoint.SingleChain.HT40.Enable=0
+assign 5G.RxSensPoint.SingleChain.VHT20.Enable=1
+assign 5G.RxSensPoint.SingleChain.VHT40.Enable=1
+assign 5G.RxSensPoint.SingleChain.VHT80.Enable=1
+
+
+
+assign 5G.RxSensPoint.AllChains.HT20.Enable=0
+assign 5G.RxSensPoint.AllChains.HT40.Enable=0
+assign 5G.RxSensPoint.AllChains.VHT20.Enable=0
+assign 5G.RxSensPoint.AllChains.VHT40.Enable=0
+assign 5G.RxSensPoint.AllChains.VHT80.Enable=0
+
+
+
+#RX: ht20:singlechain allchain
+ #ht20:singlechain
+assign 5G.RxSensPoint.SingleChain.HT20.Freq=5180,5500,5785
+assign 5G.RxSensPoint.SingleChain.HT20.Rate=6,54
+
+ #ht20:allchain
+assign 5G.RxSensPoint.HT20.1Stream.Enable=1
+assign 5G.RxSensPoint.HT20.2Stream.Enable=0
+
+assign 5G.RxSensPoint.AllChains.HT20.Freq=5180,5500,5785
+assign 5G.RxSensPoint.HT20.1Stream.Rate=6,54
+assign 5G.RxSensPoint.HT20.2Stream.Rate=6,54
+
+
+
+#RX:ht40: single chain   allchain
+#ht40:single cahin
+
+assign 5G.RxSensPoint.SingleChain.HT40.Freq=5180,5500,5785
+assign 5G.RxSensPoint.SingleChain.HT40.Rate= f0,f7
+
+
+#ht40 allchain
+assign 5G.RxSensPoint.AllChains.HT40.Freq=5180,5500,5785
+assign 5G.RxSensPoint.AllChains.HT40.Rate= f0,f7
+
+
+assign 5G.RxSensPoint.HT40.1Stream.Enable=0
+assign 5G.RxSensPoint.HT40.2Stream.Enable=0
+
+assign 5G.RxSensPoint.AllChain.HT40.Freq=5180,5500,5785
+assign 5G.RxSensPoint.HT40.1Stream.Rate=f0,f7
+assign 5G.RxSensPoint.HT40.2Stream.Rate=f0,f7
+
+
+
+#RX:vht20: single chain   allchain
+#vht20:single chain
+assign 5G.RxSensPoint.SingleChain.VHT20.Freq=5180,5500,5785
+assign 5G.RxSensPoint.SingleChain.VHT20.Rate= vt0,vt8
+
+#vht20:all chain
+assign 5G.RxSensPoint.VHT20.1Stream.Enable=1
+assign 5G.RxSensPoint.VHT20.2Stream.Enable=0
+
+
+assign 5G.RxSensPoint.AllChains.VHT20.Freq=5180,5500,5785
+
+assign 5G.RxSensPoint.VHT20.1Stream.Rate=vt0,vt8
+assign 5G.RxSensPoint.VHT20.2Stream.Rate=vt0,vt8
+
+
+
+#vht40
+#vht40:singlechain
+assign 5G.RxSensPoint.SingleChain.VHT40.Freq=5180,5500,5785
+assign 5G.RxSensPoint.SingleChain.VHT40.Rate=vf0,vf9
+
+#vht40:allchain
+
+assign 5G.RxSensPoint.VHT40.1Stream.Enable=1
+assign 5G.RxSensPoint.VHT40.2Stream.Enable=0
+
+assign 5G.RxSensPoint.AllChains.VHT40.Freq=5180,5500,5775
+assign 5G.RxSensPoint.VHT40.1Stream.Rate=vf0,vf9
+assign 5G.RxSensPoint.VHT40.2Stream.Rate=vf0,vf9
+
+
+#vht80
+#vht80:singlechain
+assign 5G.RxSensPoint.SingleChain.VHT80.Freq=5210,5290,5530,5610,5775
+assign 5G.RxSensPoint.SingleChain.VHT80.Rate=ve0,ve9
+
+#vht80:Allchain
+
+assign 5G.RxSensPoint.VHT80.1Stream.Enable=1
+assign 5G.RxSensPoint.VHT80.2Stream.Enable=0
+
+assign 5G.RxSensPoint.AllChains.VHT80.Freq=5210,5290,5530,5610,5775
+assign 5G.RxSensPoint.VHT80.1Stream.Rate=ve0,ve9
+assign 5G.RxSensPoint.VHT80.2Stream.Rate=ve0,ve9
+
+
+
+
+
+# Save Calibration Result
+## 0: disable, 1: enable alway, 2: enable only when test pass.
+
+#kingeman
+#assign calibration.data.save.enable=2
+assign calibration.data.save.enable=1
+#assign calibration.pcie.save.enable=1
+
+
+

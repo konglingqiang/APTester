@@ -1,0 +1,301 @@
+LABEL name=TOP_OF_TEST_FLOW_INST;	
+	common\test_init.art
+	test_setup\test_flow_flags.art
+	# the following line was commented out because it tried to reference productlist.ref 
+	#common\testRef.art
+	assign BoardIDType_2Radio=$BoardIDType;
+	assign refdesign=$refID;
+	assign ref_filename=$refID;
+	show refdesign
+	show ref_filename
+	assign refName = $ref_filename
+
+#assign ReportFileName=$mac_report.txt
+#assign SensReportFile=$mac_sens.txt
+	#assign ReportFileName=$sernum1.txt
+assign ReportFileName=$sernum1-$refName-$inst-$T_TestBegan.txt
+	#assign SensReportFileName=$sernum1_sens.txt
+assign SensReportFile=$sernum1-$refName-$inst-$T_TestBegan_sens.txt
+
+
+	assign test.start=1
+#___________________________________________
+# PT test setup
+#___________________________________________
+
+GOTO name=PT_SET_DONE; condition='$ptTestDisable=1'
+
+GOTO name=MFG_SAMPLE_PT; condition='$test.level=1'
+
+GOTO name=ENGINEERING_PT; condition='$test.level=2'
+	test_setup\setup_tx.art
+	test_setup\limit_tx.art
+
+GOTO name=PT_SET_DONE;
+
+LABEL name=MFG_SAMPLE_PT;
+	test_setup\mfg_sample\setup_tx.art
+	test_setup\mfg_sample\limit_tx.art
+
+GOTO name=PT_SET_DONE;
+
+LABEL name=ENGINEERING_PT;
+	test_setup\engineering\setup_tx.art
+	test_setup\engineering\limit_tx.art
+
+LABEL name=PT_SET_DONE;
+	#___________________________________________
+	# overwrite all the setup you had in test_setup folder
+	#___________________________________________
+	refDesigns\$refdesign\setup_overwrite.art
+
+
+
+
+LABEL name=OVERWRITE_DONE;
+
+
+	##-----------------------------------------------------------------
+	# load Golden card
+	##-----------------------------------------------------------------
+	## test.start<>0 : it's testing second radio, no need to reload golden
+
+GOTO name=NO_GOLDEN; condition='$test.start<>0'	
+
+GOTO name=NO_GOLDEN; condition='$Equipment.VSG.Chains<>0'
+
+GOTO name=NO_GOLDEN; condition='$ftTestDisable=1'
+
+GOTO name=LOAD_DEFAULT_GOLDEN_DLL; condition='$GoldenHAL.DLL.Disable=0'
+	load i=$instGolden; dll=$GoldenHAL.DLL.NAME;
+
+GOTO name=NO_GOLDEN;
+
+LABEL name=LOAD_DEFAULT_GOLDEN_DLL;
+	load i=$instGolden; 
+
+LABEL name=NO_GOLDEN;
+	##-----------------------------------------------------------------
+	# load card
+	##-----------------------------------------------------------------
+
+GOTO name=LOAD_DEFAULT_DLL; condition='$HAL.DLL.Disable=0'
+
+GOTO name=LOAD_DEFAULT_MEM; condition='$HAL.Memory.Input.Disable=0'
+	load i=$inst; dll=$HAL.DLL.NAME;  memory=$HAL.Memory.Input;
+	comment title=" load dll=$HAL.DLL.NAME;  memory=$HAL.Memory.Input"
+
+GOTO name=START_TEST;
+
+LABEL name=LOAD_DEFAULT_MEM;
+	load i=$inst; dll=$HAL.DLL.NAME;
+	comment title=" load dll=$HAL.DLL.NAME;"
+
+GOTO name=START_TEST;
+
+LABEL name=LOAD_DEFAULT_DLL;
+
+GOTO name=LOAD_DEFAULT; condition='$HAL.Memory.Input.Disable=0'
+	load i=$inst; memory=$HAL.Memory.Input
+	comment title=" load memory=$HAL.Memory.Input"
+
+GOTO name=START_TEST;
+
+LABEL name=LOAD_DEFAULT;
+	load i=$inst;  
+	comment title=" load "
+
+LABEL name=START_TEST;
+
+GOTO name=NOCARD;test='$Test.Error<>0';
+	hello i=$inst;
+
+GOTO name=START_TEST_NOW; condition='$BoardIDType<>2'
+	### Label Scheme ------------------------------
+
+GOTO name=SET_RADIO2_LABEL; condition='$inst=1'
+	set i=$inst; label=$AtherosLabel
+
+GOTO name=START_TEST_NOW;
+
+LABEL name=SET_RADIO2_LABEL;
+	set i=$inst; label=$AtherosLabel2
+
+LABEL name=START_TEST_NOW;
+
+
+#stop
+
+#___________________________________________
+# set 2G/5G band selection, for both PT/FT, 
+# need to run testBand.art here, so that even PT disabled band selection is still right.
+	common\testBand.art
+#___________________________________________
+	equipmentCtl statu=on
+
+
+
+
+
+
+GOTO name=ptTestDisable_DONE; condition='$ptTestDisable=1'
+
+	test_tx\TxTest.art
+
+GOTO name=ERR_DONE;test='$errDetected=1';
+	LABEL name=ptTestDisable_DONE; 
+
+#___________________________________________
+# FT test
+#___________________________________________
+GOTO name=ftTestDisable_DONE; condition='$ftTestDisable=1'
+
+GOTO name=MFG_SAMPLE_FT; condition='$test.level=1'
+
+GOTO name=ENGINEERING_FT; condition='$test.level=2'
+	test_setup\setup_rx_2g.art
+	test_setup\setup_rx_5g.art
+	test_setup\limit_rx.art
+GOTO name=FT_SET_DONE;
+
+LABEL name=MFG_SAMPLE_FT;
+	test_setup\mfg_sample\setup_rx_2g.art
+	test_setup\mfg_sample\setup_rx_5g.art
+	test_setup\mfg_sample\limit_rx.art
+
+GOTO name=FT_SET_DONE;
+
+LABEL name=ENGINEERING_FT;
+	test_setup\engineering\setup_rx_2g.art
+	test_setup\engineering\setup_rx_5g.art
+	test_setup\engineering\limit_rx.art
+
+LABEL name=FT_SET_DONE;
+	test_rx\RxInit.art
+
+GOTO name=FT_SECOND_INSTANCE; condition='$inst=1';
+	refDesigns\$refdesign\setup_overwrite.art
+
+GOTO name=FT_OVERWRITE_DONE;
+
+LABEL name=FT_SECOND_INSTANCE;
+	refDesigns\$refdesign\setup_overwrite.art
+
+LABEL name=FT_OVERWRITE_DONE;
+	test_rx\RxTest.art
+
+GOTO name=ERR_DONE;test='$errDetected=1';
+
+LABEL name=ftTestDisable_DONE; 
+
+#___________________________________________
+common\summary\summary.art
+
+#___________________________________________
+
+common\calibrationMemory\write_calibration_data_flow.art
+
+GOTO name=RADIO_FAILED_POWER; condition='($5G.TxPower.Fail>0)|($2G.TxPower.Fail>0)';
+     calculate NumberRadiosPassedPower=$NumberRadiosPassedPower+1;
+LABEL name=RADIO_FAILED_POWER;
+
+GOTO name=RADIO_FAILED_EVM; condition='($5G.TxEVM.Fail>0)|($2G.TxEVM.Fail>0)';
+     calculate NumberRadiosPassedEVM=$NumberRadiosPassedEVM+1;
+LABEL name=RADIO_FAILED_EVM;
+
+GOTO name=RADIO_FAILED_RX; condition='($5G.Rx.Fail>0)|($2G.Rx.Fail>0)';
+     calculate NumberRadiosPassedRx=$NumberRadiosPassedRx+1;
+LABEL name=RADIO_FAILED_RX;
+
+#___________________________________________
+GOTO name=PrintFAIL;condition='$FailTotal>0'
+
+	calculate NumberRadiosPassed=$NumberRadiosPassed+1;
+     	calculate RadiosPerBoardPassed=$RadiosPerBoardPassed+1;
+
+	comment title="#############################################################################";
+	comment title="                        ";
+	comment title="                        ";
+	comment title="                    ########     ###     ######   ######  ";
+	comment title="                    ##     ##   ## ##   ##    ## ##    ## ";
+	comment title="                    ##     ##  ##   ##  ##       ##       ";
+	comment title="                    ########  ##     ##  ######   ######  ";
+	comment title="                    ##        #########       ##       ## ";;
+	comment title="                    ##        ##     ## ##    ## ##    ## "
+	comment title="                    ##        ##     ##  ######   ######";
+	comment title="                        ";
+	comment title="                        ";
+	comment title="                        ";
+	comment title="#############################################################################";
+
+	comment file=current.log;title="PASS	";
+
+GOTO label=UNLOAD_DONE;
+
+LABEL name=PrintFAIL;
+	comment title="#############################################################################";
+	comment title="                        ";
+	comment title="                        ";
+	comment title="                      ########    ###    #### ##       ";
+	comment title="                      ##         ## ##    ##  ##       ";
+	comment title="                      ##        ##   ##   ##  ##       ";
+	comment title="                      ######   ##     ##  ##  ##       ";
+	comment title="                      ##       #########  ##  ##       ";
+	comment title="                      ##       ##     ##  ##  ##       ";
+	comment title="                      ##       ##     ## #### ######## ";
+	comment title="                        ";
+	comment title="                        ";
+	comment title="                        ";
+	comment title="#############################################################################";
+	comment file=current.log;title="FAIL	";
+
+GOTO label=UNLOAD_DONE;
+
+LABEL name=NOCARD;
+	show Test.Error
+	comment title="#############################################################################";
+	comment title="                        ";
+	comment title="                        ";
+	comment title="                      ########    ###    #### ##       ";
+	comment title="                      ##         ## ##    ##  ##       ";
+	comment title="                      ##        ##   ##   ##  ##       ";
+	comment title="                      ######   ##     ##  ##  ##       ";
+	comment title="                      ##       #########  ##  ##       ";
+	comment title="                      ##       ##     ##  ##  ##       ";
+	comment title="                      ##       ##     ## #### ######## ";
+	comment title="                        ";
+	comment title="                        ';
+	comment title="                        ';
+	comment title="#############################################################################";
+	comment title="      NO CARD Loaded    FAIL"
+	comment file=current.log;title="NO LOAD";
+
+GOTO label=DONE;
+
+LABEL name=ERR_DONE;
+	comment title="#############################################################################";
+	comment title="                        ";
+	comment title="                        ";
+	comment title="                      ########    ###    #### ##       ";
+	comment title="                      ##         ## ##    ##  ##       ";
+	comment title="                      ##        ##   ##   ##  ##       ";
+	comment title="                      ######   ##     ##  ##  ##       ";
+	comment title="                      ##       #########  ##  ##       ";
+	comment title="                      ##       ##     ##  ##  ##       ";
+	comment title="                      ##       ##     ## #### ######## ";
+	comment title="                        ";
+	comment title="                        ";
+	comment title="                        ";
+	comment title="#############################################################################";
+
+	show Test.Error
+	comment title="      Test Error        FAIL"
+	comment file=current.log;title="ERROR	";
+
+Label name=UNLOAD_DONE;
+	equipmentCtl status=off
+
+#___________________________________________
+Label name=DONE;
+	comment title=Done Test!
+

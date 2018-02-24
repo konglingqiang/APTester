@@ -1,0 +1,71 @@
+show *********************************2g rx*******************
+
+connect i=0;192.168.1.1:2390;
+
+load i=0;devid=3f;cal=flash
+#rate=6#
+rx rx=0;f=2412,2437,2462;r=6;tp=8;ch=1;iss=-85;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+rx rx=0;f=2412,2437,2462;r=6;tp=8;ch=2;iss=-85;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+#rate=54#
+rx rx=0;f=2412,2437,2462;r=54;tp=8;ch=1;iss=-70;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+rx rx=0;f=2412,2437,2462;r=54;tp=8;ch=2;iss=-70;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+#rate=t7#
+rx rx=0;f=2412,2437,2462;r=t7;tp=8;ch=1;iss=-65;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+rx rx=0;f=2412,2437,2462;r=t7;tp=8;ch=2;iss=-65;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+#rate=11s#
+rx rx=0;f=2412,2437,2462;r=11s;tp=8;ch=1;iss=-85;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+rx rx=0;f=2412,2437,2462;r=11s;tp=8;ch=2;iss=-85;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+#rate=t0#
+#rx rx=0;f=2412,2437,2462;r=t0;tp=8;ch=1;iss=-86;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+#report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+#rx rx=0;f=2412,2437,2462;r=t0;tp=8;ch=2;iss=-86;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+#report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+#rate=f0#
+#rx rx=0;f=2412,2437,2462;r=f0;tp=8;ch=1;iss=-83;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+#report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+#rx rx=0;f=2412,2437,2462;r=f0;tp=8;ch=2;iss=-83;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+#report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+#rate=f7#
+rx rx=0;f=2412,2437,2442,2462;r=f7;tp=8;ch=1;iss=-62;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+rx rx=0;f=2412,2437,2442,2462;r=f7;tp=8;ch=2;iss=-62;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+
+exit
+
+
+

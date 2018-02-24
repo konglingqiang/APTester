@@ -1,0 +1,25 @@
+assign 5G.TxMASK.Pass=0
+assign 5G.TxMASK.Fail=0
+
+GOTO name=TX5G_Mask_1STREAM_DONE; condition='$5G.TxMask.1Stream.Enable=0'
+tx tx=$inst; mask=2; att=0; ch=$chainList; pc=1000000; pl=1500; f=$ 5G.TxMASK.1stream.Freq; r=$5G.TxMask.1Stream.Rate; ir=2; tp=target; tx99=1; average=$5G.TxMASK.Average;stop='$Test.Error';
+report style=column; f=mask.frequency;w=6;d=0;l=frequency; f=mask.rate;w=6;l=rate; f=mask.txchain;w=6;l=chain; f=mask.power;w=6;l=power; f=mask.failPrecent;w=12;l=Fail(%); f=$TxMASK.Percent.Limit+0;w=12;l=Mask_Limit(%); f=test(failPrecent<=$TxMASK.Percent.Limit,$PassText,$FailText,@5G.TxMASK.Pass,@5G.TxMASK.Fail);l=mask_P/F;type=s;width=12;title=5GHz SPECTRAL MASK;
+
+GOTO name=TX5G_Mask_1STREAM_DONE; condition='$5G.VHT40.Disable=1'
+tx tx=$inst; mask=2; att=0; ch=$chainList; pc=1000000; pl=1500; f=$5G.TxMASK.VHT40.Freq; ht40=-1; r=$5G.TxMask.VHT40.1Stream.Rate; ir=2; tp=target; tx99=1; average=$5G.TxMASK.Average;stop='$Test.Error';
+report style=column; f=mask.frequency;w=6;d=0;l=frequency; f=mask.rate;w=6;l=rate; f=mask.txchain;w=6;l=chain; f=mask.power;w=6;l=power; f=mask.failPrecent;w=12;l=Fail(%); f=$TxMASK.Percent.Limit+0;w=12;l=Mask_Limit(%); f=test(failPrecent<=$TxMASK.Percent.Limit,$PassText,$FailText,@5G.TxMASK.Pass,@5G.TxMASK.Fail);l=mask_P/F;type=s;width=12;title=5GHz SPECTRAL MASK;
+
+GOTO name=TX5G_Mask_1STREAM_DONE; condition='$5G.VHT80.Disable=1'
+tx tx=$inst; mask=2; att=0; ch=$chainList; pc=1000000; pl=1500; f=$5G.TxMASK.VHT80.Freq; r=$5G.TxMask.VHT80.1Stream.Rate; ir=2; tp=target; tx99=1; average=$5G.TxMASK.Average;stop='$Test.Error';
+report style=column; f=mask.frequency;w=6;d=0;l=frequency; f=mask.rate;w=6;l=rate; f=mask.txchain;w=6;l=chain; f=mask.power;w=6;l=power; f=mask.failPrecent;w=12;l=Fail(%); f=$TxMASK.Percent.Limit+0;w=12;l=Mask_Limit(%); f=test(failPrecent<=$TxMASK.Percent.Limit,$PassText,$FailText,@5G.TxMASK.Pass,@5G.TxMASK.Fail);l=mask_P/F;type=s;width=12;title=5GHz SPECTRAL MASK;
+
+GOTO name=TX5G_Mask_DONE;test='$Test.Error<>0';
+LABEL name=TX5G_Mask_1STREAM_DONE;
+
+GOTO name=TX5G_Mask_STREAMs_DONE; condition='$5G.TxMask.MStream.Enable=0'
+#tx tx=$inst; mask=2; att=0; ch=$txALLChainMask; pc=1000000; pl=1500; f=$5G.TxMASK.Freq; r=$5G.TxMask.Streams.Rate; ir=2; tp=target; tx99=1; average=$5G.TxMASK.Average;stop='$Test.Error';
+#report style=column; f=mask.frequency;w=6;d=0;l=frequency; f=mask.rate;w=6;l=rate; f=mask.txchain;w=6;l=chain; f=mask.power;w=6;l=power; f=mask.failPrecent;w=12;l=Fail(%); f=$TxMASK.Percent.Limit+0;w=12;l=Mask_Limit(%); f=test(failPrecent<=$TxMASK.Percent.Limit,$PassText,$FailText,@5G.TxMASK.Pass,@5G.TxMASK.Fail);l=mask_P/F;type=s;width=12;title=5GHz SPECTRAL MASK;
+GOTO name=TX5G_Mask_DONE;test='$Test.Error<>0';
+LABEL name=TX5G_Mask_STREAMs_DONE;
+
+LABEL name=TX5G_Mask_DONE;

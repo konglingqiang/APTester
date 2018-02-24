@@ -1,0 +1,35 @@
+#___________________________________________
+# target power verification test settings
+#___________________________________________
+assign 2G.TxPower.Limit.HT20=2.5
+assign 2G.TxPower.Limit.HT40=2
+assign 5G.TxPower.Limit.HT20=2.5
+assign 5G.TxPower.Limit.HT40=2
+assign 5G.TxPower.Limit.HT80=2
+
+#___________________________________________
+# Mask test settings 
+#___________________________________________
+assign TxMASK.Percent.Limit=8
+
+#___________________________________________
+# freq accuracy test settings 
+#___________________________________________
+assign TxPPM.Limit=20
+
+#___________________________________________
+# EVM test settings 
+#___________________________________________
+#assign 2G.TxEVMPower.Limit=2
+#assign 5G.TxEVMPower.Limit=2
+
+assign rate=6,54,11s,t0,t4,t7,t8,t12,t15,t16,t20,t23,f0,f7,f8,f12,f15,f16,f20,f23,vt0,vt8,vt10,vt18,vt20,vt29,vf0,vf9,vf10,vf19,vf20,vf29,ve0,ve9,ve10,ve19,ve20,ve29
+assign TxEVM.Limit=-5,-25,-10,-7,-18,-27,-7,-18,-27,-7,-18,-27,-7,-27,-7,-18,-27,-7,-18,-27,-5,-30,-5,-30,-5,-32,-5,-32,-5,-32,-5,-32,-5,-32,-5,-32,-5,-32,
+
+
+
+
+
+
+
+

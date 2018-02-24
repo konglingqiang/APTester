@@ -1,0 +1,127 @@
+#########################################################################
+# DEVICE NAME: AP152-030_2					    						#
+# FILE TYPE:   trg_pwr     												#
+#                             											#
+# 																		#
+#########################################################################
+#									#
+# The "_loaded" is a variable to be used for error checking		#
+# within the test flow. Valid data values are:				#
+#	0: 	file was never loaded, flow should halt with error 	#
+#		indicating file missing					#
+#	1: 	blank placeholder was loaded, no values will be 	#
+#		applied							#
+#	2:	populated file was loaded and values 			#
+#		will be applied						#
+#									#
+#########################################################################
+
+#########################################################################
+
+        assign trg_pwr_loaded = 2;
+
+
+#Cus223-021 v1.2 for higher target powers
+#Cus223-023 v1.3 reduce Tx target powers at UNI1 band
+#Cus223-023 v1.4 change frequency piers from 5180 and 5240 to 5240 and 5260 respectively
+
+# Target power freq piers for OFDM legacy 5G, Max 6 piers, in order of f0, f1, ...f5
+
+
+set i=$inst; 5GHz.Target.Frequency.Legacy=5240,5260,5320,5500,5600,5745; 
+
+# Target power for each pier defined in caltgtfreq5g
+# 4 values represent the target power in dBm for the following data rate
+# r6_24,r36,r48,r54
+
+
+#set i=$inst;5GHz.Target.Power.Legacy[0]=17,17,17,15;
+#set i=$inst;5GHz.Target.Power.Legacy[1]=20,20,20,18;
+#set i=$inst;5GHz.Target.Power.Legacy[2]=20,20,20,18;
+#set i=$inst;5GHz.Target.Power.Legacy[3]=20,20,20,18;
+#set i=$inst;5GHz.Target.Power.Legacy[4]=20,20,20,18;
+#set i=$inst;5GHz.Target.Power.Legacy[5]=20,20,20,18;
+
+set i=$inst;5GHz.Target.Power.Legacy[0]=20,20,18,17;
+set i=$inst;5GHz.Target.Power.Legacy[1]=20,20,18,18;
+set i=$inst;5GHz.Target.Power.Legacy[2]=20,20,18,18;
+set i=$inst;5GHz.Target.Power.Legacy[3]=20,20,18,18;
+set i=$inst;5GHz.Target.Power.Legacy[4]=20,20,18,18;
+set i=$inst;5GHz.Target.Power.Legacy[5]=20,20,18,18;
+
+
+# Target power freq piers for VHT20 5G, Max 6 piers, in order of f0, f1, ...f5
+set i=$inst; 5GHz.Target.Frequency.Vht20=5240,5260,5320,5500,5600,5745;
+
+# Target power for each pier defined in caltgtfreqvht205g
+# 24 values represent the target power in dBm for the following data rate
+# MCS0, MCS1_2, MCS3_4, MCS5, MCS6, MCS7, MCS8, MCS9, 
+# MCS10, MCS11_12, MCS13_14, MCS15, MCS16, MCS17, MCS18, MCS19, 
+# MCS20, MCS21_22, MCS23_24, MCS25, MCS26, MCS27, MCS28, MCS29,
+
+#set i=$inst;5GHz.Target.Power.Vht20[0]=17,17,17,17,17,15,14,13,17,17,17,17,17,15,14,13,17,17,17,17,17,15,14,13;
+#set i=$inst;5GHz.Target.Power.Vht20[1]=20,20,20,20,18,17,17,15,20,20,20,20,18,17,17,15,20,20,20,20,18,17,17,15,
+#set i=$inst;5GHz.Target.Power.Vht20[2]=20,20,20,20,18,17,17,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht20[3]=20,20,20,20,18,17,17,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht20[4]=20,20,20,20,18,17,17,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht20[5]=20,20,20,20,18,17,17,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+
+##                                     t0,t2,t4,t5,t6,t7,t8,t9,t0,t2,t4,t5,t6,t7,t8,t9,t0,t2,t4,t5,t6,t7,t8,t9,
+set i=$inst;5GHz.Target.Power.Vht20[0]=20,20,20,20,18,17,16,16,20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16;
+set i=$inst;5GHz.Target.Power.Vht20[1]=20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16;
+set i=$inst;5GHz.Target.Power.Vht20[2]=20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16;
+set i=$inst;5GHz.Target.Power.Vht20[3]=20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16;
+set i=$inst;5GHz.Target.Power.Vht20[4]=20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16;
+set i=$inst;5GHz.Target.Power.Vht20[5]=20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16,20,20,20,20,18,17,17,16;
+
+
+# Target power freq piers for VHT40 5G, Max 6 piers, in order of f0, f1, ...f5
+set i=$inst;5GHz.Target.Frequency.Vht40=5240,5260,5320,5500,5600,5745;
+
+# Target power for each pier defined in caltgtfreqvht405g
+# 24 values represent the target power in dBm for the following data rate
+# MCS0, MCS1_2, MCS3_4, MCS5, MCS6, MCS7, MCS8, MCS9, 
+# MCS10, MCS11_12, MCS13_14, MCS15, MCS16, MCS17, MCS18, MCS19, 
+# MCS20, MCS21_22, MCS23_24, MCS25, MCS26, MCS27, MCS28, MCS29,
+
+#set i=$inst;5GHz.Target.Power.Vht40[0]=17,17,17,17,17,15,14,13,17,17,17,17,17,15,14,13,17,17,17,17,17,15,14,13;
+#set i=$inst;5GHz.Target.Power.Vht40[1]=20,20,20,20,20,17,16,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht40[2]=20,20,20,20,20,17,16,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht40[3]=20,20,20,20,20,17,16,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht40[4]=20,20,20,20,20,17,16,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht40[5]=20,20,20,20,20,17,16,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+
+##                                     t0,t2,t4,t5,t6,t7,t8,t9,t0,t2,t4,t5,t6,t7,t8,t9,t0,t2,t4,t5,t6,t7,t8,t9,
+set i=$inst;5GHz.Target.Power.Vht40[0]=20,20,20,20,17,17,15,15,20,20,20,20,17,17,15,15,20,20,20,20,17,17,15,15;
+set i=$inst;5GHz.Target.Power.Vht40[1]=20,20,20,20,17,17,16,16,20,20,20,20,17,17,16,16,20,20,20,20,17,17,16,16;
+set i=$inst;5GHz.Target.Power.Vht40[2]=20,20,20,20,17,17,16,16,20,20,20,20,17,17,16,16,20,20,20,20,17,17,16,16;
+set i=$inst;5GHz.Target.Power.Vht40[3]=20,20,20,20,17,17,16,16,20,20,20,20,17,17,16,16,20,20,20,20,17,17,16,16;
+set i=$inst;5GHz.Target.Power.Vht40[4]=20,20,20,20,17,17,16,16,20,20,20,20,17,17,16,16,20,20,20,20,17,17,16,16;
+set i=$inst;5GHz.Target.Power.Vht40[5]=20,20,20,20,17,17,16,16,20,20,20,20,17,17,16,16,20,20,20,20,17,17,16,16;
+
+
+# Target power freq piers for VHT80 5G, Max 6 piers, in order of f0, f1, ...f5
+set i=$inst;5GHz.Target.Frequency.Vht80=5240,5260,5320,5500,5600,5745;
+
+# Target power for each pier defined in caltgtfreqvht805g
+# 24 values represent the target power in dBm for the following data rate
+# MCS0, MCS1_2, MCS3_4, MCS5, MCS6, MCS7, MCS8, MCS9, 
+# MCS10, MCS11_12, MCS13_14, MCS15, MCS16, MCS17, MCS18, MCS19, 
+# MCS20, MCS21_22, MCS23_24, MCS25, MCS26, MCS27, MCS28, MCS29,
+
+##                                      t0,t2,t4,t5,t6,t7,t8,t9,t0,t2,t4,t5,t6,t7,t8,t9,t0,t2,t4,t5,t6,t7,t8,t9,
+#set i=$inst;5GHz.Target.Power.Vht80[0]=17,17,17,17,17,15,14,13,17,17,17,17,17,15,14,13,17,17,17,17,17,15,14,13;
+#set i=$inst;5GHz.Target.Power.Vht80[1]=20,20,20,20,17,17,16,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht80[2]=20,20,20,20,20,17,16,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht80[3]=20,20,20,20,20,17,16,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht80[4]=20,20,20,20,20,17,16,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+#set i=$inst;5GHz.Target.Power.Vht80[5]=20,20,20,20,20,17,16,15,20,20,20,20,20,18,16,13,20,20,20,20,20,18,16,14;
+
+
+##                                     t0,t2,t4,t5,t6,t7,t8,t9,t0,t2,t4,t5,t6,t7,t8,t9,t0,t2,t4,t5,t6,t7,t8,t9,
+set i=$inst;5GHz.Target.Power.Vht80[0]=20,20,20,20,15,15,15,15,20,20,20,20,15,15,15,15,20,20,20,20,15,15,15,15;
+set i=$inst;5GHz.Target.Power.Vht80[1]=20,20,20,20,16,16,16,16,20,20,20,20,16,16,16,16,20,20,20,20,16,16,16,16;
+set i=$inst;5GHz.Target.Power.Vht80[2]=20,20,20,20,16,16,16,16,20,20,20,20,16,16,16,16,20,20,20,20,16,16,16,16;
+set i=$inst;5GHz.Target.Power.Vht80[3]=20,20,20,20,16,16,16,16,20,20,20,20,16,16,16,16,20,20,20,20,16,16,16,16;
+set i=$inst;5GHz.Target.Power.Vht80[4]=20,20,20,20,16,16,16,16,20,20,20,20,16,16,16,16,20,20,20,20,16,16,16,16;
+set i=$inst;5GHz.Target.Power.Vht80[5]=20,20,20,20,16,16,16,16,20,20,20,20,16,16,16,16,20,20,20,20,16,16,16,16;

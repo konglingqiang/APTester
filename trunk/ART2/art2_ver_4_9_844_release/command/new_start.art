@@ -1,0 +1,55 @@
+# Note: This start.art file is a template for your
+# installation. 
+# Contained within this bin directory are additional 
+# template files:
+#
+#	pathloss.art
+#	equipment.art
+#	directories.art
+#	conn_load.art
+#
+# If you have not already populated these files with
+# your configuration data and placed them in a directory
+# located at C:\ART2\station_files, then you should do
+# so at this time.
+#
+# This and all future releases of ART2 will refer to 
+# that "station_files" and ART2 installation directory.
+# This change will allowing you to update your ART2 
+# calibration station without the need of creating or 
+# copying start.art to any new version installed,
+# unless otherwise notified.
+
+# Begin start.art
+
+# Return string/error code suppression line. Add error codes to suppres output to CART console.
+# Minimum Error Code Display: 
+# error code=3001,3009,3011,4001,4002,4004,4047,4049,5000,5001,5007,5010,6000,6605,6606,6025,6024,7000,7002,7004,7172,7200,7203,7205;response=none;
+# More Verbose Error Display:
+# error code=7503,7504,7511,6500,2018,4037;response=none;
+# 
+# 4003 is printed output
+# 6000 is card loading 
+# 5010 is MAC cartridge related errors
+# 4001 and 4049 are test title information
+
+error code=3009,3011,4004,4047,5000,5001,5109,6025,6024,6505,6506,6605,6606,7000,7200,7002,7203,7205,7503,7504,7511,6500,2018,4037;response=none;
+
+# define the config directory:
+assign configdir=c:\ART2\station_files;
+
+#1 Set Station Pathloss
+$configdir\pathloss.art
+
+#2 Load Equipment Libraries
+$configdir\equipment.art
+
+#3 Set Default Directories For Command, Log, and Reports
+$configdir\directories.art
+
+#4 Perform The Necessary Commands For Connect And Load
+#$configdir\conn_load.art
+
+#5 Load artgui setup file
+setup_artgui.art
+

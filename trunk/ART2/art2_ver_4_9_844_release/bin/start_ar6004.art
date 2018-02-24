@@ -1,0 +1,78 @@
+#----------------------------------------------------------------
+#Pathlosses 
+#----------------------------------------------------------------
+#Dut to golden
+path device=golden;f=2442,5180,5500,5800;chain=1;loss=7.6,10.6,7.6,10.6;
+path device=golden;f=2442,5180,5500,5800;chain=2;loss=7.7,10.5,7.6,10.6;
+path device=golden;f=2442,5180,5500,5800;chain=4;loss=7.7,10.6,7.6,10.6;
+
+#due to LitePoint
+#path device=vsa;f=2442,5180,5500,5800;chain=1;loss=13.5,16.0,16.4,17.7;
+#path device=vsa;f=2442,5180,5500,5800;chain=2;loss=13.8,16.0,16.5,17.2;
+#path device=vsa;f=2442,5180,5500,5800;chain=4;loss=17.7,19.3,18.7,18.8;
+#path device=vsg;f=2442,5180,5500,5800;chain=1;loss=13.5,16.0,16.4,17.7;
+#path device=vsg;f=2442,5180,5500,5800;chain=2;loss=13.8,16.0,16.5,17.2;
+#path device=vsg;f=2442,5180,5500,5800;chain=4;loss=17.7,19.3,18.7,18.8;
+
+#dut to power meter
+path device=pm;f=2442,5180,5500,5800;chain=1;loss=20.7,23.3,7.6,10.6;
+path device=pm;f=2442,5180,5500,5800;chain=2;loss=21.1,23.4,7.6,10.6;
+path device=pm;f=2442,5180,5500,5800;chain=4;loss=20.5,23.5,7.6,10.6;
+
+#dut to spectrum analyzer
+path device=sa;f=2442,5180,5500,5800;chain=1;loss=20.7,23.3,7.6,10.6;
+path device=sa;f=2442,5180,5500,5800;chain=2;loss=21.1,23.4,7.6,10.6;
+path device=sa;f=2442,5180,5500,5800;chain=4;loss=20.5,23.5,7.6,10.6;
+
+#Dut to blocker
+#path device=blocker;f=1700,5500;chain=1;loss=18.5,21.5;
+
+#----------------------------------------------------------------
+#equipment models and types
+#----------------------------------------------------------------
+#power meters - arg is used to specify GPIB address
+#equipment model=litepoint; arg=127.0.0.1       # Litepoint 2010
+#equipment model=litepoint; arg=192.168.100.254 # Litepoint
+#equipment model=nrpz11;           #R&S USB power meter WinXP
+#equipment model=nrpz;           #R&S USB power meter Win7.
+#equipment model=e4416a; arg=13;    #Agilent power meter
+
+#Variable attenuators 
+#equipment model=8210a; arg=10;  delay=100;	#Weinschel8210A
+#equipment model=11713a; arg=1,2,3; delay=50;	#agilent
+
+#spectrum analyzer
+#equipment model=E4404B; arg=18;    #agilent
+#equipmentCtl type=sa; arg=734000000,746000000,100000,100000,100000,0.1;  #equipment control on E4404B.
+
+#current consumption
+#equipment model=Fluke45; arg=6;    #currently not supported
+#equipment model=E34401A; arg=6;    # Aglient multimeter.
+
+#Power supply
+#equipment model=E3631A; arg=5;    # Aglient 3 ports power supply.
+#equipmentCtl type=ps; arg=P1:v=3.50  ,i=2.00;  		#equipment control port1 on E3631A.
+#equipmentCtl type=ps; arg=P2:v=2.75  ,i=0.88;  	  #equipment control port1 on E3631A.
+#equipmentCtl type=ps; arg=P3:v=-3.75 ,i=0.74;     #equipment control port1 on E3631A.
+#equipmentCtl type=ps; arg=ON
+#equipmentCtl type=ps; arg=OFF
+
+#Signal generator
+#equipment model=E4438C; arg=4;    #Agilent Signal generator
+
+#Temperature Chamber
+#equipment model=halfCube; arg=11;	 # Test equity model 107 at halfCube.dll by RS232 Com11 control.
+#equipment model=Temi300; arg=11;	 # Temi300 at Temi300.dll by RS232 com11 control.
+#equipmentCtl type=Oven; arg=temp:18.7,soak:160;  # Oven control: set temp=20.5C, soak time=120secs.
+
+#----------------------------------------------------------------
+# command file and log/report file paths
+#----------------------------------------------------------------
+assign artcommand=.\..\command;
+assign artlog=.\..\log;
+assign artreport=.\..\report;
+
+error code=7503,7504,7511,6500,2018,4037;response=none;
+
+test_flow_flags_ar6004.art
+

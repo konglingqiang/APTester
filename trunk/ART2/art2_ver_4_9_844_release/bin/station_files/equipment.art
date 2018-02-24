@@ -1,0 +1,36 @@
+#----------------------------------------------------------------
+#equipment models and types
+#----------------------------------------------------------------
+#power meters - arg is used to specify GPIB address
+#equipment model=litepoint; arg=192.168.105.117	# Litepoint
+equipment model=litepoint; arg=192.168.100.254;
+#equipment model=nrpz11;           #R&S USB power meter
+#equipment model=e4416a; arg=13;    #Agilent power meter
+
+#Variable attenuators 
+#equipment model=8210a; arg=10;  delay=100;	#Weinschel8210A
+#equipment model=11713a; arg=1,2,3; delay=50;	#agilent
+
+#spectrum analyzer
+#equipment model=E4404B; arg=18;    #agilent spectrum analyzer
+#equipmentCtl type=sa; arg=734000000,746000000,100000,100000,100000,0.1;  #equipment control on E4404B.
+
+#current consumption
+#equipment model=Fluke45; arg=6;    #currently not supported
+#equipment model=E34401A; arg=6;    # Aglient multimeter.
+
+#Power supply
+#equipment model=E3631A; arg=5;    # Aglient 3 ports power supply.
+#equipmentCtl type=ps; arg=P1:v=3.50  ,i=2.00;  		#equipment control port1 on E3631A.
+#equipmentCtl type=ps; arg=P2:v=2.75  ,i=0.88;  	  #equipment control port1 on E3631A.
+#equipmentCtl type=ps; arg=P3:v=-3.75 ,i=0.74;     #equipment control port1 on E3631A.
+#equipmentCtl type=ps; arg=ON
+#equipmentCtl type=ps; arg=OFF
+
+#Signal generator
+#equipment model=E4438C; arg=4;    #Agilent Signal generator
+
+#Temperature Chamber
+#equipment model=halfCube; arg=11;	 # Test equity model 107 at halfCube.dll by RS232 Com11 control.
+#equipment model=Temi300; arg=11;	 # Temi300 at Temi300.dll by RS232 com11 control.
+#equipmentCtl type=Oven; arg=temp:18.7,soak:160;  # Oven control: set temp=20.5C, soak time=120secs.

@@ -1,0 +1,358 @@
+load cal=flash;
+set mac=aa:bb:cc:11:22:33;
+set sn=11111111111;
+load
+hello
+set ssid=a120;
+set svid=168c;
+set devicetype=4;
+set regdmn[0]=0;
+set regdmn[1]=0x1f;
+Set txmask=3;
+Set rxmask=3;
+set opflags=2;
+set internalregulator=1;
+set antctrlcommon2g=110;
+set antctrlcommon22g=ccccc;
+set antCtrlChain2g=150,150,150;
+set txgainTable=6;
+set rxgainTable=0;
+set temperatureCompensation=1;
+set tempSlope2g=28;
+set tempSlope5g=64;
+set tempSlopelow=58;
+set tempSlopehigh=82;
+set thermometer=0;
+set spurchans2g=2464;
+set papdenable=0;
+set 2GHz.PaPredistortion.Ht20=0x0c00e0e0;
+set 2GHz.PaPredistortion.Ht40=0x0000e0e0;
+set xpabiaslvl5g=0xf;
+set caldata.memory=flash;
+set 2GHz.Target.Frequency.Cck=2412,2472;
+set 2GHz.Target.Power.Cck[0]=20,20,20,20;
+set 2GHz.Target.Power.Cck[1]=20,20,20,20;
+set 2GHz.Target.Frequency.Legacy=2412,2437,2472;
+set 2GHz.Target.Power.Legacy[0]=20,20,20,19;
+set 2GHz.Target.Power.Legacy[1]=20,20,20,19;
+set 2GHz.Target.Power.Legacy[2]=20,20,20,19;
+set 2GHz.Target.Frequency.Ht20=2412,2437,2472;
+set 2GHz.Target.Power.Ht20[0]=20,20,20,20,20,20,20,20,19,19;
+set 2GHz.Target.Power.Ht20[1]=20,20,20,20,20,20,20,20,19,19;
+set 2GHz.Target.Power.Ht20[2]=20,20,20,20,20,20,20,20,19,19;
+set 2GHz.Target.Frequency.Ht40=2422,2447,2462;
+set 2GHz.Target.Power.Ht40[0]=20,20,20,20,20,20,20,20,19,19;
+set 2GHz.Target.Power.Ht40[1]=20,20,20,20,20,20,20,20,19,19;
+set 2GHz.Target.Power.Ht40[2]=20,20,20,20,20,20,20,20,19,19;
+set 5GHz.Target.Frequency.Legacy=5180,5260,5320,5500,5600,5700,5745,5825;
+set 5GHz.Target.Power.Legacy[0]=19,19,15,14;
+set 5GHz.Target.Power.Legacy[1]=19,19,15,14;
+set 5GHz.Target.Power.Legacy[2]=19,19,15,14;
+set 5GHz.Target.Power.Legacy[3]=19,19,15,14;
+set 5GHz.Target.Power.Legacy[4]=19,19,15,13;
+set 5GHz.Target.Power.Legacy[5]=19,19,15,13;
+set 5GHz.Target.Power.Legacy[6]=19,19,15,12;
+set 5GHz.Target.Power.Legacy[7]=19,19,15,12;
+set 5GHz.Target.Frequency.Ht20=5180,5260,5320,5500,5600,5700,5745,5825;
+set 5GHz.Target.Power.Ht20[0]=19,19,18,14,13,12,18,13,12,11,0,0,0,0;
+set 5GHz.Target.Power.Ht20[1]=19,19,18,13,12,11,18,12,11,10,0,0,0,0;
+set 5GHz.Target.Power.Ht20[2]=19,19,18,13,12,11,18,12,11,10,0,0,0,0;
+set 5GHz.Target.Power.Ht20[3]=19,19,18,13,12,11,18,12,11,10,0,0,0,0;
+set 5GHz.Target.Power.Ht20[4]=19,19,18,13,12,11,18,12,11,10,0,0,0,0;
+set 5GHz.Target.Power.Ht20[5]=19,19,18,10,10,10,18,9,9,9,0,0,0,0;
+set 5GHz.Target.Power.Ht20[6]=19,19,18,10,10,10,18,9,9,9,0,0,0,0;
+set 5GHz.Target.Power.Ht20[7]=18,18,17,10,10,10,17,9,9,9,0,0,0,0;
+set 5GHz.Target.Frequency.Ht40=5190,5270,5310,5510,5590,5670,5755,5795;
+set 5GHz.Target.Power.Ht40[0]=19,19,18,13,12,11,18,12,11,10,0,0,0,0;
+set 5GHz.Target.Power.Ht40[0]=18,18,17,12,11,10,17,11,10,9,0,0,0,0;
+set 5GHz.Target.Power.Ht40[0]=18,18,17,12,11,10,17,11,10,9,0,0,0,0;
+set 5GHz.Target.Power.Ht40[0]=18,18,17,12,11,10,17,11,10,9,0,0,0,0;
+set 5GHz.Target.Power.Ht40[0]=18,18,17,12,11,10,17,11,10,9,0,0,0,0;
+set 5GHz.Target.Power.Ht40[0]=18,18,17,9,9,9,17,8,8,8,0,0,0,0;
+set 5GHz.Target.Power.Ht40[0]=18,18,17,9,9,9,17,8,8,8,0,0,0,0;
+set 5GHz.Target.Power.Ht40[0]=18,18,17,9,9,9,17,8,8,8,0,0,0,0;
+set 2GHz.ctl.Index[0]=0x11;
+set 2GHz.ctl.Frequency[0]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[0]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[0]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[1]=0x12;
+set 2GHz.ctl.Frequency[1]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[1]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[1]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[2]=0x15;
+set 2GHz.ctl.Frequency[2]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[2]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[2]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[3]=0x17;
+set 2GHz.ctl.Frequency[3]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[3]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[3]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[4]=0x41;
+set 2GHz.ctl.Frequency[4]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[4]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[4]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[5]=0x42;
+set 2GHz.ctl.Frequency[5]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[5]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[5]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[6]=0x45;
+set 2GHz.ctl.Frequency[6]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[6]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[6]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[7]=0x47;
+set 2GHz.ctl.Frequency[7]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[7]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[7]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[8]=0x31;
+set 2GHz.ctl.Frequency[8]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[8]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[8]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[9]=0x32;
+set 2GHz.ctl.Frequency[9]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[9]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[9]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[10]=0x35;
+set 2GHz.ctl.Frequency[10]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[10]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[10]=0   ,1   ,0   ,1;
+set 2GHz.ctl.Index[11]=0x37;
+set 2GHz.ctl.Frequency[11]=2412,2417,2472,2484;
+set 2GHz.ctl.Power[11]=30  ,30  ,30  ,30;
+set 2GHz.ctl.BandEdge[11]=0   ,1   ,0   ,1;
+set 5GHz.ctl.Index[0]=0x10;
+set 5GHz.ctl.Frequency[0]=5180,5220,5320,5400,5500,5600,5725,5825;
+set 5GHz.ctl.Power[0]=30  ,30  ,30  ,30  ,30  ,30  ,30  ,30;
+set 5GHz.ctl.BandEdge[0]=0   ,1   ,0   ,1   ,0   ,1   ,0   ,1;
+set 5GHz.ctl.Index[1]=0x16;
+set 5GHz.ctl.Frequency[1]=5180,5220,5320,5400,5500,5600,5725,5825;
+set 5GHz.ctl.Power[1]=30  ,30  ,30  ,30  ,30  ,30  ,30  ,30;
+set 5GHz.ctl.BandEdge[1]=0   ,1   ,0   ,1   ,0   ,1   ,0   ,1;
+set 5GHz.ctl.Index[2]=0x18;
+set 5GHz.ctl.Frequency[2]=5180,5220,5320,5400,5500,5600,5725,5825;
+set 5GHz.ctl.Power[2]=30  ,30  ,30  ,30  ,30  ,30  ,30  ,30;
+set 5GHz.ctl.BandEdge[2]=0   ,1   ,0   ,1   ,0   ,1   ,0   ,1;
+set 5GHz.ctl.Index[3]=0x40;
+set 5GHz.ctl.Frequency[3]=5180,5220,5320,5400,5500,5600,5725,5825;
+set 5GHz.ctl.Power[3]=30  ,30  ,30  ,30  ,30  ,30  ,30  ,30;
+set 5GHz.ctl.BandEdge[3]=0   ,1   ,0   ,1   ,0   ,1   ,0   ,1;
+set 5GHz.ctl.Index[4]=0x46;
+set 5GHz.ctl.Frequency[4]=5180,5220,5320,5400,5500,5600,5725,5825;
+set 5GHz.ctl.Power[4]=30  ,30  ,30  ,30  ,30  ,30  ,30  ,30;
+set 5GHz.ctl.BandEdge[4]=0   ,1   ,0   ,1   ,0   ,1   ,0   ,1;
+set 5GHz.ctl.Index[5]=0x48;
+set 5GHz.ctl.Frequency[5]=5180,5220,5320,5400,5500,5600,5725,5825;
+set 5GHz.ctl.Power[5]=30  ,30  ,30  ,30  ,30  ,30  ,30  ,30;
+set 5GHz.ctl.BandEdge[5]=0   ,1   ,0   ,1   ,0   ,1   ,0   ,1;
+set 5GHz.ctl.Index[6]=0x30;
+set 5GHz.ctl.Frequency[6]=5180,5220,5320,5400,5500,5600,5725,5825;
+set 5GHz.ctl.Power[6]=30  ,30  ,30  ,30  ,30  ,30  ,30  ,30;
+set 5GHz.ctl.BandEdge[6]=0   ,1   ,0   ,1   ,0   ,1   ,0   ,1;
+set 5GHz.ctl.Index[7]=0x36;
+set 5GHz.ctl.Frequency[7]=5180,5220,5320,5400,5500,5600,5725,5825;
+set 5GHz.ctl.Power[7]=30  ,30  ,30  ,30  ,30  ,30  ,30  ,30;
+set 5GHz.ctl.BandEdge[7]=0   ,1   ,0   ,1   ,0   ,1   ,0   ,1;
+set 5GHz.ctl.Index[8]=0x38;
+set 5GHz.ctl.Frequency[8]=5180,5220,5320,5400,5500,5600,5725,5825;
+set 5GHz.ctl.Power[8]=30  ,30  ,30  ,30  ,30  ,30  ,30  ,30;
+set 5GHz.ctl.BandEdge[8]=0   ,1   ,0   ,1   ,0   ,1   ,0   ,1;
+setcal dll=cal-2p;
+setcal scheme=0;
+setcal CalibrationAttempt=5;
+setcal PowerGoalMode=0;
+setcal 2gfreq=2412,2437,2462;
+setcal 5gfreq=5180,5240,5260,5320,5500,5700,5745,5805;
+setcal TxGainSlope=2.0;
+setcal PowerDeviation=2.0;
+set mac=aa:bb:cc:11:22:33;
+set customer;
+get txmask;
+tx f=2412;ir=0;gi=0;txch=3;rxch=3;pc=5000;pl=1000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=-1;dur=600000;dump=0;pro=0;bssid=50.5
+sw a=BB_heavy_clip_1.heavy_clip_enable; v=0;
+tx f=2412;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=1500;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+tx f=2412;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=1500;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+tx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=1500;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+tx f=2437;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=1500;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+tx f=2462;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=1500;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+tx f=2462;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=1500;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+sc a=BB_heavy_clip_1.heavy_clip_enable;
+tx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=100;pl=1000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=-1;dur=600000;dump=0;pro=0;bssid=50.55
+set FeatureEnable.TuningCaps=1;
+tx f=5500;ir=0;gi=0;txch=1;rxch=1;pc=100;pl=1000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=-1;dur=600000;dump=0;pro=0;bssid=50.55
+set FeatureEnable.TuningCaps=1;
+gettp f=2412; r=11S;
+tx f=2412;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=6;
+tx f=2412;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=t0;
+tx f=2412;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=t7;
+tx f=2412;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=11S;
+tx f=2412;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=6;
+tx f=2412;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=t0;
+tx f=2412;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=t7;
+tx f=2412;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=11S;
+tx f=2437;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=6;
+tx f=2437;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=t0;
+tx f=2437;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=t7;
+tx f=2437;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=11S;
+tx f=2437;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=6;
+tx f=2437;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=t0;
+tx f=2437;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=t7;
+tx f=2437;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=11S;
+tx f=2462;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=6;
+tx f=2462;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=t0;
+tx f=2462;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=t7;
+tx f=2462;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=11S;
+tx f=2462;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=6;
+tx f=2462;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=t0;
+tx f=2462;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=t7;
+tx f=2462;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=f0;
+tx f=2412;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=f7;
+tx f=2412;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=f0;
+tx f=2412;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=f7;
+tx f=2412;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=f0;
+tx f=2437;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=f7;
+tx f=2437;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=f0;
+tx f=2437;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=f7;
+tx f=2437;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2452; r=f0;
+tx f=2452;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2452; r=f7;
+tx f=2452;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2452; r=f0;
+tx f=2452;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2452; r=f7;
+tx f=2452;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=54;
+tx f=2412;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=t7;
+tx f=2412;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=54;
+tx f=2412;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=t7;
+tx f=2412;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=54;
+tx f=2437;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=t7;
+tx f=2437;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=54;
+tx f=2437;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=t7;
+tx f=2437;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=54;
+tx f=2462;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=t7;
+tx f=2462;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=54;
+tx f=2462;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=t7;
+tx f=2462;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=f7;
+tx f=2412;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2412; r=f7;
+tx f=2412;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=f7;
+tx f=2437;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=f7;
+tx f=2437;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=f7;
+tx f=2462;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=f7;
+tx f=2462;ir=0;gi=0;txch=2;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=54;
+tx f=2437;ir=0;gi=0;txch=1;rxch=7;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=1L;
+tx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=6;
+tx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=t0;
+tx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=f0;
+tx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=1L;
+tx f=2437;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=6;
+tx f=2437;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=t0;
+tx f=2437;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=f0;
+tx f=2437;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=1L;
+tx f=2462;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=6;
+tx f=2462;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=t0;
+tx f=2462;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=f0;
+tx f=2462;ir=0;gi=0;txch=1;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=1L;
+tx f=2462;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=6;
+tx f=2462;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=t0;
+tx f=2462;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=f0;
+tx f=2462;ir=0;gi=0;txch=2;rxch=1;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=t8;
+tx f=2437;ir=0;gi=0;txch=3;rxch=3;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2437; r=f8;
+tx f=2437;ir=0;gi=0;txch=3;rxch=3;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=t8;
+tx f=2462;ir=0;gi=0;txch=3;rxch=3;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+gettp f=2462; r=f8;
+tx f=2462;ir=0;gi=0;txch=3;rxch=3;pc=1000000;pl=4000;bc=1;retry=0;att=0;iss=0;stat=3;ifs=1;dur=600000;dump=0;pro=0;bssid=50
+get rxmask;
+rx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-90;stat=0;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-90;stat=1;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=2;rxch=2;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-90;stat=0;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=2;rxch=2;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-90;stat=1;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=0;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=1;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=2;rxch=2;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=0;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=2;rxch=2;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=1;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=0;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=1;rxch=1;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=1;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=2;rxch=2;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=0;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=2;rxch=2;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=1;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2412;ir=0;gi=0;txch=3;rxch=3;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=0;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2412;ir=0;gi=0;txch=3;rxch=3;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=1;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=3;rxch=3;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=0;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2437;ir=0;gi=0;txch=3;rxch=3;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=1;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2462;ir=0;gi=0;txch=3;rxch=3;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=0;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+rx f=2462;ir=0;gi=0;txch=3;rxch=3;pc=100;pl=1000;bc=1;retry=0;att=0;iss=-65;stat=1;ifs=-1;dur=600000;dump=0;pro=0;bssid=01.
+hello
+commit
+pcie
+check
+hello
+hello
+hello
+hello

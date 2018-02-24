@@ -1,0 +1,39 @@
+#sw a=BB_agc_control.no_update_noisefloor;v=0x0
+#sw a=BB_find_signal_low.firstep_low;v=0x0
+#sw a=BB_find_signal.firstep;v=0x0
+#sw a=BB_timing_control_5.cycpwr_thr1;v=0x0
+#sw a=BB_ext_chan_pwr_thr_2_b0.cycpwr_thr1_ext;v=0x0
+
+#sc a=BB_agc_control.no_update_noisefloor
+#sc a=BB_find_signal_low.firstep_low
+#sc a=BB_find_signal.firstep
+#sc a=BB_timing_control_5.cycpwr_thr1
+#sc a=BB_ext_chan_pwr_thr_2_b0.cycpwr_thr1_ext
+
+
+connect i=0;192.168.1.1:2391;
+#setconfig i=1;EEPROM_FILE = .\boardData_3_QC98XX_cus223_120_gld.bin
+#setconfig i=1;DEVDRV_INTERFACE = 5
+load i=0;devid=3c;memory=flash
+
+
+
+
+
+
+assign inst=0;
+assign psrthreshold=90
+show ------------------------------------------RX limit test start------------------------;
+show ------------------------------------------11ac t0-CH-----------------------------;
+
+assign issmin=-81
+assign issmax=-77
+assign issinc=-1
+assign sel_iss=$issmax:$issmin:$issinc;
+
+load cal=flash;
+
+rx rx=0;f=5180;r=6;tp=8;ch=1;iss=$sel_iss;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+report r='col f=rx.frequency;f=rx.correct;f=rx.crc;f=rx.iss;f=rx.rate;f=rx.rssi;f=rx.rxchain'
+report r='summary title=CCK chain0 SENSITIVITY;k=frequency,rate;f=dip(iss,psr,$psrthreshold);label=dip;width=8;f=fit(iss,psr,20,$psrthreshold);label=fit;width=8;'
+show -------------------------end-------------------------------

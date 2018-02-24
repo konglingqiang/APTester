@@ -1,0 +1,36 @@
+
+assign artreport=D:\dvt_report\txcal_vsa;
+
+#
+# measure tx iq calibration information:
+# 	1. carrier leakage.
+# 	2. IQmismatch: amplitude & phase imbalance.
+#   
+# Must use Litepoint to be VSA.
+#  
+
+#assign txcal.freq=2412,2437,2462,2472;
+assign txcal.freq=2412;
+assign txcal.ch		= 1,2,4;
+assign txcal.rate	=t7,f7;
+#assign txcal.pwr	=0:15:1;
+assign txcal.pwr	=target;
+
+# when test with pcdac the min value should > 30, and step size should > 5,
+# Litepoint will return error code when we test with too small pcdac value or step size too small.
+assign txcal.pcdac	=30:80:5;
+
+assign txcal.CalLimit = -30
+assign txcal.AmpLimit = 0.2
+assign txcal.PhaLimit = 2
+
+assign txcal.PassText=.
+assign txcal.FailText=FAIL
+assign txcal.PassCount=0
+assign txcal.FailCount=0
+
+tx pl=4000;pc=1000000;f=$txcal.freq;r=$txcal.rate;ir=2;ch=$txcal.ch;tp=$txcal.pwr;delay=10;evm=1;tx99=1;
+report style=column;f=tx.frequency;f=rate,txchain,tp;f=evm.evmv,evm.power;f=evm.carrierLeakageDb;w=4;d=3;f=ampImbalance;w=4;d=3;f=phaImbalance;w=4;d=3;f=test(((evm.carrierLeakageDb < $txcal.CalLimit)&(evm.ampImbalance < $txcal.AmpLimit)&(evm.phaImbalance < $txcal.PhaLimit)),$txcal.PassText,$txcal.FailText,@txcal.PassCount,@txcal.FailCount);l=P/F;type=s;width=12;title=2GHz IQ Data to Target Power;
+
+#tx pl=4000;pc=1000000;f=$txcal.freq;r=$txcal.rate;ir=2;ch=$txcal.ch;pcdac=$txcal.pcdac;delay=10;evm=1;tx99=1;
+#report style=column;f=tx.frequency;f=rate,txchain,txgain;f=evm.evmv;f=evm.carrierLeakageDb;w=4;d=3;f=ampImbalance;w=4;d=3;f=phaImbalance;w=4;d=3;f=test(((evm.carrierLeakageDb < $txcal.CalLimit)&(evm.ampImbalance < $txcal.AmpLimit)&(evm.phaImbalance < $txcal.PhaLimit)),$txcal.PassText,$txcal.FailText,@txcal.PassCount,@txcal.FailCount);l=P/F;type=s;width=12;title=2GHz IQ Data to PCDAC;

@@ -1,0 +1,153 @@
+assign 2G.TxEVM.test.Enable=0
+GOTO name=TPSET_DONE; condition='$Equipment.VSA.Chains<>1'
+assign TxPower.combined = 1
+LABEL TPSET_DONE
+
+#___________________________________________
+# load ref file, run chip warmup and calibration if enabled
+#___________________________________________
+assign TxPowerCal.Enable=0
+assign XtalCal.Enable=0
+GOTO name=2GCAL_SET; condition='$2G.Test.Disable=1'
+GOTO name=2GPwrCAL_SET; condition='$2G.TxPowerCal.Enable=0'
+assign TxPowerCal.Enable=1
+LABEL name=2GPwrCAL_SET;
+GOTO name=2GXtalCAL_SET; condition='$2G.XtalCal.Enable=0'
+assign XtalCal.Enable=1
+LABEL name=2GXtalCAL_SET;
+LABEL name=2GCAL_SET;
+
+GOTO name=5GCAL_SET; condition='$5G.Test.Disable=1'
+GOTO name=5GPwrCAL_SET; condition='$5G.TxPowerCal.Enable=0'
+assign TxPowerCal.Enable=1
+LABEL name=5GPwrCAL_SET;
+GOTO name=5GXtalCAL_SET; condition='$5G.XtalCal.Enable=0'
+assign XtalCal.Enable=1
+LABEL name=5GXtalCAL_SET;
+LABEL name=5GCAL_SET;
+
+#___________________________________________
+GOTO name=TxPower_noCal; condition='$TxPowerCal.Enable=0'
+#___________________________________________
+# for cal enable, warmup need $txgain.init assigned in ref file.
+#___________________________________________
+# refDesigns\$refdesign\$refdesign.ref
+# refDesigns\$refdesign\$ref_filename.ref
+
+# if manufAuto is 1, skip seting of MAC. Assume user is doing this elsewhere.
+GOTO name=setMACDone;condition='$manufAuto=1'
+
+GOTO name=setInst1MAC;condition='$inst=1'
+
+set i=$inst; mac=$mac
+set i=$inst; customer=$customer
+GOTO name=setMACDone
+
+LABEL name=setInst1MAC
+set i=$inst; mac=$mac1
+set i=$inst; customer=$customer1
+
+LABEL name=setMACDone
+#___________________________________________
+# reset 2G/5G band selection since eeprom setting changed
+#___________________________________________
+common\testBand.art
+
+test_tx\TxInit.art
+
+
+
+############################################################# stopping DALE
+#comment title='##########  IN TxTest.ART ###################';
+#comment title='Inst: $inst refdesign: $refdesign prodId: $prodID';
+#show devid;
+#stop
+
+
+
+
+
+
+
+#___________________________________________
+common\warmup.art
+assign tx.calibration.data.save.enable=1
+
+#___________________________________________
+
+# heavy clip must be DISABLED during calibration
+sw i=$inst;a=BB_heavy_clip_1.heavy_clip_enable;v=0
+
+GOTO name=2GCAL_DONE; condition='$2G.Test.Disable=1'
+GOTO name=2GCAL_DONE; condition='$2G.TxPowerCal.Enable=0'
+test_tx\TxPowerCal_2g.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=2GCAL_DONE;
+
+GOTO name=5GCAL_DONE; condition='$5G.Test.Disable=1'
+GOTO name=5GCAL_DONE; condition='$5G.TxPowerCal.Enable=0'
+test_tx\TxPowerCal_5g.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=5GCAL_DONE;
+
+# after calibration, clearing the heavy clip disable sticky write
+sc i=$inst;a=BB_heavy_clip_1.heavy_clip_enable;
+
+GOTO name=TxPowerCal_DONE;
+
+#___________________________________________
+# Don't load ref file, if calibration disable
+#___________________________________________
+LABEL name=TxPower_noCal;
+test_tx\TxInit.art
+common\warmup.art
+assign tx.calibration.data.save.enable=0
+#___________________________________________
+LABEL name=TxPowerCal_DONE;
+
+#___________________________________________
+GOTO name=Xtal_noCal; condition='$XtalCal.Enable=0'
+assign xtal.calibration.data.save.enable=1
+
+#___________________________________________
+GOTO name=2GXtalCAL_DONE; condition='$2G.Test.Disable=1'
+GOTO name=2GXtalCAL_DONE; condition='$2G.XtalCal.Enable=0'
+test_tx\XtalCal_2g.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=2GXtalCAL_DONE;
+
+GOTO name=5GXtalCAL_DONE; condition='$5G.Test.Disable=1'
+GOTO name=5GXtalCAL_DONE; condition='$5G.XtalCal.Enable=0'
+test_tx\XtalCal_5g.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=5GXtalCAL_DONE;
+
+GOTO name=XtalCal_DONE;
+#___________________________________________
+# Don't load ref file, if calibration disable
+#___________________________________________
+LABEL name=Xtal_noCal;
+assign xtal.calibration.data.save.enable=0
+#___________________________________________
+LABEL name=XtalCal_DONE;
+
+#___________________________________________
+# Tx tests
+#___________________________________________
+GOTO name=2GPT_DONE; condition='$2G.Test.Disable=1'
+test_tx\TxTest_2g.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=2GPT_DONE;
+
+GOTO name=5GPT_DONE; condition='$5G.Test.Disable=1'
+test_tx\TxTest_5g.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=5GPT_DONE;
+GOTO name=PT_DONE;
+#___________________________________________
+
+LABEL name=PT_ERROR;
+assign errDetected=1
+
+LABEL name=PT_DONE;
+comment title='	PT test Done!'

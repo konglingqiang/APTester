@@ -1,0 +1,18 @@
+#
+# start meta-script for Bldg M QSPR wrapper development
+#
+
+..\bin\start
+
+#
+# next script should assign serial number
+#
+
+..\bin\ser_num
+
+#
+# finally, run test_flow that doesn't prompt for serial number
+#
+
+test_flow_bldg_m
+

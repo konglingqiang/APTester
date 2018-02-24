@@ -1,0 +1,8 @@
+reset
+or bank=0;size=1;a=c
+or bank=0;size=1;a=e
+ow bank=0;size=1;a=c;v=2
+or bank=0;size=1;a=c
+ow bank=0;size=1;a=e;v=37
+ow bank=0;size=1;a=f;v=1a
+or bank=0;size=1;a=e

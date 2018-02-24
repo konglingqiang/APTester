@@ -1,0 +1,172 @@
+assign 5G.RxTPUT.TPUT.Pass=0
+assign 5G.RxTPUT.TPUT.Fail=0
+assign 5G.RxTPUT.PSR.Pass=0
+assign 5G.RxTPUT.PSR.Fail=0
+
+#___________________________________________________
+GOTO name=MIMO_RXTPUT; condition='$5G.RxTput.Legacy.Enable=0'
+
+assign it=1
+
+calculate 5G.RxTput.Legacy.Num=count(5G.RxTput.Legacy.Freq)
+label name=top_legacy;
+calculate freqtemp=element(5G.RxTput.Legacy.Freq,$it);
+
+#run rxIQ Cal if its enabled.
+GOTO name=5GTP_TEST_Legacy; condition='$5G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.Legacy.attn; pl=1500; pc=500; ch=$rxALLChainMask; r=f0; f=$freqtemp; bc=1; retry=0; rxiqcal=1;ht40=1;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+
+LABEL name=5GTP_TEST_Legacy;
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.Legacy.attn; pl=1500; ir=2; pc=2048; ch=$rxALLChainMask; r=$5G.RxTput.Legacy.Rate; agg=32; f=$freqtemp; bc=$5G.RxTput.boardcast; retry=0; ht40=1;sgi=0;stop='$Test.Error';
+
+report style=column; title=5GHz RX THROUGHPUT;f=rx.frequency;l=frequency;f=rate;f=agg;l=agg;f=rx.rssi;f=rx.psr;f=duration,byte;f=0.001*rx.throughput;l=rx tput;f=lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=limit;w=8;f=0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=delta;w=8;f=test(0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit)>0,$passtext,$failtext,@5G.RxTPUT.TPUT.Pass,@5G.RxTPUT.TPUT.Fail);label=100%;type=s,w=8;f=test(rx.psr>90,$passtext,$failtext,@5G.RxTPUT.PSR.Pass,@5G.RxTPUT.PSR.Fail);label=PER;type=s,w=8;
+report style=column; title=5GHz RX RSSI/EVM REPORT;f=rx.frequency;l=frequency;f=rate,rssi,rssi00,rssi01,rssi02,rssi10,rssi11,rssi12,evm0,evm1,evm2;
+GOTO name=end;test='$test.Error<>0;
+
+test it=$it+1;
+GOTO name=top_legacy;  test='$it<=$5G.RxTput.Legacy.Num';
+#___________________________________________________
+
+
+LABEL name=MIMO_RXTPUT
+#___________________________________________________
+GOTO name=end_HT20; condition='$5G.RxTput.HT20.Enable=0'
+
+assign it=1;
+calculate 5G.RxTput.HT20.Num=count(5G.RxTput.HT20.Freq)
+
+label name=top_HT20;
+calculate freqtemp=element(5G.RxTput.HT20.Freq,$it);
+
+#run rxIQ Cal if its enabled.
+GOTO name=5GTP_HT20_TEST; condition='$5G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.HT20.attn; pl=1500; pc=500; ch=$rxALLChainMask; r=f0; f=$freqtemp; bc=1; retry=0; rxiqcal=1;ht40=1;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+
+LABEL name=5GTP_HT20_TEST;
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.HT20.attn; pl=1500; ir=2; pc=2048; ch=$rxALLChainMask; r=$5G.RxTput.HT20.Rate; agg=32; f=$freqtemp; bc=$5G.RxTput.boardcast; retry=0; ht40=1;sgi=0;stop='$Test.Error';
+
+report style=column; title=5GHz HT20 RX THROUGHPUT;f=rx.frequency;l=frequency;f=rate;f=agg;l=agg;f=rx.rssi;f=rx.psr;f=duration,byte;f=0.001*rx.throughput;l=rx tput;f=lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=limit;w=8;f=0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=delta;w=8;f=test(0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit)>0,$passtext,$failtext,@5G.RxTPUT.TPUT.Pass,@5G.RxTPUT.TPUT.Fail);label=100%;type=s,w=8;f=test(rx.psr>90,$passtext,$failtext,@5G.RxTPUT.PSR.Pass,@5G.RxTPUT.PSR.Fail);label=PER;type=s,w=8;
+report style=column; title=5GHz HT20 RX RSSI/EVM REPORT;f=rx.frequency;l=frequency;f=rate,rssi,rssi00,rssi01,rssi02,rssi10,rssi11,rssi12,evm0,evm1,evm2;
+GOTO name=end;test='$test.Error<>0;
+
+test it=$it+1;
+GOTO name=top_HT20;  test='$it<=$5G.RxTput.HT20.Num';
+#___________________________________________________
+
+LABEL name=end_HT20;
+
+
+#___________________________________________________
+GOTO name=end_HT40; condition='$5G.RxTput.HT40.Enable=0'
+
+assign it=1;
+calculate 5G.RxTput.HT40.Num=count(5G.RxTput.HT40.Freq)
+
+label name=top_HT40;
+calculate freqtemp=element(5G.RxTput.HT40.Freq,$it);
+
+#run rxIQ Cal if its enabled.
+GOTO name=5GTP_HT40_TEST; condition='$5G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.HT40.attn; pl=1500; pc=500; ch=$rxALLChainMask; r=f0; f=$freqtemp; bc=1; retry=0; rxiqcal=1;ht40=1;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+
+LABEL name=5GTP_HT40_TEST;
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.HT40.attn; pl=1500; ir=2; pc=2048; ch=$rxALLChainMask; r=$5G.RxTput.HT40.Rate; agg=32; f=$freqtemp; bc=$5G.RxTput.boardcast; retry=0; ht40=1;sgi=0;stop='$Test.Error';
+
+report style=column; title=5GHz HT40 RX THROUGHPUT;f=rx.frequency;l=frequency;f=rate;f=agg;l=agg;f=rx.rssi;f=rx.psr;f=duration,byte;f=0.001*rx.throughput;l=rx tput;f=lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=limit;w=8;f=0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=delta;w=8;f=test(0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit)>0,$passtext,$failtext,@5G.RxTPUT.TPUT.Pass,@5G.RxTPUT.TPUT.Fail);label=100%;type=s,w=8;f=test(rx.psr>90,$passtext,$failtext,@5G.RxTPUT.PSR.Pass,@5G.RxTPUT.PSR.Fail);label=PER;type=s,w=8;
+report style=column; title=5GHz HT40 RX RSSI/EVM REPORT;f=rx.frequency;l=frequency;f=rate,rssi,rssi00,rssi01,rssi02,rssi10,rssi11,rssi12,evm0,evm1,evm2;
+GOTO name=end;test='$test.Error<>0;
+
+test it=$it+1;
+GOTO name=top_HT40;  test='$it<=$5G.RxTput.HT40.Num';
+#___________________________________________________
+
+LABEL name=end_HT40;
+
+
+#___________________________________________________
+GOTO name=end_VHT20; condition='$5G.RxTput.VHT20.Enable=0'
+
+assign it=1;
+calculate 5G.RxTput.VHT20.Num=count(5G.RxTput.VHT20.Freq)
+
+label name=top_VHT20;
+calculate freqtemp=element(5G.RxTput.VHT20.Freq,$it);
+
+#run rxIQ Cal if its enabled.
+GOTO name=5GTP_VHT20_TEST; condition='$5G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.VHT20.attn; pl=1500; pc=500; ch=$rxALLChainMask; r=f0; f=$freqtemp; bc=1; retry=0; rxiqcal=1;ht40=1;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+
+LABEL name=5GTP_VHT20_TEST;
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.VHT20.attn; pl=1500; ir=2; pc=2048; ch=$rxALLChainMask; r=$5G.RxTput.VHT20.Rate; agg=32; f=$freqtemp; bc=$5G.RxTput.boardcast; retry=0; ht40=1;sgi=0;stop='$Test.Error';
+
+report style=column; title=5GHz VHT20 RX THROUGHPUT;f=rx.frequency;l=frequency;f=rate;f=agg;l=agg;f=rx.rssi;f=rx.psr;f=duration,byte;f=0.001*rx.throughput;l=rx tput;f=lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=limit;w=8;f=0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=delta;w=8;f=test(0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit)>0,$passtext,$failtext,@5G.RxTPUT.TPUT.Pass,@5G.RxTPUT.TPUT.Fail);label=100%;type=s,w=8;f=test(rx.psr>90,$passtext,$failtext,@5G.RxTPUT.PSR.Pass,@5G.RxTPUT.PSR.Fail);label=PER;type=s,w=8;
+report style=column; title=5GHz VHT20 RX RSSI/EVM REPORT;f=rx.frequency;l=frequency;f=rate,rssi,rssi00,rssi01,rssi02,rssi10,rssi11,rssi12,evm0,evm1,evm2;
+GOTO name=end;test='$test.Error<>0;
+
+test it=$it+1;
+GOTO name=top_VHT20;  test='$it<=$5G.RxTput.VHT20.Num';
+#___________________________________________________
+
+LABEL name=end_VHT20;
+
+
+#___________________________________________________
+GOTO name=end_VHT40; condition='$5G.RxTput.VHT40.Enable=0'
+
+assign it=1;
+calculate 5G.RxTput.VHT40.Num=count(5G.RxTput.VHT40.Freq)
+
+label name=top_VHT40;
+calculate freqtemp=element(5G.RxTput.VHT40.Freq,$it);
+
+#run rxIQ Cal if its enabled.
+GOTO name=5GTP_VHT40_TEST; condition='$5G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.VHT40.attn; pl=1500; pc=500; ch=$rxALLChainMask; r=f0; f=$freqtemp; bc=1; retry=0; rxiqcal=1;ht40=1;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+
+LABEL name=5GTP_VHT40_TEST;
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.VHT40.attn; pl=1500; ir=2; pc=2048; ch=$rxALLChainMask; r=$5G.RxTput.VHT40.Rate; agg=32; f=$freqtemp; bc=$5G.RxTput.boardcast; retry=0; ht40=1;sgi=0;stop='$Test.Error';
+
+report style=column; title=5GHz VHT40 RX THROUGHPUT;f=rx.frequency;l=frequency;f=rate;f=agg;l=agg;f=rx.rssi;f=rx.psr;f=duration,byte;f=0.001*rx.throughput;l=rx tput;f=lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=limit;w=8;f=0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=delta;w=8;f=test(0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit)>0,$passtext,$failtext,@5G.RxTPUT.TPUT.Pass,@5G.RxTPUT.TPUT.Fail);label=100%;type=s,w=8;f=test(rx.psr>90,$passtext,$failtext,@5G.RxTPUT.PSR.Pass,@5G.RxTPUT.PSR.Fail);label=PER;type=s,w=8;
+report style=column; title=5GHz VHT40 RX RSSI/EVM REPORT;f=rx.frequency;l=frequency;f=rate,rssi,rssi00,rssi01,rssi02,rssi10,rssi11,rssi12,evm0,evm1,evm2;
+GOTO name=end;test='$test.Error<>0;
+
+test it=$it+1;
+GOTO name=top_VHT40;  test='$it<=$5G.RxTput.VHT40.Num';
+#___________________________________________________
+
+LABEL name=end_VHT40;
+
+
+#___________________________________________________
+GOTO name=end_VHT80; condition='$5G.RxTput.VHT80.Enable=0'
+
+assign it=1;
+calculate 5G.RxTput.VHT80.Num=count(5G.RxTput.VHT80.Freq)
+
+label name=top_VHT80;
+calculate freqtemp=element(5G.RxTput.VHT80.Freq,$it);
+
+#run rxIQ Cal if its enabled.
+GOTO name=5GTP_VHT80_TEST; condition='$5G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.VHT80.attn; pl=1500; pc=500; ch=$rxALLChainMask; r=f0; f=$freqtemp; bc=1; retry=0; rxiqcal=1;ht40=1;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+
+LABEL name=5GTP_VHT80_TEST;
+link rx=$inst;tx=$instGolden;att=$5G.RxTput.VHT80.attn; pl=1500; ir=2; pc=2048; ch=$rxALLChainMask; r=$5G.RxTput.VHT80.Rate; agg=32; f=$freqtemp; bc=$5G.RxTput.boardcast; retry=0; ht40=1;sgi=0;stop='$Test.Error';
+
+report style=column; title=5GHz VHT80 RX THROUGHPUT;f=rx.frequency;l=frequency;f=rate;f=agg;l=agg;f=rx.rssi;f=rx.psr;f=duration,byte;f=0.001*rx.throughput;l=rx tput;f=lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=limit;w=8;f=0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit);label=delta;w=8;f=test(0.001*rx.throughput-lookup(rate,@RxTput.Rate,@RxTput.tputlimit)>0,$passtext,$failtext,@5G.RxTPUT.TPUT.Pass,@5G.RxTPUT.TPUT.Fail);label=100%;type=s,w=8;f=test(rx.psr>90,$passtext,$failtext,@5G.RxTPUT.PSR.Pass,@5G.RxTPUT.PSR.Fail);label=PER;type=s,w=8;
+report style=column; title=5GHz VHT80 RX RSSI/EVM REPORT;f=rx.frequency;l=frequency;f=rate,rssi,rssi00,rssi01,rssi02,rssi10,rssi11,rssi12,evm0,evm1,evm2;
+GOTO name=end;test='$test.Error<>0;
+
+test it=$it+1;
+GOTO name=top_VHT80;  test='$it<=$5G.RxTput.VHT80.Num';
+#___________________________________________________
+
+LABEL name=end_VHT80;
+
+LABEL name=end;

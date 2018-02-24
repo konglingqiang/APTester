@@ -1,0 +1,2 @@
+set i=$inst; config=3a000400; address=4014;
+set i=$inst; config=ffc25001; address=5040;

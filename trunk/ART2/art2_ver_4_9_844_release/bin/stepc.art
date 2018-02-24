@@ -1,0 +1,3 @@
+set antCtrlChain2g=10,10;
+set xatten1Margin2g=0x2f,0x2f;
+set xatten1db2g=0x28,0x28;

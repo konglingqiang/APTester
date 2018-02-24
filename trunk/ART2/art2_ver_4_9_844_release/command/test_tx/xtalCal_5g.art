@@ -1,0 +1,32 @@
+assign 5G.xtalCal.Pass=0
+assign 5G.xtalCal.Fail=0
+
+
+#kingeman
+#GOTO name=5G.XTAL.COMPLETE
+
+
+GOTO name=5G.XTAL.11AC;condition='$5G.XtalCal.11AC=1'
+
+tx tx=$inst; attenuation=0; carrier=1; chain=1; f=$5G.XtalCal.Freq; ht40=0;  xtalcal=1;
+
+set i=$inst; FeatureEnable.TuningCaps=1;
+
+report r='col f=xtal.frequency; l=frequency; f=xtal.factual; w=15; d=6; l=factual; f=xtal.ppm; l=ppm; f=xtal.cap; l=cap; title=Xtal Cal;'
+
+GOTO name=5G.XTAL.COMPLETE
+LABEL name=5G.XTAL.11AC
+
+sw i=$inst;a=bb_b0_BB7.DACFULLSCALE;v=0x1
+reset i=$inst;f=5180;
+
+tx tx=$inst; attenuation=0; carrier=1; chain=1; f=$5G.XtalCal.Freq; ht40=0;  xtalcal=1;
+
+set i=$inst; FeatureEnable.TuningCaps=1;
+
+report r='col f=xtal.frequency; l=frequency; f=xtal.factual; w=15; d=6; l=factual; f=xtal.ppm; l=ppm; f=xtal.cap; l=cap; title=Xtal Cal;'
+
+sc i=$inst;a=bb_b0_BB7.DACFULLSCALE;
+reset i=$inst;f=5180;
+
+LABEL name=5G.XTAL.COMPLETE

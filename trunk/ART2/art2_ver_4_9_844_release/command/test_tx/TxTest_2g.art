@@ -1,0 +1,125 @@
+#___________________________________________
+# TX Power Test
+#___________________________________________
+
+#___________________________________________
+# Get TX Power Test Rate Selection 
+# to find 1Stream.Enable/MStream.Enable
+#___________________________________________
+GOTO name=TX2G_POWER_DONE; condition='$2G.TxPower.Enable=0'
+test_tx\Rate\Rate_TxPowerTest_2g.art
+
+#___________________________________________
+# 1Stream TX Power Test
+#___________________________________________
+GOTO name=TX2G_POWER_Rate_1Stream; condition='$2G.TxPower.1Stream.Enable=0'
+test_tx\TxPowerTest_2g_1Stream.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX2G_POWER_Rate_1Stream;
+
+#___________________________________________
+# MStream TX Power Test
+#___________________________________________
+GOTO name=TX2G_POWER_HT20; condition='$2G.TxPower.HT20.2Stream.Enable=1'
+GOTO name=TX2G_POWER_HT20; condition='$2G.TxPower.HT20.3Stream.Enable=1'
+GOTO name=TX2G_POWER_HT20_DONE;
+
+LABEL name=TX2G_POWER_HT20;
+assign 2G.TxPower.test.Enable=1
+test_tx\TxPowerTest_2gHT20_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX2G_POWER_HT20_DONE;
+
+GOTO name=TX2G_POWER_HT40_DONE; condition='$2G.HT40.Disable=1'
+GOTO name=TX2G_POWER_HT40; condition='$2G.TxPower.HT40.2Stream.Enable=1'
+GOTO name=TX2G_POWER_HT40; condition='$2G.TxPower.HT40.3Stream.Enable=1'
+GOTO name=TX2G_POWER_HT40_DONE;
+
+LABEL name=TX2G_POWER_HT40;
+assign 2G.TxPower.test.Enable=1
+test_tx\TxPowerTest_2gHT40_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX2G_POWER_HT40_DONE;
+
+
+LABEL name=TX2G_POWER_DONE;
+#___________________________________________
+
+#___________________________________________
+# TX EVM Test
+#___________________________________________
+GOTO name=TX2G_EVM_DONE; condition='$2G.TxEVM.Enable=0'
+GOTO name=TX2G_EVM_DONE; condition='$Equipment.VSA.Chains=0'
+#___________________________________________
+# Get TX EVM Test Rate Selection 
+# to find 1Stream.Enable/MStream.Enable
+#___________________________________________
+test_tx\Rate\Rate_TxEVMTest_2g.art
+
+#___________________________________________
+# 1Stream TX EVM Test
+#___________________________________________
+GOTO name=TX2G_EVM_Rate_1Stream; condition='$2G.TxEVM.1Stream.Enable=0'
+test_tx\TxEVMTest_2g_1Stream.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX2G_EVM_Rate_1Stream;
+#___________________________________________
+# MStream TX EVM Test
+#___________________________________________
+GOTO name=TX2G_EVM_HT20; condition='$2G.TxEVM.HT20.2Stream.Enable=1'
+GOTO name=TX2G_EVM_HT20; condition='$2G.TxEVM.HT20.3Stream.Enable=1'
+GOTO name=TX2G_EVM_HT20_DONE;
+
+LABEL name=TX2G_EVM_HT20;
+assign 2G.TxEVM.test.Enable=1
+test_tx\TxEVMTest_2gHT20_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX2G_EVM_HT20_DONE;
+
+GOTO name=TX2G_EVM_HT40_DONE; condition='$2G.HT40.Disable=1'
+GOTO name=TX2G_EVM_HT40; condition='$2G.TxEVM.HT40.2Stream.Enable=1'
+GOTO name=TX2G_EVM_HT40; condition='$2G.TxEVM.HT40.3Stream.Enable=1'
+GOTO name=TX2G_EVM_HT40_DONE;
+
+LABEL name=TX2G_EVM_HT40;
+assign 2G.TxEVM.test.Enable=1
+test_tx\TxEVMTest_2gHT40_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX2G_EVM_HT40_DONE;
+
+LABEL name=TX2G_EVM_DONE;
+#___________________________________________
+
+#___________________________________________
+# TX Freq Accuracy Test
+#___________________________________________
+GOTO name=TX2G_PPM_DONE; condition='$2G.TxFreqAccuracy.Enable=0'
+test_tx\freq_accuracy_2g.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX2G_PPM_DONE;
+
+#___________________________________________
+# TX MASK Test
+#___________________________________________
+GOTO name=TX2G_MASK_DONE; condition='$2G.TxMASK.Enable=0'
+test_tx\Rate\Rate_TxMaskTest_2g.art
+
+GOTO name=TX2G_Mask_TEST; condition='$2G.TxMask.1Stream.Enable=1'
+GOTO name=TX2G_Mask_TEST; condition='$2G.TxMask.MStream.Enable=1'
+GOTO name=TX2G_MASK_DONE;
+
+LABEL name=TX2G_Mask_TEST;
+test_tx\TxMask_2g.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+
+LABEL name=TX2G_Mask_DONE;
+#___________________________________________
+
+#___________________________________________
+GOTO name=PT_DONE;
+
+LABEL name=PT_ERROR;
+show $Test.Error
+assign errDetected=1
+
+LABEL name=PT_DONE;

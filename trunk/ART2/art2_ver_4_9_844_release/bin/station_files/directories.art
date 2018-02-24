@@ -1,0 +1,8 @@
+#----------------------------------------------------------------
+# command file and log/report file paths
+#----------------------------------------------------------------
+assign artcommand=.\..\command;
+assign artlog=.\..\log;
+assign artreport=.\..\report;
+#assign artlog=.\..\..\..\..\art2_logs\art2_ver_4_x\art2_ver_4_4\log;
+#assign artreport=.\..\..\..\..\art2_logs\art2_ver_4_x\art2_ver_4_4\report;

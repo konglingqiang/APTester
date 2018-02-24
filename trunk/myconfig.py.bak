@@ -1,0 +1,295 @@
+#coding:utf-8
+import ConfigParser
+import os
+ 
+class Conf():
+    def __init__(self,name):
+        self.name = name
+        self.cp = ConfigParser.ConfigParser()
+        self.cp.read(name)
+             
+    def getSections(self):
+        return self.cp.sections()
+     
+    def getOptions(self, section):
+        if self.cp.has_section(section):
+            return self.cp.options(section)
+     
+    def getItems(self, section):
+        if self.cp.has_section(section):
+            return self.cp.items(section)
+         
+    def getValue(self, section, option):
+        if self.cp.has_option(section, option):
+            return self.cp.get(section, option)
+     
+    def setSection(self, section):
+        if not self.cp.has_section(section):
+            self.cp.add_section(section)
+            self.cp.write(open(self.name,'w'))
+     
+    def setValue(self, section, option, value):
+        if not self.cp.has_option(section, option):
+            self.cp.set(section, option, value)
+            self.cp.write(open(self.name,'w'))
+        else:
+            self.updateValue(section, option, value)
+     
+    def delSection(self, section):
+        if self.cp.has_section(section):
+            self.cp.remove_section(section)
+            self.cp.write(open(self.name,'w'))
+     
+    def delOption(self, section, option):
+        if self.cp.has_option(section, option):
+            self.cp.remove_option(section, option)
+            self.cp.write(open(self.name,'w'))
+             
+    def updateValue(self, section, option, value):
+        if self.cp.has_option(section, option):
+            self.cp.set(section, option, value)
+            self.cp.write(open(self.name,'w'))
+
+class MyConf():
+    def __init__(self):
+        self.filename = "config.ini"
+        if (not os.path.exists(self.filename)):
+            self.set_default_config()
+    def set_skin_black(self):
+        conf = Conf(self.filename)
+        conf.setSection("global")
+        conf.setValue("global", "skin", "black")
+    def set_skin_ironblue(self):
+        conf = Conf(self.filename)
+        conf.setSection("global")
+        conf.setValue("global", "skin", "ironblue")
+    def set_skin_silvery(self):
+        conf = Conf(self.filename)
+        conf.setSection("global")
+        conf.setValue("global", "skin", "silvery")
+    def get_skin(self):
+        conf = Conf(self.filename)
+        return conf.getValue("global","skin")
+    def set_type_mt7620a(self):
+        conf = Conf(self.filename)
+        conf.setSection("global")
+        conf.setValue("global", "type", "mt7620a")
+    def set_type_ar934x(self):
+        conf = Conf(self.filename)
+        conf.setSection("global")
+        conf.setValue("global", "type", "ar934x")
+    def set_type_octeon(self):
+        conf = Conf(self.filename)
+        conf.setSection("global")
+        conf.setValue("global", "type", "octeon")
+    def get_type(self):
+        conf = Conf(self.filename)
+        return conf.getValue("global","type")
+    def set_default_config(self):
+        self.set_skin_black()
+        self.set_type_mt7620a()
+
+class TestConf():
+    def __init__(self):
+        self.filename = "testconfig.ini"
+        if (not os.path.exists(self.filename)):
+            self.set_default_config()
+    def get_num_of_something(self, section, item):
+        conf = Conf(self.filename)
+        return conf.getValue(section,item).count(",")+1
+    def set_something(self, section, item, value):
+        conf = Conf(self.filename)
+        conf.setSection(section)
+        conf.setValue(section, item, value)
+    def get_something(self, section, item):
+        conf = Conf(self.filename)
+        return conf.getValue(section,item)
+    def set_howtotest_2G(self):
+        conf = Conf(self.filename)
+        conf.setSection("global")
+        conf.setValue("global", "how_to_test", "0")
+    def set_howtotest_5G(self):
+        conf = Conf(self.filename)
+        conf.setSection("global")
+        conf.setValue("global", "how_to_test", "1")
+    def set_howtotest_both(self):
+        conf = Conf(self.filename)
+        conf.setSection("global")
+        conf.setValue("global", "how_to_test", "2")
+    def get_howtotest(self):
+        conf = Conf(self.filename)
+        return conf.getValue("global","how_to_test")
+        
+    def set_2G_freq_for_lost(self, freq_for_lost):
+        conf = Conf(self.filename)
+        conf.setSection("2G")
+        conf.setValue("2G", "freq_for_lost", freq_for_lost)
+    def get_2G_freq_for_lost(self):
+        conf = Conf(self.filename)
+        return conf.getValue("2G","freq_for_lost")
+        
+    def set_5G_freq_for_lost(self, freq_for_lost):
+        conf = Conf(self.filename)
+        conf.setSection("5G")
+        conf.setValue("5G", "freq_for_lost", freq_for_lost)
+    def get_5G_freq_for_lost(self):
+        conf = Conf(self.filename)
+        return conf.getValue("5G","freq_for_lost")
+        
+    def set_2G_lost_for_freq(self, lost_for_freq):
+        conf = Conf(self.filename)
+        conf.setSection("2G")
+        conf.setValue("2G", "lost_for_freq", lost_for_freq)
+    def get_2G_lost_for_freq(self):
+        conf = Conf(self.filename)
+        return conf.getValue("2G","lost_for_freq")
+        
+    def set_5G_lost_for_freq(self, lost_for_freq):
+        conf = Conf(self.filename)
+        conf.setSection("5G")
+        conf.setValue("5G", "lost_for_freq", lost_for_freq)
+    def get_5G_lost_for_freq(self):
+        conf = Conf(self.filename)
+        return conf.getValue("5G","lost_for_freq")
+        
+    def set_2G_pcdac(self, pcdac):
+        conf = Conf(self.filename)
+        conf.setSection("2G")
+        conf.setValue("2G", "pcdac", pcdac)
+    def get_2G_pcdac(self):
+        conf = Conf(self.filename)
+        return conf.getValue("2G","pcdac")
+    
+    def set_5G_pcdac(self, pcdac):
+        conf = Conf(self.filename)
+        conf.setSection("5G")
+        conf.setValue("5G", "pcdac", pcdac)
+    def get_5G_pcdac(self):
+        conf = Conf(self.filename)
+        return conf.getValue("5G","pcdac")
+    
+    def set_2G_ppm_limit(self, ppm_limit):
+        conf = Conf(self.filename)
+        conf.setSection("2G")
+        conf.setValue("2G", "ppm_limit", ppm_limit)
+    def get_2G_ppm_limit(self):
+        conf = Conf(self.filename)
+        return conf.getValue("2G","ppm_limit")
+    
+    def set_5G_ppm_limit(self, ppm_limit):
+        conf = Conf(self.filename)
+        conf.setSection("5G")
+        conf.setValue("5G", "ppm_limit", ppm_limit)
+    def get_5G_ppm_limit(self):
+        conf = Conf(self.filename)
+        return conf.getValue("5G","ppm_limit")
+    
+    def set_2G_power_limit_ht20(self, power_limit_ht20):
+        conf = Conf(self.filename)
+        conf.setSection("2G")
+        conf.setValue("2G", "power_limit_ht20", power_limit_ht20)
+    def get_2G_power_limit_ht20(self):
+        conf = Conf(self.filename)
+        return conf.getValue("2G","power_limit_ht20")
+    
+    def set_5G_power_limit_ht20(self, power_limit_ht20):
+        conf = Conf(self.filename)
+        conf.setSection("5G")
+        conf.setValue("5G", "power_limit_ht20", power_limit_ht20)
+    def get_5G_power_limit_ht20(self):
+        conf = Conf(self.filename)
+        return conf.getValue("5G","power_limit_ht20")
+    
+    def set_2G_power_limit_ht40(self, power_limit_ht40):
+        conf = Conf(self.filename)
+        conf.setSection("2G")
+        conf.setValue("2G", "power_limit_ht40", power_limit_ht40)
+    def get_2G_power_limit_ht40(self):
+        conf = Conf(self.filename)
+        return conf.getValue("2G","power_limit_ht40")
+    
+    def set_5G_power_limit_ht40(self, power_limit_ht40):
+        conf = Conf(self.filename)
+        conf.setSection("5G")
+        conf.setValue("5G", "power_limit_ht40", power_limit_ht40)
+    def get_5G_power_limit_ht40(self):
+        conf = Conf(self.filename)
+        return conf.getValue("5G","power_limit_ht40")
+        
+    def set_default_config(self):
+        self.set_howtotest_both()
+        self.set_2G_freq_for_lost("2412,2437,2452,2462")
+        self.set_5G_freq_for_lost("5180,5240,5260,5320,5500,5700,5745,5805")
+        self.set_2G_lost_for_freq("19.2,19.2,19.2,19.2")
+        self.set_5G_lost_for_freq("21.5,21.5,21.5,21.5,21,21,21,21.8")
+        self.set_2G_pcdac("40")
+        self.set_5G_pcdac("40")
+        self.set_2G_ppm_limit("20")
+        self.set_5G_ppm_limit("20")
+        self.set_2G_power_limit_ht20("2.5")
+        self.set_5G_power_limit_ht20("2.5")
+        self.set_2G_power_limit_ht40("2")
+        self.set_5G_power_limit_ht40("2")
+        self.set_something("2G", "tx_ht20_freq", "2412,2437,2462")
+        self.set_something("2G", "tx_ht20_rate", "11s,6,t0,t7")
+        self.set_something("2G", "tx_ht20_chain", "1,2")
+        self.set_something("2G", "tx_ht40_freq", "2412,2437,2462")
+        self.set_something("2G", "tx_ht40_rate", "f0,f7")
+        self.set_something("2G", "tx_ht40_chain", "1,2")
+        s = '''
+        self.set_something("2G", "tx_power_ht20_freq", "2412,2437,2462")
+        self.set_something("2G", "tx_power_ht20_rate", "11s,6,t0,t7")
+        self.set_something("2G", "tx_power_ht20_chain", "1,2")
+        self.set_something("2G", "tx_power_ht40_freq", "2412,2437,2462")
+        self.set_something("2G", "tx_power_ht40_rate", "f0,f7")
+        self.set_something("2G", "tx_power_ht40_chain", "1,2")
+        self.set_something("2G", "tx_evm_ht20_freq", "2412,2437,2462")
+        self.set_something("2G", "tx_evm_ht20_rate", "54,t7")
+        self.set_something("2G", "tx_evm_ht20_chain", "1,2")
+        self.set_something("2G", "tx_evm_ht40_freq", "2412,2437,2452")
+        self.set_something("2G", "tx_evm_ht40_rate", "f7")
+        self.set_something("2G", "tx_evm_ht40_chain", "1,2")
+        self.set_something("2G", "tx_evm_ppm_freq", "2437")
+        self.set_something("2G", "tx_evm_ppm_rate", "54")
+        self.set_something("2G", "tx_evm_ppm_chain", "1")
+        self.set_something("2G", "tx_mask_freq", "2437,2462")
+        self.set_something("2G", "tx_mask_rate", "1l,6,t0,f0")
+        self.set_something("2G", "tx_mask_chain", "1,2")
+        '''
+        self.set_something("2G", "rx_freq", "2412,2437,2462")
+        self.set_something("2G", "rx_rate", "5l,54,t7")
+        self.set_something("2G", "rx_chain", "1,2")
+        self.set_something("2G", "rate_for_powerlevel", "5l,11l,6,54,t7,t8,t15,t16,t23,f7,f8,f15,f16,f23,vt0,vt8,vt10,vt18,vt20,vt29,vf0,vf9,vf10,vf19,vf20,vf29,ve0,ve9,ve10,ve19,ve20,ve29,vt7,vf7,ve7")
+        self.set_something("2G", "powerlevel_for_rate", "-90,-90,-82,-65,-65,-82,-64,-82,-64,-64,-79,-61,-79,-61,-82,-59,-82,-59,-82,-59,-79,-54,-79,-54,-79,-54,-76,-51,-76,-51,-76,-51,-65,-62,-59")
+        
+        self.set_something("5G", "tx_ht20_freq", "5180,5500,5805")
+        self.set_something("5G", "tx_ht20_rate", "6,t0,t7")
+        self.set_something("5G", "tx_ht20_chain", "1,2")
+        self.set_something("5G", "tx_ht40_freq", "5180,5500,5805")
+        self.set_something("5G", "tx_ht40_rate", "f0,f7")
+        self.set_something("5G", "tx_ht40_chain", "1,2")
+        s = '''
+        self.set_something("5G", "tx_power_ht20_freq", "5180,5500,5805")
+        self.set_something("5G", "tx_power_ht20_rate", "6,t0,t7")
+        self.set_something("5G", "tx_power_ht20_chain", "1,2")
+        self.set_something("5G", "tx_power_ht40_freq", "5180,5500,5805")
+        self.set_something("5G", "tx_power_ht40_rate", "f0,f7")
+        self.set_something("5G", "tx_power_ht40_chain", "1,2")
+        self.set_something("5G", "tx_evm_ht20_freq", "5180,5500,5805")
+        self.set_something("5G", "tx_evm_ht20_rate", "54,t7")
+        self.set_something("5G", "tx_evm_ht20_chain", "1,2")
+        self.set_something("5G", "tx_evm_ht40_freq", "5180,5500,5805")
+        self.set_something("5G", "tx_evm_ht40_rate", "f7")
+        self.set_something("5G", "tx_evm_ht40_chain", "1,2")
+        self.set_something("5G", "tx_evm_ppm_freq", "5500")
+        self.set_something("5G", "tx_evm_ppm_rate", "54")
+        self.set_something("5G", "tx_evm_ppm_chain", "1")
+        self.set_something("5G", "tx_mask_freq", "5500")
+        self.set_something("5G", "tx_mask_rate", "6,t0,f0")
+        self.set_something("5G", "tx_mask_chain", "1,2")
+        '''
+        self.set_something("5G", "rx_freq", "5180,5500,5805")
+        self.set_something("5G", "rx_rate", "6,54")
+        self.set_something("5G", "rx_chain", "1,2")
+        self.set_something("5G", "rate_for_powerlevel", "5l,11l,6,54,t7,t8,t15,t16,t23,f7,f8,f15,f16,f23,vt0,vt8,vt10,vt18,vt20,vt29,vf0,vf9,vf10,vf19,vf20,vf29,ve0,ve9,ve10,ve19,ve20,ve29,vt7,vf7,ve7")
+        self.set_something("5G", "powerlevel_for_rate", "-90,-90,-82,-65,-65,-82,-64,-82,-64,-64,-79,-61,-79,-61,-82,-59,-82,-59,-82,-59,-79,-54,-79,-54,-79,-54,-76,-51,-76,-51,-76,-51,-65,-62,-59")

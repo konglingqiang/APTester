@@ -1,0 +1,25 @@
+assign 2G.TxTPUT.TPUT.Pass=0
+assign 2G.TxTPUT.TPUT.Fail=0
+assign 2G.TxTPUT.PSR.Pass=0
+assign 2G.TxTPUT.PSR.Fail=0
+
+GOTO name=TXTPUT_Legacy; condition='$2G.TxTput.Legacy.Enable=0'
+link tx=$inst;rx=$instGolden;att=$2G.TxTput.Legacy.attn; pl=1500; ir=2; pc=2048; ch=$rxALLChainMask; r=$2G.TxTput.Legacy.Rate; agg=32; f=$2G.TxTput.Legacy.Freq; bc=$2G.TxTput.boardcast; retry=0; sgi=0;stop='$Test.Error';
+report style=column; title=Legacy TX THROUGHPUT;f=tx.frequency;l=frequency;f=rate;f=agg;l=agg;f=rx.rssi;f=rx.psr;f=duration,byte;f=0.001*rx.throughput;l=rx tput;f=lookup(rate,@TxTput.Rate,@TxTput.tputlimit);label=limit;w=8;f=0.001*rx.throughput-lookup(rate,@TxTput.Rate,@TxTput.tputlimit);label=delta;w=8;f=test(0.001*rx.throughput-lookup(rate,@TxTput.Rate,@TxTput.tputlimit)>0,$passtext,$failtext,@2G.TxTPUT.TPUT.Pass,@2G.TxTPUT.TPUT.Fail);label=100%;type=s,w=8;f=test(rx.psr>90,$passtext,$failtext,@2G.TxTPUT.PSR.Pass,@2G.TxTPUT.PSR.Fail);label=PER;type=s,w=8;
+report style=column; title=Legacy TX RSSI/EVM REPORT;f=rx.frequency;l=frequency;f=rate,rssi,rssi00,rssi01,rssi02,rssi10,rssi11,rssi12,evm0,evm1,evm2;
+GOTO name=TXTPUT_DONE;test='$Test.Error<>0';
+LABEL name=TXTPUT_Legacy;
+
+GOTO name=TXTPUT_DONE; condition='$2G.TxTput.HT20.Enable=0'
+link tx=$inst;rx=$instGolden;att=$2G.TxTput.HT20.attn; pl=1500; ir=2; pc=2048; ch=$rxALLChainMask; r=$2G.TxTput.HT20.Rate; agg=32; f=$2G.TxTput.HT20.Freq; bc=$2G.TxTput.boardcast; retry=0; sgi=0;stop='$Test.Error';
+report style=column; title=2GHz HT20 TX THROUGHPUT;f=tx.frequency;l=frequency;f=rate;f=agg;l=agg;f=rx.rssi;f=rx.psr;f=duration,byte;f=0.001*rx.throughput;l=rx tput;f=lookup(rate,@TxTput.Rate,@TxTput.tputlimit);label=limit;w=8;f=0.001*rx.throughput-lookup(rate,@TxTput.Rate,@TxTput.tputlimit);label=delta;w=8;f=test(0.001*rx.throughput-lookup(rate,@TxTput.Rate,@TxTput.tputlimit)>0,$passtext,$failtext,@2G.TxTPUT.TPUT.Pass,@2G.TxTPUT.TPUT.Fail);label=100%;type=s,w=8;f=test(rx.psr>90,$passtext,$failtext,@2G.TxTPUT.PSR.Pass,@2G.TxTPUT.PSR.Fail);label=PER;type=s,w=8;
+report style=column; title=2GHz HT20 TX RSSI/EVM REPORT;f=rx.frequency;l=frequency;f=rate,rssi,rssi00,rssi01,rssi02,rssi10,rssi11,rssi12,evm0,evm1,evm2;
+GOTO name=TXTPUT_DONE;test='$Test.Error<>0';
+
+GOTO name=TXTPUT_DONE; condition='$2G.TxTput.HT40.Enable=0'
+link tx=$inst;rx=$instGolden;att=$2G.TxTput.HT40.attn; pl=1500; ir=2; pc=2048; ch=$rxALLChainMask; r=$2G.TxTput.HT40.Rate; agg=32; f=$2G.TxTput.HT40.Freq; bc=$2G.TxTput.boardcast; retry=0; sgi=0;stop='$Test.Error';
+report style=column; title=2GHz HT40 TX THROUGHPUT;f=tx.frequency;l=frequency;f=rate;f=agg;l=agg;f=rx.rssi;f=rx.psr;f=duration,byte;f=0.001*rx.throughput;l=rx tput;f=lookup(rate,@TxTput.Rate,@TxTput.tputlimit);label=limit;w=8;f=0.001*rx.throughput-lookup(rate,@TxTput.Rate,@TxTput.tputlimit);label=delta;w=8;f=test(0.001*rx.throughput-lookup(rate,@TxTput.Rate,@TxTput.tputlimit)>0,$passtext,$failtext,@2G.TxTPUT.TPUT.Pass,@2G.TxTPUT.TPUT.Fail);label=100%;type=s,w=8;f=test(rx.psr>90,$passtext,$failtext,@2G.TxTPUT.PSR.Pass,@2G.TxTPUT.PSR.Fail);label=PER;type=s,w=8;
+report style=column; title=2GHz HT40 TX RSSI/EVM REPORT;f=rx.frequency;l=frequency;f=rate,rssi,rssi00,rssi01,rssi02,rssi10,rssi11,rssi12,evm0,evm1,evm2;
+GOTO name=TXTPUT_DONE;test='$Test.Error<>0';
+
+LABEL name=TXTPUT_DONE;

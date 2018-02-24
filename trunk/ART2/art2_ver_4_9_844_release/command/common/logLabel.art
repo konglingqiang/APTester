@@ -1,0 +1,23 @@
+### For instance ---------------------------------
+GOTO name=INST0; condition='$inst=0'
+GOTO name=INST1; condition='$inst=1'
+GOTO name=INST2; condition='$inst=2'
+GOTO name=INST3; condition='$inst=3'
+GOTO name=INST_END;
+
+LABEL name=INST0;
+assign logLabel=$mac	$customer
+GOTO name=INST_END;
+
+LABEL name=INST1;
+assign logLabel=$mac1	$customer1
+GOTO name=INST_END;
+
+LABEL name=INST2;
+assign logLabel=$mac2	$customer2
+GOTO name=INST_END;
+
+LABEL name=INST3;
+assign logLabel=$mac3	$customer3
+LABEL name=INST_END;
+### ----------------------------------------------

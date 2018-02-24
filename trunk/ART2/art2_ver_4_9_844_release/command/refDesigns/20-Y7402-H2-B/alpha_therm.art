@@ -1,0 +1,3 @@
+#DEVICE NAME: AP152-020
+#FILE TYPE:   alpha_therm
+assign alpha_therm_loaded = 1;

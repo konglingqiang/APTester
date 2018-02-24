@@ -1,0 +1,89 @@
+#___________________________________________
+assign empty = 1
+assign 2G.RxTput.HT20.Enable = 0
+assign 2G.RxTput.HT20.Rate = " "
+#___________________________________________
+# RX SENS Test Rate List HT20 1stream
+#___________________________________________
+GOTO name=RXRATE_HT20_1S_DONE; condition='$2G.RxTput.HT20.1Stream.Enable=0'
+assign 2G.RxTput.HT20.Rate = $2G.RxTput.HT20.1Stream.Rate
+assign empty = 0
+LABEL name=RXRATE_HT20_1S_DONE;
+
+#___________________________________________
+# RX SENS Test Rate List HT20 2stream
+#___________________________________________
+GOTO name=RXRATE_HT20_2S_DONE; condition='$2G.RxTput.HT20.2Stream.Enable=0'
+GOTO name=RXRATE_HT20_2S; condition='$empty=0'
+assign 2G.RxTput.HT20.Rate = $2G.RxTput.HT20.2Stream.Rate
+assign empty = 0
+GOTO name=RXRATE_HT20_2S_DONE;
+LABEL name=RXRATE_HT20_2S;
+assign 2G.RxTput.HT20.Rate = $2G.RxTput.HT20.Rate, $2G.RxTput.HT20.2Stream.Rate
+LABEL name=RXRATE_HT20_2S_DONE;
+
+#___________________________________________
+# RX SENS Test Rate List HT20 3stream
+#___________________________________________
+GOTO name=RXRATE_HT20_3S_DONE; condition='$2G.RxTput.HT20.3Stream.Enable=0'
+GOTO name=RXRATE_HT20_3S; condition='$empty=0'
+assign 2G.RxTput.HT20.Rate = $2G.RxTput.HT20.3Stream.Rate
+assign empty = 0
+GOTO name=RXRATE_HT20_3S_DONE;
+LABEL name=RXRATE_HT20_3S;
+assign 2G.RxTput.HT20.Rate = $2G.RxTput.HT20.Rate, $2G.RxTput.HT20.3Stream.Rate
+LABEL name=RXRATE_HT20_3S_DONE;
+#___________________________________________
+# check 3stream enable or not for HT20
+#___________________________________________
+GOTO name=RXRATE_HT20_ENABLE; condition='$empty=1'
+assign 2G.RxTput.HT20.Enable=1
+LABEL name=RXRATE_HT20_ENABLE;
+#___________________________________________
+
+
+#___________________________________________
+assign empty = 1
+assign 2G.RxTput.HT40.Enable = 0
+GOTO name=RXRATE_HT40_ENABLE; condition='$2G.HT40.Disable=1'
+assign 2G.RxTput.HT40.Rate = " "
+#___________________________________________
+# RX SENS Test Rate List HT40 1stream
+#___________________________________________
+GOTO name=RXRATE_HT40_1S_DONE; condition='$2G.RxTput.HT40.1Stream.Enable=0'
+assign 2G.RxTput.HT40.Rate = $2G.RxTput.HT40.1Stream.Rate
+assign empty = 0
+LABEL name=RXRATE_HT40_1S_DONE;
+
+#___________________________________________
+# RX SENS Test Rate List HT40 2stream
+#___________________________________________
+GOTO name=RXRATE_HT40_2S_DONE; condition='$2G.RxTput.HT40.2Stream.Enable=0'
+GOTO name=RXRATE_HT40_2S; condition='$empty=0'
+assign 2G.RxTput.HT40.Rate = $2G.RxTput.HT40.2Stream.Rate
+assign empty = 0
+GOTO name=RXRATE_HT40_2S_DONE;
+LABEL name=RXRATE_HT40_2S;
+assign 2G.RxTput.HT40.Rate = $2G.RxTput.HT40.Rate, $2G.RxTput.HT40.2Stream.Rate
+LABEL name=RXRATE_HT40_2S_DONE;
+
+#___________________________________________
+# RX SENS Test Rate List HT40 3stream
+#___________________________________________
+GOTO name=RXRATE_HT40_3S_DONE; condition='$2G.RxTput.HT40.3Stream.Enable=0'
+GOTO name=RXRATE_HT40_3S; condition='$empty=0'
+assign 2G.RxTput.HT40.Rate = $2G.RxTput.HT40.3Stream.Rate
+assign empty = 0
+GOTO name=RXRATE_HT40_3S_DONE;
+LABEL name=RXRATE_HT40_3S;
+assign 2G.RxTput.HT40.Rate = $2G.RxTput.HT40.Rate, $2G.RxTput.HT40.3Stream.Rate
+LABEL name=RXRATE_HT40_3S_DONE;
+#___________________________________________
+# check 3stream enable or not for HT40
+#___________________________________________
+GOTO name=RXRATE_HT40_ENABLE; condition='$empty=1'
+assign 2G.RxTput.HT40.Enable=1
+LABEL name=RXRATE_HT40_ENABLE;
+#___________________________________________
+
+

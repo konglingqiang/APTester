@@ -1,0 +1,69 @@
+##-----------------------------------------------------------------
+# if saveEEPCalDisable=1, then skip savePCIe & eepCheck
+##-----------------------------------------------------------------
+GOTO name=EEP_ENABLE; condition='$calibration.data.save.enable<>0'
+GOTO name=EEPW_END;
+LABEL name=EEP_ENABLE; 
+
+##-----------------------------------------------------------------
+# if no TxCal & RxCal, no eep save.
+##-----------------------------------------------------------------
+GOTO name=NOCAL_END; condition='$tx.calibration.data.save.enable<>0'
+GOTO name=NOCAL_END; condition='$rx.calibration.data.save.enable<>0
+GOTO name=NOCAL_END; condition='$xtal.calibration.data.save.enable<>0'
+GOTO name=EEPW_END;
+LABEL name=NOCAL_END; 
+
+##-----------------------------------------------------------------
+## tx.calibration.data.save.enable = 2; save cal data when all pass
+##-----------------------------------------------------------------
+
+GOTO name=SAVE_EEPCAL; condition='$calibration.data.save.enable=1'
+show FailTotal
+GOTO name=SAVE_EEPCAL; condition='$FailTotal=0'
+comment title='	test fails skip EEP writing!'
+GOTO name=EEPW_END;
+
+LABEL name=SAVE_EEPCAL; 
+comment title='	save EEP'
+hello i=$inst;
+GOTO name=DEFAULT_MEM; condition='$HAL.Memory.Output.Disable=0'
+commit  i=$inst; memory=$HAL.Memory.Output
+GOTO name=MEM_DONE;
+
+LABEL name=DEFAULT_MEM; 
+commit  i=$inst;
+LABEL name=MEM_DONE;
+GOTO name=EEPW_ERROR;test='$Test.Error<>0';
+
+##-----------------------------------------------------------------
+GOTO name=EEPW_ERROR;test='$Test.Error<>0';
+GOTO name=PCIE_DONE; condition='$calibration.pcie.save.enable=0'
+comment title='	save PCIe'
+# pcie will not save to flash, only to EEPROM/OTP
+pcie  i=$inst;
+LABEL name=PCIE_DONE;
+GOTO name=EEPW_ERROR;test='$Test.Error<>0';
+
+##-----------------------------------------------------------------
+LABEL name=EEPW_END; condition='$calibration.memory.check.enable=0'
+#comment title='	EEP check'
+GOTO name=DEFAULT_MEM_CHECK; condition='$HAL.Memory.Output.Disable=0'
+check  i=$inst; memory=$HAL.Memory.Output
+GOTO name=CHECK_DONE;
+
+LABEL name=DEFAULT_MEM_CHECK; 
+check  i=$inst;
+LABEL name=CHECK_DONE;
+hello  i=$inst;
+report r='c f=ec.address,code,template,length,major,minor,csm,csc,status;type=x,d,d,d,d,d,x,x,s;'
+GOTO name=EEPW_ERROR;test='$Test.Error<>0';
+##-----------------------------------------------------------------
+
+GOTO name=EEPW_END;
+
+LABEL name=EEPW_ERROR;
+show $Test.Error
+assign errDetected=1
+
+LABEL name=EEPW_END;

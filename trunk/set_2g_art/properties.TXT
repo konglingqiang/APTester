@@ -1,0 +1,19 @@
+#properties.txt for AP152-020
+#This is a DBDC design; 
+#Second radio is onboard;
+
+
+dbdc=1
+
+#first radio 
+
+load.devid=0x3f
+load.memory=flash
+
+
+# second radio
+
+2_load.devid=0x3c
+2_load.memory=file
+2_setconfig.DEVDRV_INTERFACE=5
+2_setconfig.EEPROM_FILE= boardData_3_QC98XX_cus223_120_gld.bin

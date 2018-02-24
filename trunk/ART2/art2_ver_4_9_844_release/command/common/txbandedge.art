@@ -1,0 +1,106 @@
+
+assign artreport=D:\dvt_report\txbandedge;
+
+#===========================================
+# User's setting area ---> 
+#===========================================
+assign BdgInst=0;
+assign BdgLimit=-51; 
+
+assign Bdg2gDisable=0;
+assign Bdg5gDisable=1;
+
+assign BdgTp=target;
+assign BdgTp2=target;
+#assign BdgTp=0:22:1;
+#assign BdgTp2=0:18:1;
+assign BdgChain=1,2,4;
+
+assign Bdg2gCckFreqLeft=2412,2437;
+assign Bdg2gCckFreqRight=2437,2462;
+assign Bdg2gCckRate=1l,6;
+
+assign Bdg2gHt20FreqLeft=2412,2437;
+assign Bdg2gHt20FreqRight=2437,2462;
+assign Bdg2gHt20Rate=t0;
+
+assign Bdg2gHt40FreqLeft=2412,2427;
+assign Bdg2gHt40FreqRight=2427,2442;
+assign Bdg2gHt40Rate=f0;
+
+assign Bdg5gHt20Freq1=5180;
+assign Bdg5gHt20Freq2=5320;
+assign Bdg5gHt20Freq3=5500;
+assign Bdg5gHt20Rate=t0;
+
+assign Bdg5gHt40Freq1=5190;
+assign Bdg5gHt40Freq2=5310;
+assign Bdg5gHt40Freq3=5510;
+assign Bdg5gHt40Rate=f0;
+
+#===========================================
+# main script start ---> 
+#===========================================
+assign BdgPassText=.
+assign BdgFailText=FAIL
+assign Bdg2gPassCount=0
+assign Bdg2gFailCount=0
+assign Bdg5gPassCount=0
+assign Bdg5gFailCount=0
+
+#===========================================
+# 2g cck left --->
+branch name=2GSkip; action=goto; condition='$Bdg2gDisable=1'
+tx tx=$BdgInst;f=$Bdg2gCckFreqLeft;r=$Bdg2gCckRate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp;ir=2;tx99=1;pm=1;spur=3;sfstart=2310;sfstop=2390;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+# 2g cck right --->
+tx tx=$BdgInst;f=$Bdg2gCckFreqRight;r=$Bdg2gCckRate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp;ir=2;tx99=1;pm=1;spur=3;sfstart=2483;sfstop=2500;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+# 2g ht20 left --->
+tx tx=$BdgInst;f=$Bdg2gHt20FreqLeft;r=$Bdg2gHt20Rate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp2;ir=2;tx99=1;pm=1;spur=3;sfstart=2310;sfstop=2390;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+# 2g ht20 right --->
+tx tx=$BdgInst;f=$Bdg2gHt20FreqRight;r=$Bdg2gHt20Rate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp2;ir=2;tx99=1;pm=1;spur=3;sfstart=2483;sfstop=2500;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+# 2g ht40 left --->
+tx tx=$BdgInst;f=$Bdg2gHt40FreqLeft;r=$Bdg2gHt40Rate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp2;ir=2;tx99=1;pm=1;spur=3;sfstart=2310;sfstop=2390;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+# 2g ht40 right --->
+tx tx=$BdgInst;f=$Bdg2gHt40FreqRight;r=$Bdg2gHt40Rate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp2;ir=2;tx99=1;pm=1;spur=3;sfstart=2483;sfstop=2500;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+branch name=2GSkip; action=start;
+
+#===========================================
+branch name=5GSkip; action=goto; condition='$Bdg5gDisable=1'
+
+# 5g ht20 freq 1 --->
+tx tx=$BdgInst;f=$Bdg5gHt20Freq1;r=$Bdg5gHt20Rate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp;ir=2;tx99=1;spur=2;sfstart=4500;sfstop=5150;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+# 5g ht20 freq 2 --->
+tx tx=$BdgInst;f=$Bdg5gHt20Freq2;r=$Bdg5gHt20Rate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp;ir=2;tx99=1;pm=1;spur=3;sfstart=5350;sfstop=5470;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+# 5g ht20 freq 3 --->
+tx tx=$BdgInst;f=$Bdg5gHt20Freq3;r=$Bdg5gHt20Rate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp;ir=2;tx99=1;pm=1;spur=3;sfstart=5350;sfstop=5470;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+# 5g ht40 freq 1 --->
+tx tx=$BdgInst;f=$Bdg5gHt40Freq1;r=$Bdg5gHt40Rate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp;ir=2;tx99=1;pm=1;spur=3;sfstart=4500;sfstop=5150;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+# 5g ht40 freq 2 --->
+tx tx=$BdgInst;f=$Bdg5gHt40Freq2;r=$Bdg5gHt40Rate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp;ir=2;tx99=1;pm=1;spur=3;sfstart=5350;sfstop=5470;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+# 5g ht40 freq 3 --->
+tx tx=$BdgInst;f=$Bdg5gHt40Freq3;r=$Bdg5gHt40Rate;ch=$BdgChain;att=0;pl=1500;pc=1000000;tp=$BdgTp;ir=2;tx99=1;pm=1;spur=3;sfstart=5350;sfstop=5470;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=pm.rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=2GHz Tx cck Bdg Scan;report style=column; f=spur.frequency;l=frequency;f=rate,txchain,tp;f=pm.power;f=spur.startfreq;f=stopfreq,spurfreq;f=spurpower; w=4; d=2;f=test(spurpower <= $BdgLimit,$BdgPassText,$BdgFailText,@Bdg2gPassCount,@Bdg2gFailCount);l=Bdg_P/F;type=s;width=12;title=Tx Bdg Scan;sort=pm.txchain;
+
+branch name=5GSkip; action=start;

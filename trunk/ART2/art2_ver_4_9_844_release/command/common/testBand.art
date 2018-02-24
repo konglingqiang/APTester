@@ -1,0 +1,50 @@
+assign 2G.Test.Disable = 0
+assign 5G.Test.Disable = 0
+#___________________________________________
+# check 2G/5G band selection based on 
+# 1.2G/5G.Disable settings in test_flow_flags 
+# 2.Nart read back 2G/5G setting
+#  (a) Based on chip read back for band availablility
+#  (b) EEPROM seeting for opflags 
+#___________________________________________
+
+GOTO name=INST0; condition='$inst=0'
+GOTO name=2GHZ_DONE1; condition='$2G.Disable=0'
+assign 2G.Test.Disable = 1
+LABEL name=2GHZ_DONE1;
+
+GOTO name=2GHZ_DONE; condition='$2GHz1=1'
+# not 2G DUT, must disable 2GHz, otherwise, take 2G.Test.Disable defined in enable_flow
+assign 2G.Test.Disable = 1
+LABEL name=2GHZ_DONE;
+
+GOTO name=5GHZ_DONE1; condition='$5G.Disable=0'
+assign 5G.Test.Disable = 1
+LABEL name=5GHZ_DONE1;
+
+GOTO name=5GHZ_DONE; condition='$5GHz1=1'
+# not 5G DUT, must disable 5GHz, otherwise, take 5G.Test.Disable defined in enable_flow
+assign 5G.Test.Disable = 1
+LABEL name=5GHZ_DONE;
+GOTO name=INST_END;
+
+Label name=INST0;
+# not 2G DUT, must disable 2GHz, otherwise, take 2G.Test.Disable defined in enable_flow
+GOTO name=2GHZ0_DONE1; condition='$2G.Disable=0'
+assign 2G.Test.Disable = 1
+LABEL name=2GHZ0_DONE1;
+
+GOTO name=2GHZ0_DONE; condition='$2GHz=1'
+assign 2G.Test.Disable = 1
+LABEL name=2GHZ0_DONE;
+
+GOTO name=5GHZ0_DONE1; condition='$5G.Disable=0'
+assign 5G.Test.Disable = 1
+LABEL name=5GHZ0_DONE1;
+
+GOTO name=5GHZ0_DONE; condition='$5GHz=1'
+# not 5G DUT, must disable 5GHz, otherwise, take 5G.Test.Disable defined in enable_flow
+assign 5G.Test.Disable = 1
+LABEL name=5GHZ0_DONE;
+
+Label name=INST_END;

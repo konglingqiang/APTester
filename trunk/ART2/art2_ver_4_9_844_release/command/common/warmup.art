@@ -1,0 +1,39 @@
+# assign 2G.txgain.init=60, defined in test_init.art
+# assign 5G.txgain.init=60, defined in test_init.art
+# this value need to be customized for some design to prevent chip burn. in $refdesign-ini.art
+
+#___________________________________________
+# chip warm up
+#___________________________________________
+GOTO name=TxPowerNoCal; condition='$TxPowerCal.Enable=0'
+#___________________________________________
+# if cal enable, use txgain
+#___________________________________________
+GOTO name=2GWarmUp_DONE; condition='$2G.Test.Disable=1'
+tx  tx=$inst; att=0;f=2412;r=t0;pc=5000;txgain=$2G.txgain.init;ch=$txALLChainMask;
+GOTO name=TxPowerCal_DONE;test='$Test.Error<>0';
+GOTO  name=5GWarmUp_DONE;
+LABEL name=2GWarmUp_DONE;
+
+GOTO name=5GWarmUp_DONE; condition='$5G.Test.Disable=1'
+tx tx=$inst; att=0;f=5180;r=t0;pc=5000;txgain=$5G.txgain.init;ch=$txALLChainMask;
+GOTO name=TxPowerCal_DONE;test='$Test.Error<>0';
+LABEL name=5GWarmUp_DONE;
+
+GOTO name=TxPowerCal_DONE;
+#___________________________________________
+# if cal disable, use target power
+#___________________________________________
+LABEL name=TxPowerNoCal;
+GOTO name=2GWarmUpNOcal_DONE; condition='$2G.Test.Disable=1'
+tx tx=$inst; att=0;f=2412;r=t0;pc=5000;ch=$txALLChainMask;
+GOTO name=TxPowerCal_DONE;test='$Test.Error<>0';
+GOTO  name=5GWarmUpNOcal_DONE;
+LABEL name=2GWarmUpNOcal_DONE;
+
+GOTO name=5GWarmUpNOcal_DONE; condition='$5G.Test.Disable=1'
+tx tx=$inst; att=0;f=5180;r=t0;pc=5000;ch=$txALLChainMask;
+GOTO name=TxPowerCal_DONE;test='$Test.Error<>0';
+LABEL name=5GWarmUpNOcal_DONE;
+
+LABEL name=TxPowerCal_DONE;

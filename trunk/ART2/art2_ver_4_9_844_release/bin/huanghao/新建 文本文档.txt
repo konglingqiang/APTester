@@ -1,0 +1,3 @@
+pathloss=19.5
+
+ref :E:\art2_ver_4_9_844_release\art2_ver_4_9_844_release\bin

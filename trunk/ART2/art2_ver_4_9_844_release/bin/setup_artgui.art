@@ -1,0 +1,31 @@
+assign artGuiMode=0;
+
+assign artGui_txPwrDisable2g=0
+assign artGui_txEVMDisable2g=0
+assign artGui_maskDisable2g=0
+assign artGui_channAccDisable2g=0
+assign artGui_txPerDisable2g=0
+assign artGui_tputTx2gDisable=0
+assign artGui_btxPerDisable2g=0
+assign artGui_btputTx2gDisable=0
+assign artGui_rxsensDisable2g=0
+assign artGui_rxPerDisable2g=0
+assign artGui_tputRx2gDisable=0
+                         
+assign artGui_txPwrDisable5g=0
+assign artGui_txEVMDisable5g=0
+assign artGui_maskDisable5g=0
+assign artGui_channAccDisable5g=0
+assign artGui_txPerDisable5g=0
+assign artGui_tputTx5gDisable=0
+assign artGui_btxPerDisable5g=0
+assign artGui_btputTx5gDisable=0
+assign artGui_rxsensDisable5g=0
+assign artGui_rxPerDisable5g=0
+assign artGui_tputRx5gDisable=0
+                         
+assign artGui_txCalDisable2g=0
+assign artGui_txCalDisable5g=0
+assign artGui_rxCalDisable2g=0
+assign artGui_rxCalDisable5g=0
+

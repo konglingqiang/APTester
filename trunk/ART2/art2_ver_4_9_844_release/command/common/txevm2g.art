@@ -1,0 +1,63 @@
+
+assign artreport=D:\dvt_report\evm;
+
+
+assign do_cck	=0
+assign do_legacy=0
+assign do_ht20	=0
+assign do_ht40	=1
+
+#assign 2g.ht20.freq		=2412,2437,2462,2472
+#assign 2g.ht40.freq		=2412,2427,2442,2452
+assign 2g.ht20.freq		=2412
+assign 2g.ht40.freq		=2412
+
+assign txm		=7
+assign rxm		=7
+
+assign evm.ch	= 1,2,4;
+assign evm.avg=5
+#assign evm.tp=12:18:1
+assign evm.tp=target
+
+assign evm.legacy.1Stream.Rate=54
+assign evm.ht20.1Stream.Rate=t7
+assign evm.ht40.1Stream.Rate=f7
+assign evm.ht20.combine.rate=t15,t23
+assign evm.ht40.combine.rate=f15,f23
+
+# Must add for combined EVM test.
+sw i=0; a=BB_scrambler_seed.fixed_scrambler_seed;v=1
+sw i=0; a=BB_phyonly_control.generate_scrambler;v=0
+sw i=0;	a=BB_gen_controls.cf_3_chains_use_walsh;v=0
+
+branch name=HT20;condition='$do_legacy=0'
+
+tx pl=4000;pc=1000000;f=$2g.ht20.freq;tp=$evm.tp;r=$evm.legacy.1Stream.Rate;ir=2;ch=$evm.ch;evm=1;tx99=1;average=$evm.avg;
+report style=column;f=tx.frequency,rate,txchain,tp;f=evm.power,evm.evmv,evm.ppm,evm.carrierleakagedb;sort=evm.rate;
+
+label name=HT20
+branch name=HT40;condition='$do_ht20=0'
+
+# 1 stream.
+tx pl=4000;pc=1000000;f=$2g.ht20.freq;tp=$evm.tp;r=$evm.ht20.1Stream.Rate;ir=2;ch=$evm.ch;evm=1;tx99=1;average=$evm.avg;
+report style=column;f=tx.frequency,rate,txchain,tp;f=evm.power,evm.evmv,evm.ppm,evm.carrierleakagedb;sort=evm.rate;
+
+# combine
+tx pl=4000;pc=1000000;f=$2g.ht20.freq;tp=$evm.tp;r=$evm.ht20.combine.rate;ir=2;ch=$txm;evm=2;tx99=1;average=$evm.avg;
+report style=column;f=evm.freq,rate,txchain,tp;f=evm.power,evm.evmv,evm.ppm,evm.carrierleakagedb;sort=evm.rate;
+
+label name=HT40
+branch name=HT20_MULTI;condition='$do_ht40=0'
+
+# 1 stream.
+tx pl=4000;pc=1000000;f=$2g.ht20.freq;tp=$evm.tp;r=$evm.ht40.1Stream.Rate;ir=2;ch=$evm.ch;evm=1;tx99=1;average=$evm.avg;
+report style=column;f=tx.frequency,rate,txchain,tp;f=evm.power,evm.evmv,evm.ppm,evm.carrierleakagedb;sort=evm.rate;
+
+# combine
+tx pl=4000;pc=1000000;f=$2g.ht40.freq;tp=$evm.tp;r=$evm.ht40.combine.rate;ir=2;ch=$txm;evm=2;tx99=1;average=$evm.avg;
+report style=column;f=evm.freq,rate,txchain,tp;f=evm.power,evm.evmv,evm.ppm,evm.carrierleakagedb;sort=evm.rate;
+
+label name=TESTEND
+
+

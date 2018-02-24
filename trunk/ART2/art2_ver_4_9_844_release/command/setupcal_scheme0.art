@@ -1,0 +1,13 @@
+# This is sample calibration configuration file
+# Wasp osprey
+assign inst=0;
+setcal i=$inst; dll=cal-2p;
+setcal i=$inst; scheme=0;
+setcal i=$inst; CalibrationAttempt=5; 
+setcal i=$inst; PowerGoalMode=0;
+setcal i=$inst; 2gfreq=2412,2437,2462;
+setcal i=$inst; 5gfreq=5180,5260,5320,5500,5600,5700,5785,5825;
+setcal i=$inst; TxGainSlope=2.0;
+setcal i=$inst; PowerDeviation=2.0;
+#For Mckinley
+setcal i=$inst; resetUnusedPiers=1;

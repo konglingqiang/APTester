@@ -1,0 +1,190 @@
+#___________________________________________
+# TX Power Test
+#___________________________________________
+
+#___________________________________________
+# Get TX Power Test Rate Selection 
+# to find 1Stream.Enable/MStream.Enable
+#___________________________________________
+GOTO name=TX5G_POWER_DONE; condition='$5G.TxPower.Enable=0'
+test_tx\Rate\Rate_TxPowerTest_5g.art
+
+#___________________________________________
+# 1Stream TX Power Test
+#___________________________________________
+GOTO name=TX5G_POWER_Rate_1Stream; condition='$5G.TxPower.1Stream.Enable=0'
+test_tx\TxPowerTest_5g_1Stream.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_POWER_Rate_1Stream;
+
+#___________________________________________
+# MStream TX Power Test
+#___________________________________________
+GOTO name=TX5G_POWER_HT20; condition='$5G.TxPower.HT20.2Stream.Enable=1'
+GOTO name=TX5G_POWER_HT20; condition='$5G.TxPower.HT20.3Stream.Enable=1'
+GOTO name=TX5G_POWER_HT20_DONE;
+
+LABEL name=TX5G_POWER_HT20;
+assign 5G.TxPower.test.Enable=1
+test_tx\TxPowerTest_5gHT20_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_POWER_HT20_DONE;
+
+GOTO name=TX5G_POWER_HT40_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TX5G_POWER_HT40; condition='$5G.TxPower.HT40.2Stream.Enable=1'
+GOTO name=TX5G_POWER_HT40; condition='$5G.TxPower.HT40.3Stream.Enable=1'
+GOTO name=TX5G_POWER_HT40_DONE;
+
+LABEL name=TX5G_POWER_HT40;
+assign 5G.TxPower.test.Enable=1
+test_tx\TxPowerTest_5gHT40_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_POWER_HT40_DONE;
+
+GOTO name=TX5G_POWER_VHT20_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TX5G_POWER_VHT20; condition='$5G.TxPower.VHT20.2Stream.Enable=1'
+GOTO name=TX5G_POWER_VHT20; condition='$5G.TxPower.VHT20.3Stream.Enable=1'
+GOTO name=TX5G_POWER_VHT20_DONE;
+
+LABEL name=TX5G_POWER_VHT20;
+assign 5G.TxPower.test.Enable=1
+test_tx\TxPowerTest_5gVHT20_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_POWER_VHT20_DONE;
+
+GOTO name=TX5G_POWER_VHT40_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TX5G_POWER_VHT40; condition='$5G.TxPower.VHT40.2Stream.Enable=1'
+GOTO name=TX5G_POWER_VHT40; condition='$5G.TxPower.VHT40.3Stream.Enable=1'
+GOTO name=TX5G_POWER_VHT40_DONE;
+
+LABEL name=TX5G_POWER_VHT40;
+assign 5G.TxPower.test.Enable=1
+test_tx\TxPowerTest_5gVHT40_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_POWER_VHT40_DONE;
+
+GOTO name=TX5G_POWER_VHT80_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TX5G_POWER_VHT80; condition='$5G.TxPower.VHT80.2Stream.Enable=1'
+GOTO name=TX5G_POWER_VHT80; condition='$5G.TxPower.VHT80.3Stream.Enable=1'
+GOTO name=TX5G_POWER_VHT80_DONE;
+
+LABEL name=TX5G_POWER_VHT80;
+assign 5G.TxPower.test.Enable=1
+test_tx\TxPowerTest_5gVHT80_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_POWER_VHT80_DONE;
+
+LABEL name=TX5G_POWER_DONE;
+#___________________________________________
+
+#___________________________________________
+# TX EVM Test
+#___________________________________________
+GOTO name=TX5G_EVM_DONE; condition='$5G.TxEVM.Enable=0'
+GOTO name=TX5G_EVM_DONE; condition='$Equipment.VSA.Chains=0'
+#___________________________________________
+# Get TX EVM Test Rate Selection 
+# to find 1Stream.Enable/MStream.Enable
+#___________________________________________
+test_tx\Rate\Rate_TxEVMTest_5g.art
+
+#___________________________________________
+# 1Stream TX EVM Test
+#___________________________________________
+GOTO name=TX5G_EVM_Rate_1Stream; condition='$5G.TxEVM.1Stream.Enable=0'
+test_tx\TxEVMTest_5g_1Stream.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_EVM_Rate_1Stream;
+#___________________________________________
+# MStream TX EVM Test
+#___________________________________________
+GOTO name=TX5G_EVM_HT20; condition='$5G.TxEVM.HT20.2Stream.Enable=1'
+GOTO name=TX5G_EVM_HT20; condition='$5G.TxEVM.HT20.3Stream.Enable=1'
+GOTO name=TX5G_EVM_HT20_DONE;
+
+LABEL name=TX5G_EVM_HT20;
+assign 5G.TxEVM.test.Enable=1
+test_tx\TxEVMTest_5gHT20_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_EVM_HT20_DONE;
+
+GOTO name=TX5G_EVM_HT40_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TX5G_EVM_HT40; condition='$5G.TxEVM.HT40.2Stream.Enable=1'
+GOTO name=TX5G_EVM_HT40; condition='$5G.TxEVM.HT40.3Stream.Enable=1'
+GOTO name=TX5G_EVM_HT40_DONE;
+
+LABEL name=TX5G_EVM_HT40;
+assign 5G.TxEVM.test.Enable=1
+test_tx\TxEVMTest_5gHT40_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_EVM_HT40_DONE;
+
+GOTO name=TX5G_EVM_VHT20_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TX5G_EVM_VHT20; condition='$5G.TxEVM.VHT20.2Stream.Enable=1'
+GOTO name=TX5G_EVM_VHT20; condition='$5G.TxEVM.VHT20.3Stream.Enable=1'
+GOTO name=TX5G_EVM_VHT20_DONE;
+
+LABEL name=TX5G_EVM_VHT20;
+assign 5G.TxEVM.test.Enable=1
+test_tx\TxEVMTest_5gVHT20_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_EVM_VHT20_DONE;
+
+GOTO name=TX5G_EVM_VHT40_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TX5G_EVM_VHT40; condition='$5G.TxEVM.VHT40.2Stream.Enable=1'
+GOTO name=TX5G_EVM_VHT40; condition='$5G.TxEVM.VHT40.3Stream.Enable=1'
+GOTO name=TX5G_EVM_VHT40_DONE;
+
+LABEL name=TX5G_EVM_VHT40;
+assign 5G.TxEVM.test.Enable=1
+test_tx\TxEVMTest_5gVHT40_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_EVM_VHT40_DONE;
+
+GOTO name=TX5G_EVM_VHT80_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TX5G_EVM_VHT80; condition='$5G.TxEVM.VHT80.2Stream.Enable=1'
+GOTO name=TX5G_EVM_VHT80; condition='$5G.TxEVM.VHT80.3Stream.Enable=1'
+GOTO name=TX5G_EVM_VHT80_DONE;
+
+LABEL name=TX5G_EVM_VHT80;
+assign 5G.TxEVM.test.Enable=1
+test_tx\TxEVMTest_5gVHT80_Streams.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_EVM_VHT80_DONE;
+
+LABEL name=TX5G_EVM_DONE;
+#___________________________________________
+
+#___________________________________________
+# TX Freq Accuracy Test
+#___________________________________________
+GOTO name=TX5G_PPM_DONE; condition='$5G.TxFreqAccuracy.Enable=0'
+test_tx\freq_accuracy_5g.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+LABEL name=TX5G_PPM_DONE;
+
+#___________________________________________
+# TX MASK Test
+#___________________________________________
+GOTO name=TX5G_MASK_DONE; condition='$5G.TxMASK.Enable=0'
+test_tx\Rate\Rate_TxMaskTest_5g.art
+
+GOTO name=TX5G_Mask_TEST; condition='$5G.TxMask.1Stream.Enable=1'
+GOTO name=TX5G_Mask_TEST; condition='$5G.TxMask.MStream.Enable=1'
+GOTO name=TX5G_MASK_DONE;
+
+LABEL name=TX5G_Mask_TEST;
+test_tx\TxMask_5g.art
+GOTO name=PT_ERROR;test='$Test.Error<>0';
+
+LABEL name=TX5G_Mask_DONE;
+#___________________________________________
+
+#___________________________________________
+GOTO name=PT_DONE;
+
+LABEL name=PT_ERROR;
+show $Test.Error
+assign errDetected=1
+
+LABEL name=PT_DONE;

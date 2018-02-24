@@ -1,0 +1,53 @@
+
+assign Tx.Enable=1
+assign Rx.Enable=1
+
+assign ALLChainMask=7
+
+assign 2G.Tput.Rate=11L,54,t7,t8,t15,f7,f8,f15
+
+assign 2G.TxTput.attn=20:100:1
+assign 2G.RxTput.attn=20:100:1
+
+### Tx throughput ---->
+GOTO name=RX_TEST; condition='$Tx.Enable=0'
+
+assign artreport=D:\dvt_report\tx_tput2g;
+
+link tx=0;rx=1;f=2412; att=$2G.TxTput.attn; pl=1500; ir=2; pc=2048; ch=$ALLChainMask; r=$2G.Tput.Rate; ht40=2; agg=32; bc=0; retry=0; sgi=0;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+report style=column; f=tx.frequency;l=frequency;f=rate,txchain,att;f=0.001*rx.throughput;title=2GHz TX THROUGHPUT;
+#report r='table title=2GHz TX THROUGHPUT;f=tx.rate;f=tx.att;f=0.001*rx.throughput;d=0;key=tx.frequency';
+
+link tx=0;rx=1;f=2437; att=$2G.TxTput.attn; pl=1500; ir=2; pc=2048; ch=$ALLChainMask; r=$2G.Tput.Rate; ht40=2; agg=32; bc=0; retry=0; sgi=0;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+report style=column; f=tx.frequency;l=frequency;f=rate,txchain,att;f=0.001*rx.throughput;title=2GHz TX THROUGHPUT;
+#report r='table title=2GHz TX THROUGHPUT;f=tx.rate;f=tx.att;f=0.001*rx.throughput;d=0;key=tx.frequency';
+
+link tx=0;rx=1;f=2462; att=$2G.TxTput.attn; pl=1500; ir=2; pc=2048; ch=$ALLChainMask; r=$2G.Tput.Rate; ht40=2; agg=32; bc=0; retry=0; sgi=0;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+report style=column; f=tx.frequency;l=frequency;f=rate,txchain,att;f=0.001*rx.throughput;title=2GHz TX THROUGHPUT;
+#report r='table title=2GHz TX THROUGHPUT;f=tx.rate;f=tx.att;f=0.001*rx.throughput;d=0;key=tx.frequency';
+
+### Rx throughput ---->
+LABEL name=RX_TEST;
+GOTO name=end; condition='$Rx.Enable=0'
+
+assign artreport=D:\dvt_report\rx_tput2g;
+
+link tx=1;rx=0;f=2412; att=$2G.RxTput.attn; pl=1500; ir=2; pc=2048; ch=$ALLChainMask; r=$2G.Tput.Rate; ht40=2; agg=32; bc=0; retry=0; sgi=0;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+report style=column; f=tx.frequency;l=frequency;f=rate,txchain,att;f=0.001*rx.throughput;title=2GHz RX THROUGHPUT;
+#report r='table title=2GHz RX THROUGHPUT;f=tx.rate;f=tx.att;f=0.001*rx.throughput;d=0;key=tx.frequency';
+
+link tx=1;rx=0;f=2437; att=$2G.RxTput.attn; pl=1500; ir=2; pc=2048; ch=$ALLChainMask; r=$2G.Tput.Rate; ht40=2; agg=32; bc=0; retry=0; sgi=0;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+report style=column; f=tx.frequency;l=frequency;f=rate,txchain,att;f=0.001*rx.throughput;title=2GHz RX THROUGHPUT;
+#report r='table title=2GHz RX THROUGHPUT;f=tx.rate;f=tx.att;f=0.001*rx.throughput;d=0;key=tx.frequency';
+
+link tx=1;rx=0;f=2462; att=$2G.RxTput.attn; pl=1500; ir=2; pc=2048; ch=$ALLChainMask; r=$2G.Tput.Rate; ht40=2; agg=32; bc=0; retry=0; sgi=0;stop='$Test.Error';
+GOTO name=end;test='$test.Error<>0';
+report style=column; f=tx.frequency;l=frequency;f=rate,txchain,att;f=0.001*rx.throughput;title=2GHz RX THROUGHPUT;
+#report r='table title=2GHz RX THROUGHPUT;f=tx.rate;f=tx.att;f=0.001*rx.throughput;d=0;key=tx.frequency';
+
+LABEL name=end;

@@ -1,0 +1,38 @@
+assign 5G.TxPower.HT40.Streams.Pass=0
+assign 5G.TxPower.HT40.Streams.Fail=0
+
+# $chainList=1,2,4
+# $5G.TxPower.Limit=1.5
+# $5G.TxPower.HT40.Freq=5180,5500,5785
+# $5G.TxPower.HT40.2Stream.Rate=f15
+# $5G.TxPower.HT40.3Stream.Rate=f23
+#assign TxPower.combined=1
+
+GOTO name=COMB_SET; condition='$TxPower.combined=1'
+assign pwrComb2=0
+assign pwrComb3=0
+assign 2Chains=1,2
+assign 3Chains=1,2,4
+GOTO name=COMB_SET_DONE
+
+LABEL name=COMB_SET
+assign pwrComb2=3
+assign pwrComb3=4.8
+assign 2Chains=3
+assign 3Chains=7
+LABEL name=COMB_SET_DONE
+
+
+tx tx=$inst; pl=$tx_pwr_pack_len;pc=1000000;f=$5G.TxPower.HT40.Freq;r=$5G.TxPower.HT40.2Stream.Rate;ir=2;txch=$2Chains;pm=1;tx99=1;duc=99;avg=$5G.TxPower.Average;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=rate,txchain;f=tx.tp+$pwrComb2;l=target; f=tx.temp; l=temp; f=pm.power;l=meas pwr;f=pm.power-(tx.tp+$pwrComb2);l=delta;f=test(((pm.power-(tx.tp+$pwrComb2))<=$5G.TxPower.Limit.HT40 & (pm.power-(tx.tp+$pwrComb2))>=-$5G.TxPower.Limit.HT40),$Passtext,$FailText,@5G.TxPower.HT40.Streams.Pass,@5G.TxPower.HT40.Streams.Fail);l=$5G.TxPower.Limit.HT40 dB;type=s;width=8;d=0;screen=1;title=5GHz Power Accuracy;
+GOTO name=TX5G_DONE;test='$Test.Error<>0';
+
+GOTO name=TX5G_DONE; condition='$IsTx3Chains=0'
+GOTO name=TX5G_DONE; condition='$5G.TxPower.HT40.3Stream.Enable=0'
+
+tx tx=$inst; pl=$tx_pwr_pack_len;pc=1000000;f=$5G.TxPower.HT40.Freq;r=$5G.TxPower.HT40.3Stream.Rate;ir=2;txch=$3Chains;pm=1;tx99=1;duc=99;avg=$5G.TxPower.Average;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=rate,txchain;f=tx.tp+$pwrComb3;l=target; f=tx.temp; l=temp; f=pm.power;l=meas pwr;f=pm.power-(tx.tp+$pwrComb3);l=delta;f=test(((pm.power-(tx.tp+$pwrComb3))<=$5G.TxPower.Limit.HT40 & (pm.power-(tx.tp+$pwrComb3))>=-$5G.TxPower.Limit.HT40),$Passtext,$FailText,@5G.TxPower.HT40.Streams.Pass,@5G.TxPower.HT40.Streams.Fail);l=$5G.TxPower.Limit.HT40 dB;type=s;width=8;d=0;screen=1;title=5GHz Power Accuracy;
+
+LABEL name=TX5G_DONE; 
+
+LABEL name=TX5G_DONE; 

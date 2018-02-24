@@ -1,0 +1,135 @@
+#########################################################################
+# DEVICE NAME: AP152-020     						#
+# FILE TYPE:   ref_file     						#
+#                             						#
+# 									#
+#########################################################################
+#									#
+# The "_loaded" is a variable to be used for error checking		#
+# within the test flow. Valid data values are:				#
+#	0: 	file was never loaded, flow should halt with error 	#
+#		indicating file missing					#
+#	1: 	blank placeholder was loaded, no values will be 	#
+#		applied							#
+#	2:	populated file was loaded and values 			#
+#		will be applied						#
+#									#
+#########################################################################
+
+#########################################################################
+
+        assign ref_file_loaded = 2;
+
+
+#--------------------------------------------------------------------------------------
+# this build is for CUS249 (Dragonfly 2G radio) with xpa and xlna
+#--------------------------------------------------------------------------------------
+
+# AP specified test selection, over write the test selection in test_flow_flags.art
+# and Invalid testSel selection.
+
+# set calibration start txgain.
+assign 2G.txgain.init=35
+assign 2G.xtalCal.txgain=35
+
+#subsystem and subverdor ID's
+set i=$inst; ssid=a152;
+set i=$inst; svid=168c;
+
+# set device type 
+# 1=>Cardbus, 2=>PCI, 3=>miniPCI, 4=>AP, 5=>PCIe mini, 6=>pcie express, 7=>pcie desktop
+set i=$inst; devicetype=4
+
+# set Reg domain
+# customers can set regulatory domain index here
+set i=$inst; regdmn[0]=0
+set i=$inst; regdmn[1]=0x1f
+
+#tx and rx chain mask: bit0 = chain0 enable, 
+#                      bit1 = chain1 enable, 
+#                      bit2 = chain2 enable 
+set i=$inst;  txmask=7;
+set i=$inst;  rxmask=7;
+
+#configure modes: 
+#	    bit0 = enable 5GHz
+#           bit1 = enable 2GHz
+#           bit2 = disable 5G HT40
+#           bit3 = disable 2G HT40
+#           bit4 = disable 5G HT20
+#           bit5 = disable 2G HT20
+#Note: these flags will be given individual commands in subsequent release 
+set i=$inst; opflags=2;
+
+#configuration for internal regulator
+#set i=$inst; internalregulator=1;
+
+#antenna switch table control
+#2GHz
+set i=$inst; antctrlcommon2g=200220;
+set i=$inst; antctrlcommon22g=11111;
+set i=$inst; antCtrlChain2g=10, 10, 10;
+
+#strong signal parameters
+set i=$inst; xatten1Margin2g=0x8,0x8,0x8;
+set i=$inst; xatten1db2g=0x20,0x20,0x20;
+
+# tx gain table
+#	0 ?for xpa design - will provide lower power consumption (this table is still in characterization)
+#	1 ?for no xpa design
+#	2 ?for xpa design ?will provide normal power consumption
+#	3 ?for high power PA design
+set i=$inst;  txgainTable=0;
+
+# rxgainTable	0: xlna	1: no xlna
+set i=$inst;  rxgainTable=0;
+
+#set i=$inst; thermometer=1;
+#Temperature compensation
+set i=$inst;  temperatureCompensation=1
+set i=$inst;  tempSlope2g=0x1c,0x1c,0x1c;
+
+#xpa bias
+set i=$inst; xpabiaslvl2g=0xf;
+
+#enable spur mitigation
+set i=$inst;  spurchans2g=0,0,0,0,0;
+
+#switch regulator, 1.25v.
+set swreg=0x633c8176;
+set swregenable=1;
+
+#set i=$inst;  papdenable=1;
+#set i=$inst;  2GHz.PaPredistortion.Ht20=0x0c00e0e0;
+#set i=$inst;  2GHz.PaPredistortion.Ht40=0x0000e0e0;
+#5G does not require PaPreD
+#set i=$inst;  5GHz.PaPredistortion.Ht20=0x0;
+#set i=$inst;  5GHz.PaPredistortion.Ht40=0x0;
+
+#flags not supported yet - will be added in subsequent release
+# set i=$inst;  eepmisc=   bit1: wakeupwireless
+# set i=$inst;  rfSilent=0  bit0   bit1:polarity            bit2:5 GPIO line 
+
+# Set calibration data memory type.
+# Valid options are --
+# set i=$inst; caldata.memory=eeprom
+# set i=$inst; caldata.memory=flash
+# set i=$inst; caldata.memory=otp
+
+set i=$inst; caldata.memory=flash
+
+#target power files
+# the following line was commented out during transition to "shift" style flow
+# refDesigns\AP152-020\AP152_trg_pwr.art
+
+#CTL Files (Verify the file attached)
+# the following line was commented out during transition to "shift" style flow
+# common\ctl_generic.art
+
+#1 point -Cal Scheme
+# the following line was commented out during transition to "shift" style flow
+# common\setupcal-scheme0.art
+##################################
+# for DF, change the pwr cal channel from 2462 to 2472
+##################################
+setcal i=$inst; 2gfreq=2412,2437,2472;

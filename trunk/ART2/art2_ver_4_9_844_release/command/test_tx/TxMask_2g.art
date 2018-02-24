@@ -1,0 +1,25 @@
+assign 2G.TxMASK.Pass=0
+assign 2G.TxMASK.Fail=0
+
+GOTO name=TX2G_Mask_1STREAM_DONE; condition='$2G.TxMask.1Stream.Enable=0'
+
+#kingeman: 2GHz SPECTRAL MASK
+tx tx=$inst; mask=2; att=0; ch=$chainList; pc=1000000; pl=4000; f=$2G.TxMASK.Freq; r=$2G.TxMask.1Stream.Rate; ir=2; tp=target; tx99=1; average=$2G.TxMASK.Average;stop='$Test.Error';
+report style=column; f=mask.frequency;w=6;d=0;l=frequency; f=mask.rate;w=6;l=rate; f=mask.txchain;w=6;l=chain; f=mask.power;w=6;l=power; f=mask.failPrecent;w=12;l=Fail(%); f=$TxMASK.Percent.Limit+0;w=12;l=Mask_Limit(%); f=test(failPrecent<=$TxMASK.Percent.Limit,$PassText,$FailText,@2G.TxMASK.Pass,@2G.TxMASK.Fail);l=mask_P/F;type=s;width=12;title=2GHz SPECTRAL MASK;
+
+GOTO name=TX2G_Mask_1STREAM_DONE; condition='$2G.VHT40.Disable=1'
+tx tx=$inst; mask=2; att=0; ch=$chainList; pc=1000000; pl=1500; f=$2G.TxMASK.Freq; ht40=-1; r=$2G.TxMask.VHT40.1Stream.Rate; ir=2; tp=target; tx99=1; average=$2G.TxMASK.Average;stop='$Test.Error';
+report style=column; f=mask.frequency;w=6;d=0;l=frequency; f=mask.rate;w=6;l=rate; f=mask.txchain;w=6;l=chain; f=mask.power;w=6;l=power; f=mask.failPrecent;w=12;l=Fail(%); f=$TxMASK.Percent.Limit+0;w=12;l=Mask_Limit(%); f=test(failPrecent<=$TxMASK.Percent.Limit,$PassText,$FailText,@2G.TxMASK.Pass,@2G.TxMASK.Fail);l=mask_P/F;type=s;width=12;title=2GHz SPECTRAL MASK;
+
+GOTO name=TX2G_Mask_DONE;test='$Test.Error<>0';
+
+LABEL name=TX2G_Mask_1STREAM_DONE;
+
+
+GOTO name=TX2G_Mask_STREAMs_DONE; condition='$2G.TxMask.MStream.Enable=0'
+tx tx=$inst; mask=2; att=0; ch=$txALLChainMask; pc=1000000; pl=4000; f=$2G.TxMASK.Freq; r=$2G.TxMask.Streams.Rate; ir=2; tp=target; tx99=1; average=$2G.TxMASK.Average;stop='$Test.Error';
+report style=column; f=mask.frequency;w=6;d=0;l=frequency; f=mask.rate;w=6;l=rate; f=mask.txchain;w=6;l=chain; f=mask.power;w=6;l=power; f=mask.failPrecent;w=12;l=Fail(%); f=$TxMASK.Percent.Limit+0;w=12;l=Mask_Limit(%); f=test(failPrecent<=$TxMASK.Percent.Limit,$PassText,$FailText,@2G.TxMASK.Pass,@2G.TxMASK.Fail);l=mask_P/F;type=s;width=12;title=2GHz SPECTRAL MASK;
+GOTO name=TX2G_Mask_DONE;test='$Test.Error<>0';
+LABEL name=TX2G_Mask_STREAMs_DONE;
+
+LABEL name=TX2G_Mask_DONE;

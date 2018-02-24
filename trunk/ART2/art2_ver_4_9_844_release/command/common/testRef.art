@@ -1,0 +1,149 @@
+GOTO name=GET_REFDESIGN; condition='$manufAuto=1'
+
+LABEL name=DESIGN_START;
+### select test search ---------------------------------
+assign BoardIDType=0
+
+comment title='Please select test by:'; 	name=dump.txt
+comment title='		0: SSID'; 		name=dump.txt
+comment title='		1: refID'; 		name=dump.txt
+
+GOTO name=SKIP_LABEL; condition='$manufAuto<>2'
+comment title='		2: Atheros_label'; 	name=dump.txt
+
+LABEL name=SKIP_LABEL;
+prompt BoardIDType
+
+
+GOTO name=REFID_TEST; condition='$BoardIDType<>0'
+
+
+### test by SSID (BoardIDType=0) -----------------------
+get i=$inst; ssid;
+hello i=$inst; 
+hello i=$inst; 
+hello i=$inst; 
+#show $ssid;
+
+LABEL name=SSID_TEST;
+refdesign ssid=$ssid;
+#show $refdesign
+GOTO name=DESIGN_FOUND; condition='$refdesign<>0'
+GOTO name=SSID_NOTFOUND; 
+
+### SSID not found  --------------------------
+LABEL name=SSID_NOTFOUND;
+#comment title=NOT FOUND SSID $ssid! 		name=dump.txt
+## run refDesign to list all available SSID, refID in productlist.ref
+comment title='  '; 					name=dump.txt
+comment title='Here are supported SSID, refID, HWrev:'; name=dump.txt
+refDesign
+
+comment title='		'; 				name=dump.txt
+comment title='Please re-select by:'; 			name=dump.txt
+comment title='		0: SSID'; 			name=dump.txt
+comment title='		1: change Board select Type'; 	name=dump.txt
+
+prompt reSelect
+
+GOTO name=DESIGN_START; condition='$reSelect=1'
+
+prompt ssid
+set i=$inst; ssid=$ssid
+GOTO name=SSID_TEST;
+
+
+### test by REFID (BoardIDType=1) -------------------------
+LABEL name=REFID_TEST;
+GOTO name=ATH_TEST; condition='$BoardIDType<>1'
+prompt refID
+LABEL name=GET_REFDESIGN;
+show $refID
+refdesign refid=$refID;
+#$show $refdesign
+#$show $ref_filename
+GOTO name=DESIGN_FOUND; condition='$refdesign<>0'
+#comment title=NOT FOUND label; 		name=dump.txt
+GOTO name=REFID_NOTFOUND; 
+
+### RefID not found  --------------------------
+LABEL name=REFID_NOTFOUND;
+comment title='	'; 							name=dump.txt
+
+comment title='Here are supported SSID, refID, HWrev:'; 		name=dump.txt
+refDesign
+GOTO name=DESIGN_START;
+
+
+### test by Atheros Label (BoardIDType=2) ---------------------
+LABEL name=ATH_TEST;
+prompt AtherosLabel
+
+GOTO name=2Radio;condition='$radio.number=1'
+prompt AtherosLabel2
+
+LABEL name=2Radio;
+refdesign label=$AtherosLabel;
+#show $refdesign
+#show $ref_filename
+GOTO name=DESIGN_FOUND; condition='$refdesign<>0'
+#comment title=NOT FOUND label; 				name=dump.txt
+GOTO name=ATHLABEL_NOTFOUND; 
+
+### RefID not found  --------------------------
+
+LABEL name=ATHLABEL_NOTFOUND;
+comment title='please enter label in format:  AAAAA-BBB-MCCCC'; 		name=dump.txt
+comment title='	AAAAA: 5 ASCII for RefID'; 					name=dump.txt
+comment title='	  BBB: 3 Hex Number for HWrev(nChip, BroadID, BroadMinorID)'; 	name=dump.txt
+comment title='	    M: 1 ASCII for manufactureID'; 				name=dump.txt
+comment title='	 CCCC: 4 Hex Number for Serial number'; 			name=dump.txt
+## run refDesign to list all available SSID, refID in productlist.ref
+comment title='  '; 								name=dump.txt
+comment title='Here are supported SSID, refID, HWrev:'; 			name=dump.txt
+refDesign
+comment title='	'; 								name=dump.txt
+GOTO name=ATH_TEST;
+
+
+###--------------------------------------------
+LABEL name=DESIGN_FOUND;
+#comment title="			FOUND Design!"; 		name=dump.txt
+GOTO name=SKIP_MACPROMPT; condition='$manufAuto=1'
+
+GOTO name=MAC_SCHEME; condition='$BoardIDType<>2'
+### Label Scheme ------------------------------
+
+#set i=$inst; label=$AtherosLabel (moving to test_flow-inst as a load is needed for set mac and customer commands)
+
+assign ReportFileName=$AtherosLabel.txt
+assign SensReportFile=$AtherosLabel_sens.txt
+GOTO name=END_TESTREF;
+
+### MAC Scheme --------------------------------
+LABEL name=MAC_SCHEME;
+comment title='MAC address format: xx:xx:xx:xx:xx:xx'; 		name=dump.txt
+prompt macaddress
+
+GOTO name=SingleRadio;condition='$radio.number=1'
+prompt macaddress2
+LABEL name=SingleRadio;
+
+set i=$inst; mac=$macaddress
+
+###--------------------------------------------
+LABEL name=NAME_SET;
+assign ReportFileName=$macaddress_report.txt
+assign SensReportFile=$macaddress_sens.txt
+GOTO name=END_TESTREF;
+
+###--------------------------------------------
+LABEL name=SKIP_MACPROMPT;
+
+assign ReportFilename=$customer_report.txt
+assign SensReportFile=$customer_sens.txt
+LABEL name=END_TESTREF;
+
+common\logLabel.art
+
+#### end

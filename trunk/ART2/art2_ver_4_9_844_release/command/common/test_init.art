@@ -1,0 +1,88 @@
+#___________________________________________
+assign errDetected=0
+
+assign 11nDesign=0
+
+assign FailText=FAIL
+assign PassText=.
+
+assign FailTotal=0
+assign 2G.Tx.Fail=0
+assign 2G.Rx.Fail=0
+assign 5G.Tx.Fail=0
+assign 5G.Rx.Fail=0
+
+assign 2G.TxPower.1Stream.Fail=0
+assign 2G.TxPower.HT20.Streams.Fail=0
+assign 2G.TxPower.HT40.Streams.Fail=0
+assign 2G.TxEVMPower.1Stream.Fail=0
+assign 2G.TxEVM.1Stream.Fail=0
+assign 2G.TxEVM.HT20.Streams.Fail=0
+assign 2G.TxEVM.HT40.Streams.Fail=0
+assign 2G.TxEVMPower.HT20.Streams.Fail=0
+assign 2G.TxEVMPower.HT40.Streams.Fail=0
+
+assign 2G.TxMASK.Fail=0
+assign 2G.TxPPM.Fail=0
+
+assign 5G.TxPower.1Stream.Fail=0
+assign 5G.TxPower.HT20.Streams.Fail=0
+assign 5G.TxPower.HT40.Streams.Fail=0
+assign 5G.TxPower.VHT20.Streams.Fail=0
+assign 5G.TxPower.VHT40.Streams.Fail=0
+assign 5G.TxPower.VHT80.Streams.Fail=0
+assign 5G.TxEVMPower.1Stream.Fail=0
+assign 5G.TxEVM.1Stream.Fail=0
+assign 5G.TxEVM.HT20.Streams.Fail=0
+assign 5G.TxEVM.HT40.Streams.Fail=0
+assign 5G.TxEVM.VHT20.Streams.Fail=0
+assign 5G.TxEVM.VHT40.Streams.Fail=0
+assign 5G.TxEVM.VHT80.Streams.Fail=0
+assign 5G.TxEVMPower.HT20.Streams.Fail=0
+assign 5G.TxEVMPower.HT40.Streams.Fail=0
+assign 5G.TxEVMPower.VHT20.Streams.Fail=0
+assign 5G.TxEVMPower.VHT40.Streams.Fail=0
+assign 5G.TxEVMPower.VHT80.Streams.Fail=0
+assign 5G.TxMASK.Fail=0
+assign 5G.TxPPM.Fail=0
+
+assign 2G.RxSensSweep.HT20.Fail=0
+assign 2G.RxSensSweep.HT40.Fail=0
+assign 2G.RxSensPoint.HT20.Fail=0
+assign 2G.RxSensPoint.HT40.Fail=0
+assign 2G.TxTPUT.TPUT.Fail=0
+assign 2G.TxTPUT.PSR.Fail=0
+assign 2G.RxTPUT.TPUT.Fail=0
+assign 2G.RxTPUT.PSR.Fail=0
+
+assign 5G.RxSensSweep.HT20.Fail=0
+assign 5G.RxSensSweep.HT40.Fail=0
+assign 5G.RxSensSweep.VHT20.Fail=0
+assign 5G.RxSensSweep.VHT40.Fail=0
+assign 5G.RxSensSweep.VHT80.Fail=0
+assign 5G.RxSensPoint.HT20.Fail=0
+assign 5G.RxSensPoint.HT40.Fail=0
+assign 5G.RxSensPoint.VHT20.Fail=0
+assign 5G.RxSensPoint.VHT40.Fail=0
+assign 5G.RxSensPoint.VHT80.Fail=0
+assign 5G.TxTPUT.TPUT.Fail=0
+assign 5G.TxTPUT.PSR.Fail=0
+assign 5G.RxTPUT.TPUT.Fail=0
+assign 5G.RxTPUT.PSR.Fail=0
+
+# initial those enables, in case of error ocur, summary will skip them without show error.
+assign 2G.TxPower.test.Enable=0
+assign 2G.TxEVM.test.Enable=0
+assign 2G.TxMask.test.Enable=0
+assign 2G.TxFreqAccuracy.Enable=0
+
+assign 5G.TxPower.test.Enable=0
+assign 5G.TxEVM.test.Enable=0
+assign 5G.TxMask.test.Enable=0
+assign 5G.TxFreqAccuracy.Enable=0
+
+# If not run PT/FT, it will keep as init value to disable eep write.
+# will be enable, if Tx/RxCal enabled.
+assign tx.calibration.data.save.enable=0
+assign rx.calibration.data.save.enable=0
+assign xtal.calibration.data.save.enable=0

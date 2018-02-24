@@ -1,0 +1,67 @@
+assign 5G.TxPower.test.Enable=0
+#___________________________________________
+# TX Power Test OFDM Rate List
+#___________________________________________
+assign empty = 1
+assign 5G.TxPower.1Stream.Rate = " "
+
+GOTO name=TXRATE_OFDM_DONE; condition='$5G.TxPower.Legacy.Enable=0'
+assign 5G.TxPower.1Stream.Rate = $5G.TxPower.Legacy.Rate
+assign empty = 0
+LABEL name=TXRATE_OFDM_DONE;
+
+#___________________________________________
+#TX Power Test Rate List HT20 1stream
+#___________________________________________
+GOTO name=TXRATE_HT20_1S_DONE; condition='$5G.TxPower.HT20.1Stream.Enable=0'
+GOTO name=TXRATE_HT20_1S; condition='$empty=0'
+assign 5G.TxPower.1Stream.Rate = $5G.TxPower.HT20.1Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_HT20_1S_DONE;
+LABEL name=TXRATE_HT20_1S;
+assign 5G.TxPower.1Stream.Rate = $5G.TxPower.1Stream.Rate, $5G.TxPower.HT20.1Stream.Rate
+LABEL name=TXRATE_HT20_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List HT40 1stream
+#___________________________________________
+GOTO name=TXRATE_HT40_1S_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TXRATE_HT40_1S_DONE; condition='$5G.TxPower.HT40.1Stream.Enable=0'
+assign empty = 0
+LABEL name=TXRATE_HT40_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT20 1stream
+#___________________________________________
+GOTO name=TXRATE_VHT20_1S_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TXRATE_VHT20_1S_DONE; condition='$5G.TxPower.VHT20.1Stream.Enable=0'
+assign empty = 0
+LABEL name=TXRATE_VHT20_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT40 1stream
+#___________________________________________
+GOTO name=TXRATE_VHT40_1S_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TXRATE_VHT40_1S_DONE; condition='$5G.TxPower.VHT40.1Stream.Enable=0'
+assign empty = 0
+LABEL name=TXRATE_VHT40_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT80 1stream
+#___________________________________________
+GOTO name=TXRATE_VHT80_1S_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TXRATE_VHT80_1S_DONE; condition='$5G.TxPower.VHT80.1Stream.Enable=0'
+assign empty = 0
+LABEL name=TXRATE_VHT80_1S_DONE;
+
+#___________________________________________
+# check 1stream enable or not
+#___________________________________________
+GOTO name=TXRATE_1Stream_ENABLE; condition='$empty=0'
+assign 5G.TxPower.1Stream.Enable=0
+GOTO name=TXRATE_1Stream_DONE;
+LABEL name=TXRATE_1Stream_ENABLE;
+assign 5G.TxPower.1Stream.Enable=1
+assign 5G.TxPower.test.Enable=1
+LABEL name=TXRATE_1Stream_DONE;
+

@@ -1,0 +1,52 @@
+assign 5G.Tx.Fail=0
+
+comment title="                         5GHz PT TEST SUMMARY"
+comment title="=================================================================="
+comment title="                                 Fail#"
+
+#___________________________________________
+# target power verification test
+#___________________________________________
+GOTO name=5G.TxPowerTest_DONE; condition='$5G.TxPower.test.Enable=0'
+assign 5G.TxPower.Fail=0
+calculate 5G.TxPower.Fail = $5G.TxPower.1Stream.Fail + $5G.TxPower.HT20.Streams.Fail + $5G.TxPower.HT40.Streams.Fail + $5G.TxPower.VHT20.Streams.Fail + $5G.TxPower.VHT40.Streams.Fail + $5G.TxPower.VHT80.Streams.Fail
+comment title="          5GHz Tx Power Test:     $5G.TxPower.Fail"
+calculate 5G.Tx.Fail = $5G.Tx.Fail + $5G.TxPower.Fail
+LABEL name=5G.TxPowerTest_DONE;
+
+#___________________________________________
+# EVM test
+#___________________________________________
+GOTO name=5G.TxEVMTest_DONE; condition='$5G.TxEVM.test.Enable=0'
+
+assign 5G.TxEVMPowerTest.Fail=0
+calculate 5G.TxEVMPowerTest.Fail = $5G.TxEVMPower.1Stream.Fail + $5G.TxEVMPower.HT20.Streams.Fail + $5G.TxEVMPower.HT40.Streams.Fail + $5G.TxEVMPower.VHT20.Streams.Fail + $5G.TxEVMPower.VHT40.Streams.Fail + $5G.TxEVMPower.VHT80.Streams.Fail
+comment title="5GHz Power accuracy EVM Test:     $5G.TxEVMPowerTest.Fail"
+calculate 5G.Tx.Fail = $5G.Tx.Fail + $5G.TxEVMPowerTest.Fail
+
+assign 5G.TxEVM.Fail=0
+calculate 5G.TxEVM.Fail = $5G.TxEVM.1Stream.Fail + $5G.TxEVM.HT20.Streams.Fail + $5G.TxEVM.HT40.Streams.Fail + $5G.TxEVM.VHT20.Streams.Fail + $5G.TxEVM.VHT40.Streams.Fail + $5G.TxEVM.VHT80.Streams.Fail
+comment title="               5GHz EVM Test:     $5G.TxEVM.Fail"
+calculate 5G.Tx.Fail = $5G.Tx.Fail + $5G.TxEVM.Fail
+LABEL name=5G.TxEVMTest_DONE;
+
+#___________________________________________
+# Mask test
+#___________________________________________
+GOTO name=5G.TxMaskTest_DONE; condition='$5G.TxMASK.test.Enable=0'
+comment title="              5GHz Mask Test:     $5G.TxMASK.Fail"
+calculate 5G.Tx.Fail = $5G.Tx.Fail + $5G.TxMASK.Fail
+LABEL name=5G.TxMaskTest_DONE;
+
+#___________________________________________
+# freq accuracy test
+#___________________________________________
+GOTO name=5G.TxFreqAccuracyTest_DONE; condition='$5G.TxFreqAccuracy.Enable=0'
+comment title="     5GHz freq accuracy Test:     $5G.TxPPM.Fail"
+calculate 5G.Tx.Fail = $5G.Tx.Fail + $5G.TxPPM.Fail
+LABEL name=5G.TxFreqAccuracyTest_DONE;
+
+
+comment title="=================================================================="
+comment title="                  5GHz Total:     $5G.Tx.Fail"
+comment title="=================================================================="

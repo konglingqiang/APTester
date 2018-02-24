@@ -1,0 +1,11 @@
+# wlan_mac_write_enable - enables the write of the MAC address
+# MAC_ADDRESS_OUI - sets the OUI of the MAC address. This should never change.
+# wlan_start - sets the lower three bytes of the starting MAC address.
+# wlan_current - lists the lower three bytes of the current MAC address.
+# wlan_limit - sets the lower three bytes of the upper limit on the MAC address.
+#
+wlan_mac_write_enable=1;
+MAC_ADDRESS_OUI=C80E77;
+wlan_start=4E4B10;
+wlan_current=4E4B10;
+wlan_limit=4E4BAF;

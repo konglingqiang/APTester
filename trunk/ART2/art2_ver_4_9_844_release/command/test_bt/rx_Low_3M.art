@@ -1,0 +1,23 @@
+# RCV/CA/06/C RCV/CA/07/C (EDR Sensitivity)
+# Verification of the receiver sensitivity for the 10-4 bit error rate using a non-ideal
+#	transmitter.
+#
+
+# 
+# 
+#
+# Limit
+# BER < 7¡E10-5 after 1 600 000 bits
+#	BER < 10-4 after 16 000 000 bits
+#
+
+assign NUM_OF_BITS_LEVEL1 = 1600000
+assign NUM_OF_BITS_LEVEL2 = 16000000   
+assign BER_THRESHOLD_LEVEL1 = 0.007
+assign BER_THRESHOLD_LEVEL2 = 0.01
+
+
+btrx f=$LowCH;pt=3DH1;pwr=-70;berThreshold=$BER_THRESHOLD_LEVEL1;bitsL1=$NUM_OF_BITS_LEVEL1;bitsL2=$NUM_OF_BITS_LEVEL2
+report r='r f=RX_BDR_L1.frequency;l=frequency;f=Packet;f=RX_BDR_L2.GoodBits;l=GoodBits;type=s;f=RX_BDR_L2.TotalBits;l=TotalBits;type=s;f=RX_BDR_L2.BER;l=BER(%);type=s;f=test((RX_BDR_L2.BER<=$BER_THRESHOLD_LEVEL2),$passtext,$FailText,0,@FailRxBT);l=result;type=s;title=BT RX Low 3M';
+
+

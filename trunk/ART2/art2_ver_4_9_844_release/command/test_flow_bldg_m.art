@@ -1,0 +1,331 @@
+LABEL name=INIT_TEST_FLOW
+	assign OneShot=0;
+	assign number.radios=ffff;
+	assign referenceID[1]=0;
+	assign referenceID[2]=0;
+	assign referenceID[3]=0;
+	assign referenceID[4]=0;
+	assign RadioCount=1;
+	assign BoardsProcessed=0;
+	assign SerialLoopCount=0;
+	assign TestLoopCount=0;
+	assign FinalLoopCount=0;
+	assign DisconnectLoopCount=0;
+	assign CurrentRefDesign=ffff;
+	assign inst=0;
+	assign alpha_therm_loaded = 0;
+	assign cal_scheme_loaded = 0;
+	assign ctl_table_loaded = 0;
+	assign ref_file_loaded = 0;
+	assign setup_overwrite_loaded = 0;
+	assign NumberBoardsProcessed = 0;
+	assign NumberBoardsPassed = 0;
+	assign NumberRadiosProcessed = 0;
+	assign NumberRadiosPassed = 0;	
+	assign NumberRadiosPassedPower = 0;	
+	assign NumberRadiosPassedEVM = 0;	
+	assign NumberRadiosPassedRx = 0;	
+
+LABEL name=TOP_OF_TEST_FLOW
+	\common\art2banner.art
+	$configdir\ref_devices.art
+	#
+	# Assign the golden device instance to be maximum instances +1 This is
+	# the same as $number.radios because $number.radios is base 1 and instance 
+	# is base 0.
+	assign instGolden=$number.radios;
+	#
+	comment title="#############################################################################";
+	comment title=''; 
+	comment title= "                      Reference Device info as loaded from: $configdir\ref_devices.art";
+	comment title= "                      Radios : $number.radios";
+	comment title= "                      Radio 1: $referenceID[1]";
+	comment title= "                      Radio 2: $referenceID[2]";
+	comment title= "                      Radio 3: $referenceID[3]";
+	comment title= "                      Radio 4: $referenceID[4]";
+	comment title='';
+	
+GOTO LABEL name=ERROR_NO_DEVICES_FILE; condition='$number.radios=0';
+
+# The Following GOTO statement has to be commented out because
+# the "condition" statement is broken and can only compare
+# alpha a-f and numerics. For example comparison of AP135 to ZZZZ
+# would result in a "true" evaluation.
+#GOTO LABEL name=ERROR_NO_RADIOS_DEFINED; condition='$referenceID[1]=0'; 
+
+LABEL name=PROCESS_BOARDS
+	#Initialize all the radio and loopcount related variables
+		assign inst=0;
+		assign SerialLoopCount=0
+		assign TestLoopCount=0
+		assign FinalLoopCount=0
+		assign DisconnectLoopCount=0
+		assign RadiosPerBoardPassed=0;
+	comment title="###########################LOADING DEVICES###################################";
+	$configdir\conn_load.art
+	sleep 2
+	calculate BoardsProcessed=$BoardsProcessed+1;
+	#\common\cls.art
+	
+	comment title="###########################LOADING COMPLETE###################################";
+	comment title='';
+	comment title='';
+
+LABEL name=BEGIN_SERIAL_ENTRY
+	calculate SerialLoopCount=$SerialLoopCount+1;
+#	comment title='Please enter the serial number for the DUT:';
+	comment title=$referenceID[$SerialLoopCount];
+	comment title='';
+	comment title='';
+#	prompt serialNum;
+	comment title='';
+	comment title='';
+
+
+LABEL name=BEGIN_TEST_FLOW
+	
+	assign T_TestBegan=$time;
+	
+	calculate TestLoopCount=$TestLoopCount+1
+	assign refdesign=$referenceID[$TestLoopCount]
+	assign ref_filename=$referenceID[$TestLoopCount]
+	assign refID=$referenceID[$TestLoopCount]
+
+	# sernum1 is unused in this script and it is of unknown origin. May want to delete.
+	assign sernum1=$serialNum
+
+	comment title="#############################################################################";
+	comment title="                        ";
+	comment title="";
+	comment title="                      ##      ##    ###    #### ######## ";
+	comment title="                      ##  ##  ##   ## ##    ##     ##    ";
+	comment title="                      ##  ##  ##  ##   ##   ##     ##    ";
+	comment title="                      ##  ##  ## ##     ##  ##     ##    ";
+	comment title="                      ##  ##  ## #########  ##     ##    ";
+	comment title="                      ##  ##  ## ##     ##  ##     ##    ";
+	comment title="                       ###  ###  ##     ## ####    ##  ";
+	comment title="";
+	comment title="                            TESTING IN PROGRESS";
+	comment title="                        ";
+	comment title="                      Testing device number $TestLoopCount of $number.radios  ";
+	comment title="                      Instance:         $inst    ";
+	comment title="                      Device Type:      $referenceID[$TestLoopCount]";
+	comment title="                      Serial Number:    $serialNum";
+	comment title="";
+	comment title="#############################################################################";
+
+	######### Board initialization section
+		\refdesigns\$referenceID[$TestLoopCount]\ref_file.art
+		\refdesigns\$referenceID[$TestLoopCount]\ctl_table.art
+		\refdesigns\$referenceID[$TestLoopCount]\trg_pwr.art
+		\refdesigns\$referenceID[$TestLoopCount]\cal_scheme.art
+		\refdesigns\$referenceID[$TestLoopCount]\alpha_therm.art
+		\refdesigns\$referenceID[$TestLoopCount]\setup_overwrite.art
+		#Note: Setup_overwrite is the only reference file not explicitly called 
+		#      at this time. It must be called after all other test_flow_flag files
+	        #      are run.
+		# 	\refdesigns\$referenceID[$TestLoopCount]\setup_overwrite;
+		#########################################################################
+		# The "_loaded" is a variable to be used for error checking		#
+		# within the test flow. Valid data values are:				#
+		#	0: 	file was never loaded, flow should halt with error 	#
+		#		indicating file missing					#
+		#	1: 	blank placeholder was loaded, no values will be 	#
+		#		applied							#
+		#	2:	populated file was loaded and values 			#
+		#		will be applied	
+		GOTO name=ERROR_NO_ALPHATHERM; condition='$alpha_therm_loaded = 0';
+		GOTO name=ERROR_NO_CALSCHEME; condition='$cal_scheme_loaded = 0';
+		GOTO name=ERROR_NO_CTLTABLE; condition='$ctl_table_loaded = 0';
+		GOTO name=ERROR_NO_REFFILE; condition='$ref_file_loaded = 0';
+		GOTO name=ERROR_NO_TRGPWR; condition='$trg_pwr_loaded = 0';
+		GOTO name=ERROR_NO_SETUPOVERWRITE; condition='$setup_overwrite_loaded = 0';
+
+		GOTO name=AFTER_MAC_ADDRESS; condition='$mac.address.enable=0';
+		GOTO name=MAC_ADDRESS_RESTORE; condition='$mac.address.restore=1';
+		macid i=$inst;
+		GOTO name=ERROR_NO_MAC_ADDRESSES_LEFT; condition='$Test.Error<>0';
+		GOTO name=AFTER_MAC_ADDRESS;
+		LABEL name=MAC_ADDRESS_RESTORE;
+		show savedmac;
+		set mac=$savedmac;
+		LABEL name=AFTER_MAC_ADDRESS;
+	#########
+	common\test_flow-inst.art
+	calculate inst=$inst+1;
+LABEL name=END_TEST_FLOW
+
+      calculate NumberRadiosProcessed=$NumberRadiosProcessed+1;
+
+GOTO name=BEGIN_TEST_FLOW; condition='$number.radios>$TestLoopCount'
+
+LABEL name=BEGIN_DISCONNECT_LOOP
+	assign inst=$DisconnectLoopCount;
+	calculate DisconnectLoopCount=$DisconnectLoopCount+1
+	comment title="#############################################################################";
+	comment title="                        ";
+	comment title="                      Disconnecting Radio";
+	comment title="                      Instance $inst    ";
+	comment title="                      Device Number $DisconnectLoopCount of $number.radios ";
+	comment title="                        ";
+	disconnect i=$inst;
+GOTO name=BEGIN_DISCONNECT_LOOP; condition='$number.radios>$DisconnectLoopCount'
+
+     calculate NumberBoardsProcessed=$NumberBoardsProcessed+1;
+
+GOTO name=THIS_BOARD_FAILED; condition='$RadiosPerBoardPassed<>$number.radios';
+
+     calculate NumberBoardsPassed=$NumberBoardsPassed+1;
+
+LABEL name=THIS_BOARD_FAILED;
+
+	comment title="";
+	comment title="";
+	comment title="                              TEST COMPLETE                       ";
+	comment title="";
+	comment title="                      You may now remove the board"; 
+	comment title="                      1+[ENTER] to continue to next board
+	comment title="                      0+[ENTER] to quit";
+	comment title="";
+
+	comment title="$serialNum complete"; file=flow_complete.txt;
+
+GOTO name=THE_END; condition='$OneShot=1';
+	prompt Your_Response
+GOTO name=THE_END; condition='$Your_Response=0';
+	\common\cls.art
+GOTO name=PROCESS_BOARDS;
+	 	
+LABEL name=THE_END;
+	comment title="#############################################################################";
+	comment title="";
+	comment title="		$NumberBoardsPassed boards passed out of $NumberBoardsProcessed processed. ";
+	comment title="		$NumberRadiosPassed radios passed out of $NumberRadiosProcessed processed. ";
+	comment title="		$NumberRadiosPassedPower radios passed Power Accuracy.";
+	comment title="		$NumberRadiosPassedEVM radios passed EVM.";
+	comment title="		$NumberRadiosPassedRx radios passed Rx.";
+	comment title="";
+	comment title="                      EXITING";
+	comment title="                      GoodBye";
+	comment title="";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_DEVICES_FILE
+	comment title="#############################################################################";
+	comment title="                        ";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      DEVICE_INFO.ART FILE NOT FOUND IN $configdir';
+	comment title="                      EXITING                        ";
+	comment title="                        ";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_RADIOS_DEFINED
+	comment title="#############################################################################";
+	comment title="";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      NO DEFINED RADIOS $configdir\ref_devices.art";
+	comment title="                      First Radio RefID=$referenceID[1]";
+	comment title="                      EXITING                        ";
+	comment title="";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_MAC_ADDRESSES_LEFT
+	comment title="#############################################################################";
+	comment title="";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      NO MORE MAC ADDRESSES LEFT IN CARTRIDGE";
+	comment title="                      You must replace macid.txt.";
+	comment title="                      EXITING                        ";
+	comment title="";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_ALPHATHERM
+	comment title="#############################################################################";
+	comment title="";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      ALPHA_THERM.ART NOT READ OR INCORRECTLY DEFINED";
+	comment title="                      Check the refDesign\$referenceID[$TestLoopCount] directory";
+	comment title="                      and review the alpha_therm.art file";
+	comment title="                      Reason: alpha_therm_loaded = 0";
+	comment title="                      EXITING                        ";
+	comment title="";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_CALSCHEME
+	comment title="#############################################################################";
+	comment title="";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      CAL_SCHEME.ART NOT READ OR INCORRECTLY DEFINED";
+	comment title="                      Check the refDesign\$referenceID[$TestLoopCount] directory";
+	comment title="                      and review the cal_scheme.art file";
+	comment title="                      Reason: cal_scheme_loaded = 0";
+	comment title="                      EXITING                        ";
+	comment title="";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_CTLTABLE
+	comment title="#############################################################################";
+	comment title="";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      CTL_TABLE.ART NOT READ OR INCORRECTLY DEFINED";
+	comment title="                      Check the refDesign\$referenceID[$TestLoopCount] directory";
+	comment title="                      and review the ctl_table.art file";
+	comment title="                      Reason: ctl_table_loaded = 0";
+	comment title="                      EXITING                        ";
+	comment title="";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_REFFILE
+	comment title="#############################################################################";
+	comment title="";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      REF_FILE.ART NOT READ OR INCORRECTLY DEFINED";
+	comment title="                      Check the refDesign\$referenceID[$TestLoopCount] directory";
+	comment title="                      and review the ref_file.art file";
+	comment title="                      Reason: ref_file_loaded = 0";
+	comment title="                      EXITING                        ";
+	comment title="";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_SETUPOVERWRITE
+	comment title="#############################################################################";
+	comment title="";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      SETUP_OVERWRITE.ART NOT READ OR INCORRECTLY DEFINED";
+	comment title="                      Check the refDesign\$referenceID[$TestLoopCount] directory";
+	comment title="                      and review the setup_overwrite.art file";
+	comment title="                      Reason: setup_overwrite_loaded = 0";
+	comment title="                      EXITING                        ";
+	comment title="";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_TRGPWR
+	comment title="#############################################################################";
+	comment title="";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      TRG_PWR.ART NOT READ OR INCORRECTLY DEFINED";
+	comment title="                      Check the refDesign\$referenceID[$TestLoopCount] directory";
+	comment title="                      and review the setup_overwrite.art file";
+	comment title="                      Reason: trg_pwr_loaded = 0";
+	comment title="                      EXITING                        ";
+	comment title="";
+	comment title="#############################################################################";
+STOP

@@ -1,0 +1,22 @@
+#########################################################################
+# ALPHA THERM --- DO NOT REMOVE						#
+#									#
+# NOTE: THIS FILE IS A PLACEHOLDER AND IS INTENDED TO BE BLANK		#
+# BUT MUST REMAIN IN THE REFERENCE DESIGN DIRECTORY FOR PROPER		#
+# EXECUTION AND DATA CHECKING WITHIN THE TEST FLOW SCRIPT.		#
+#									#
+#########################################################################
+#									#
+# alpha_therms_loaded is a variable to be used for error checking	#
+# within the test flow. Valid data values are:				#
+#	0: 	file was never loaded, flow should halt with error 	#
+#		indicating file missing					#
+#	1: 	blank placeholder was loaded, no values will be 	#
+#		applied							#
+#	2:	populated alpha-therm file was loaded and values 	#
+#		will be applied						#
+#									#
+#########################################################################	
+
+
+assign alpha_therms_loaded = 1;

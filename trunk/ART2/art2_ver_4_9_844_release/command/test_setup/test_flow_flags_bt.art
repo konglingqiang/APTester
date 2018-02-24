@@ -1,0 +1,50 @@
+
+##-----------------------------------------------------------------
+## default test selection 0: run the test,  1: disable the test 
+##-----------------------------------------------------------------
+## 
+##-----------------------------------------------------------------
+## For Test Channel - Low, Med, High
+##-----------------------------------------------------------------
+assign LowCH=2402
+assign MedCH=2441
+assign HighCH=2480
+assign btDfuDisable=0
+assign btOverUsbEnable=0
+assign btClrSleepIntEnable=0
+
+##-----------------------------------------------------------------
+## For TX Test
+##-----------------------------------------------------------------
+assign TX_Low_1M_Disable=0
+assign TX_Low_2M_Disable=1
+assign TX_Low_3M_Disable=1
+
+assign TX_Med_1M_Disable=1
+assign TX_Med_2M_Disable=0
+assign TX_Med_3M_Disable=1
+
+assign TX_High_1M_Disable=1
+assign TX_High_2M_Disable=1
+assign TX_High_3M_Disable=0
+
+##-----------------------------------------------------------------
+## For RX Test
+##-----------------------------------------------------------------
+assign RX_Low_1M_Disable=0
+assign RX_Low_2M_Disable=1
+assign RX_Low_3M_Disable=1
+
+assign RX_Med_1M_Disable=1
+assign RX_Med_2M_Disable=0
+assign RX_Med_3M_Disable=1
+
+assign RX_High_1M_Disable=1
+assign RX_High_2M_Disable=1
+assign RX_High_3M_Disable=0
+
+
+##-----------------------------------------------------------------
+## End of test default test selection
+
+

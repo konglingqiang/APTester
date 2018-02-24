@@ -1,0 +1,68 @@
+#
+# write FT summary
+#
+comment title=" "
+
+# Initialize variables for end of run statistics - these are also initialized in the pt/ft scripts.
+assign 2G.TxPower.Fail = 0;
+assign 5G.TxPower.Fail = 0;
+assign 2G.TxEVM.Fail = 0;
+assign 5G.TxEVM.Fail = 0;
+assign 2G.Rx.Fail = 0;
+assign 5G.Rx.Fail = 0;
+
+GOTO name=DUT_INST1; condition='$inst=1'
+comment title="       dut: $NartVersion $NartBuildDate $mac $customer"
+GOTO name=DUT_INST_DONE;
+LABEL name=DUT_INST1;
+comment title="       dut: $NartVersion1 $NartBuildDate1 $mac1 $customer1"
+LABEL name=DUT_INST_DONE;
+
+GOTO name=DUT_GOLDEN_DONE; condition='$Equipment.VSG.Chains>0'
+GOTO name=DUT_GOLDEN2; condition='$instGolden=2'
+comment title="    golden: $NartVersion1 $NartBuildDate1 $mac1 $customer1"
+GOTO name=DUT_GOLDEN_DONE;
+LABEL name=DUT_GOLDEN2;
+comment title="    golden: $NartVersion2 $NartBuildDate2 $mac2 $customer2"
+LABEL name=DUT_GOLDEN_DONE;
+
+comment title="      cart: $CartVersion $CartBuildDate" 
+comment title=" "
+
+#___________________________________________
+# PT test
+#___________________________________________
+GOTO name=ptTestDisable_DONE; condition='$ptTestDisable=1'
+
+GOTO name=2GSUM_PT_DONE; condition='$2G.Test.Disable=1'
+common\summary\summary_pt_2g.art
+LABEL name=2GSUM_PT_DONE;
+
+GOTO name=5GSUM_PT_DONE; condition='$5G.Test.Disable=1'
+common\summary\summary_pt_5g.art
+LABEL name=5GSUM_PT_DONE;
+
+LABEL name=ptTestDisable_DONE; 
+#___________________________________________
+
+#___________________________________________
+# FT test
+#___________________________________________
+GOTO name=ftTestDisable_DONE; condition='$FtTestDisable=1'
+
+GOTO name=2GSUM_FT_DONE; condition='$2G.Test.Disable=1'
+common\summary\summary_ft_2g.art
+LABEL name=2GSUM_FT_DONE;
+
+GOTO name=5GSUM_FT_DONE; condition='$5G.Test.Disable=1'
+common\summary\summary_ft_5g.art
+LABEL name=5GSUM_FT_DONE;
+
+LABEL name=ftTestDisable_DONE; 
+#___________________________________________
+
+comment title="  "
+calculate FailTotal=$2G.Tx.Fail+$2G.Rx.Fail+$5G.Tx.Fail+$5G.Rx.Fail
+comment title="=================================================================="
+comment title="                       Total:     $FailTotal"
+comment title="=================================================================="

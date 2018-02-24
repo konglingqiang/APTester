@@ -1,0 +1,40 @@
+#payload
+#
+#// tBRM_TestMode
+#enum { 
+#   eBRM_TestMode_Pause = 0,
+#   eBRM_TestMode_TX_0,
+#   eBRM_TestMode_TX_1,
+#   eBRM_TestMode_TX_1010,
+#   eBRM_TestMode_TX_PRBS,
+#   eBRM_TestMode_Loop_ACL,
+#   eBRM_TestMode_Loop_SCO,
+#   eBRM_TestMode_Loop_ACL_No_Whitening,
+#   eBRM_TestMode_Loop_SCO_No_Whitening,
+#   eBRM_TestMode_TX_11110000,
+#   eBRM_TestMode_Exit = 255,
+#};
+
+#edr power limit
+assign ERTP_POWER_DIFF_MIN = -4
+assign ERTP_POWER_DIFF_MAX = 1
+
+#edr freq mod limit
+assign ECM_INITIAL_FREQ_ERROR_MIN = -75 
+assign ECM_INITIAL_FREQ_ERROR_MAX = 75
+assign ECM_FREQ_ERROR_MIN = -10             
+assign ECM_FREQ_ERROR_MAX = 10
+assign ECM_BLOCK_FREQ_ERROR_MIN = -75 
+assign ECM_BLOCK_FREQ_ERROR_MAX = 75
+assign RMS_2M_MAX = 0.2
+assign RMS_3M_MAX = 0.13
+assign PEAK_2M_MAX = 0.35
+assign PEAK_3M_MAX = 0.25
+assign 99_2M_MAX = 99
+assign 99_3M_MAX = 99
+
+#PRBS9, 2DHx|2EVx, max power 
+bttx f=$LowCH;pt=2DH1;payload=4;pwr=8
+report r='r f=EDRTX.frequency;l=frequency;f=Packet,PowDiffdB;f=OmegaI;l=Initial Frequency Error;f=Omega0;l=Frequency Error;f=OmegaI0;l=Block Frequency Error;f=EVMAv;l=RMS DEVM;f=EVMpk;l=Peak DEVM;f=EVM99*100;l=99% DEVM;f=test((PowDiffdB>$ERTP_POWER_DIFF_MIN)&(PowDiffdB<$ERTP_POWER_DIFF_MAX)&((OmegaI>=$ECM_INITIAL_FREQ_ERROR_MIN)&(OmegaI<=$ECM_INITIAL_FREQ_ERROR_MAX))&((Omega0>=$ECM_FREQ_ERROR_MIN)&(Omega0<=$ECM_FREQ_ERROR_MAX))&((OmegaI0>=$ECM_BLOCK_FREQ_ERROR_MIN)&(OmegaI0<=$ECM_BLOCK_FREQ_ERROR_MAX))&(EVMAv<=$RMS_2M_MAX)&(EVMpk<=$PEAK_2M_MAX)&((EVM99*100)>$99_2M_MAX),$passtext,$FailText,0,@FailTxBT);l=result;type=s; title=BT TX Low 2M';
+
+

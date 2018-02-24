@@ -1,0 +1,46 @@
+assign 5G.TxEVM.VHT40.Streams.Pass=0
+assign 5G.TxEVMPower.VHT40.Streams.Pass=0
+assign 5G.TxEVM.VHT40.Streams.Fail=0
+assign 5G.TxEVMPower.VHT40.Streams.Fail=0
+
+# target power offset 1.8 for 2 stream, 3 chains, no offset for 2 stream, 2 chain DUT
+#assign tp2s=1.8/0	# this is assigned in TxInit.art
+
+#2 isolate, 1 combined
+
+# tx all chain mask for 2/3chain DUT (3/7)
+# $txALLChainMask=3/7 
+# $5G.TxPower.Limit.HT40=1.5
+# $5G.TxEVM.VHT40.Freq=5180,5500,5805
+# $5G.TxEVM.VHT40.2Stream.Rate=vf19
+# $5G.TxEVM.VHT40.3Stream.Rate=vf29
+# target power offset for 2/3 chain 2 stream DUT (0/1.8)
+# $tp2s=0/1.8 
+
+sw i=$inst; a=BB_scrambler_seed.fixed_scrambler_seed;v=1
+sw i=$inst; a=BB_phyonly_control.generate_scrambler;v=0
+
+
+
+GOTO name=TX5G_3StreamEVM; condition='$5G.TxEVM.VHT40.2Stream.Enable=0'
+tx tx=$inst; pl=4000;pc=1000000;f=$5G.TxEVM.VHT40.Freq;r=$5G.TxEVM.VHT40.2Stream.Rate;ir=2;txch=$txALLChainMask;evm=1;tx99=1;avg=$5G.TxEVM.Average;stop='$Test.Error';
+report style=column; f=evm.freq;l=freq;width=5;f=rate;l=rate;f=txchain;l=stream;f=tp+$tp2s;l=target;f=tx.temp;l=temp;f=evm.power;l=meas pwr;f=evmv;l=meas_EVM;f=lookup(rate,@rate,@TxEVM.Limit);l=EVMLimit;f=test((evmv<=lookup(rate,@rate,@TxEVM.Limit)),$PassText,$FailText,@5G.TxEVM.VHT40.Streams.Pass,@5G.TxEVM.VHT40.Streams.Fail);l=evmP/F;type=s;width=7;screen=1;title=5GHz EVM Accuracy with chain power;
+GOTO name=TX5G_DONE;test='$Test.Error<>0';
+
+show 5G.TxEVM.VHT40.Streams.Fail
+
+LABEL name=TX5G_3StreamEVM;
+GOTO name=TX5G_DONE; condition='$IsTx3Chains=0'
+GOTO name=TX5G_DONE; condition='$5G.TxEVM.VHT40.3Stream.Enable=0'
+tx tx=$inst; pl=4000;pc=1000000;f=$5G.TxEVM.VHT40.Freq;r=$5G.TxEVM.VHT40.3Stream.Rate;ir=2;txch=7;evm=1;tx99=1;avg=$5G.TxEVM.Average;stop='$Test.Error';
+
+report style=column; f=evm.freq;l=freq;width=5;f=tx.rate;l=rate;f=evm.txchain;l=stream;f=tp;l=target;f=tx.temp;l=temp;f=evm.power;l=meas pwr;f=evmv;l=meas_EVM;f=lookup(tx.rate,@rate,@TxEVM.Limit);l=EVMLimit;f=test((evmv<=lookup(tx.rate,@rate,@TxEVM.Limit)),$PassText,$FailText,@5G.TxEVM.VHT20.Streams.Pass,@5G.TxEVM.VHT40.Streams.Fail);l=evmP/F;type=s;width=7;screen=1;title=5GHz EVM Accuracy with chain power;
+
+#report style=column; f=evm.freq;l=freq;width=5;f=rate;l=rate;f=txchain;l=stream;f=tp;l=target;f=tx.temp;l=temp;f=evm.power;l=meas pwr;f=evmv;l=meas_EVM;f=lookup(rate,@rate,@TxEVM.Limit);l=EVMLimit;f=test((evmv<=lookup(rate,@rate,@TxEVM.Limit)),$PassText,$FailText,@5G.TxEVM.VHT40.Streams.Pass,$FailText,@5G.TxEVM.VHT40.Streams.Fail);l=evmP/F;type=s;width=7;screen=1;title=5GHz EVM Accuracy with chain power;
+
+show 5G.TxEVM.VHT40.Streams.Fail
+LABEL name=TX5G_DONE; 
+
+sc i=$inst; a=BB_scrambler_seed.fixed_scrambler_seed;
+sc i=$inst; a=BB_phyonly_control.generate_scrambler;
+reset i=$inst;f=5500;

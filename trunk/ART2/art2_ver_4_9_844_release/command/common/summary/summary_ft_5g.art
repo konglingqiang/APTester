@@ -1,0 +1,72 @@
+assign 5G.Rx.Fail=0
+
+comment title="                         5GHz FT TEST SUMMARY"
+comment title="=================================================================="
+comment title="                                Fail#"
+GOTO name=5G.RxSensSweep_HT20_DONE; condition='$5G.RxSensSweep.test.HT20.Enable=0'
+comment title=" 5GHz HT20 Sensitivity Sweep:     $5G.RxSensSweep.HT20.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxSensSweep.HT20.Fail
+LABEL name=5G.RxSensSweep_HT20_DONE;
+
+GOTO name=5G.RxSensSweep_HT40_DONE; condition='$5G.RxSensSweep.test.HT40.Enable=0'
+comment title=" 5GHz HT40 Sensitivity Sweep:     $5G.RxSensSweep.HT40.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxSensSweep.HT40.Fail
+LABEL name=5G.RxSensSweep_HT40_DONE;
+
+GOTO name=5G.RxSensSweep_VHT20_DONE; condition='$5G.RxSensSweep.test.VHT20.Enable=0'
+comment title=" 5GHz VHT20 Sensitivity Sweep:     $5G.RxSensSweep.VHT20.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxSensSweep.VHT20.Fail
+LABEL name=5G.RxSensSweep_VHT20_DONE;
+
+GOTO name=5G.RxSensSweep_VHT40_DONE; condition='$5G.RxSensSweep.test.VHT40.Enable=0'
+comment title=" 5GHz VHT40 Sensitivity Sweep:     $5G.RxSensSweep.VHT40.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxSensSweep.VHT40.Fail
+LABEL name=5G.RxSensSweep_VHT40_DONE;
+
+GOTO name=5G.RxSensSweep_VHT80_DONE; condition='$5G.RxSensSweep.test.VHT80.Enable=0'
+comment title=" 5GHz VHT80 Sensitivity Sweep:     $5G.RxSensSweep.VHT80.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxSensSweep.VHT80.Fail
+LABEL name=5G.RxSensSweep_VHT80_DONE;
+
+GOTO name=5G.RxSensPoint_HT20_DONE; condition='$5G.RxSensPoint.test.HT20.Enable=0'
+comment title=" 5GHz HT20 Sensitivity Point:     $5G.RxSensPoint.HT20.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxSensPoint.HT20.Fail
+LABEL name=5G.RxSensPoint_HT20_DONE;
+
+GOTO name=5G.RxSensPoint_HT40_DONE; condition='$5G.RxSensPoint.test.HT40.Enable=0'
+comment title=" 5GHz HT40 Sensitivity Point:     $5G.RxSensPoint.HT40.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxSensPoint.HT40.Fail
+LABEL name=5G.RxSensPoint_HT40_DONE;
+
+GOTO name=5G.RxSensPoint_VHT20_DONE; condition='$5G.RxSensPoint.test.VHT20.Enable=0'
+comment title=" 5GHz VHT20 Sensitivity Point:     $5G.RxSensPoint.VHT20.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxSensPoint.VHT20.Fail
+LABEL name=5G.RxSensPoint_VHT20_DONE;
+
+GOTO name=5G.RxSensPoint_VHT40_DONE; condition='$5G.RxSensPoint.test.VHT40.Enable=0'
+comment title=" 5GHz VHT40 Sensitivity Point:     $5G.RxSensPoint.VHT40.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxSensPoint.VHT40.Fail
+LABEL name=5G.RxSensPoint_VHT40_DONE;
+
+GOTO name=5G.RxSensPoint_VHT80_DONE; condition='$5G.RxSensPoint.test.VHT80.Enable=0'
+comment title=" 5GHz VHT80 Sensitivity Point:     $5G.RxSensPoint.VHT80.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxSensPoint.VHT80.Fail
+LABEL name=5G.RxSensPoint_VHT80_DONE;
+
+GOTO name=5G.TxTput_DONE; condition='$5G.TxTput.test.Enable=0'
+comment title="                 5GHz TxTput:     $5G.TxTput.TPUT.Fail"
+comment title="                 5GHz TxPSR :     $5G.TxTput.PSR.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.TxTput.TPUT.Fail
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.TxTput.PSR.Fail
+LABEL name=5G.TxTput_DONE;
+
+GOTO name=5G.RxTput_DONE; condition='$5G.RxTput.test.Enable=0'
+comment title="                 5GHz RxTput:     $5G.RxTput.TPUT.Fail"
+comment title="                 5GHz RxPSR :     $5G.RxTput.PSR.Fail"
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxTput.TPUT.Fail
+calculate 5G.Rx.Fail = $5G.Rx.Fail + $5G.RxTput.PSR.Fail
+LABEL name=5G.RxTput_DONE;
+
+comment title="=================================================================="
+comment title="                  5GHz Total:     $5G.Rx.Fail"
+comment title="=================================================================="

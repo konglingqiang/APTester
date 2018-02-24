@@ -1,0 +1,35 @@
+#___________________________________________
+# Rx Cal
+#___________________________________________
+GOTO name=2GCAL_DONE; condition='$2G.Test.Disable=1'
+GOTO name=2GCAL_DONE; condition='$2G.RxCal.Enable=0'
+test_rx\Calibration-rx-2g.art
+GOTO name=FT_DONE;test='$Test.Error<>0';
+assign rx.calibration.data.save.enable=1
+LABEL name=2GCAL_DONE;
+
+GOTO name=5GCAL_DONE; condition='$5G.Test.Disable=1'
+GOTO name=5GCAL_DONE; condition='$5G.RxCal.Enable=0'
+test_rx\Calibration-rx-5g.art
+GOTO name=FT_DONE;test='$Test.Error<>0';
+assign rx.calibration.data.save.enable=1
+LABEL name=5GCAL_DONE;
+
+#___________________________________________
+GOTO name=2GFT_DONE; condition='$2G.Test.Disable=1'
+test_rx\RxTest_2g.art
+GOTO name=FT_DONE;test='$Test.Error<>0';
+LABEL name=2GFT_DONE;
+
+GOTO name=5GFT_DONE; condition='$5G.Test.Disable=1'
+test_rx\RxTest_5g.art
+GOTO name=FT_DONE;test='$Test.Error<>0';
+LABEL name=5GFT_DONE;
+
+#___________________________________________
+LABEL name=FT_DONE;
+comment title='	FT test Done!'
+
+
+
+

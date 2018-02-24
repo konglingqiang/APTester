@@ -1,0 +1,179 @@
+LABEL name=INIT_TEST_FLOW
+	assign OneShot=0;
+	assign number.radios=ffff;
+	assign referenceID[1]=0;
+	assign referenceID[2]=0;
+	assign referenceID[3]=0;
+	assign referenceID[4]=0;
+	assign RadioCount=1;
+	assign BoardsProcessed=0;
+	assign SerialLoopCount=0;
+	assign TestLoopCount=0;
+	assign FinalLoopCount=0;
+	assign DisconnectLoopCount=0;
+	assign CurrentRefDesign=ffff;
+	assign inst=0;
+	
+
+LABEL name=TOP_OF_TEST_FLOW
+	\common\art2banner.art
+	$configdir\ref_devices.art
+	#
+	# Assign the golden device instance to be maximum instances +1 This is
+	# the same as $number.radios because $number.radios is base 1 and instance 
+	# is base 0.
+	assign instGolden=$number.radios;
+	#
+	comment title="#############################################################################";
+	comment title=''; 
+	comment title= "                      Reference Device info as loaded from: $configdir\ref_devices.art";
+	comment title= "                      Radios : $number.radios";
+	comment title= "                      Radio 1: $referenceID[1]";
+	comment title= "                      Radio 2: $referenceID[2]";
+	comment title= "                      Radio 3: $referenceID[3]";
+	comment title= "                      Radio 4: $referenceID[4]";
+	comment title='';
+	
+GOTO LABEL name=ERROR_NO_DEVICES_FILE; condition='$number.radios=0';
+
+# The Following GOTO statement has to be commented out because
+# the "condition" statement is broken and can only compare
+# alpha a-f and numerics. For example comparison of AP135 to ZZZZ
+# would result in a "true" evaluation.
+#GOTO LABEL name=ERROR_NO_RADIOS_DEFINED; condition='$referenceID[1]=0'; 
+
+LABEL name=PROCESS_BOARDS
+	#Initialize all the radio and loopcount related variables
+		assign inst=0;
+		assign SerialLoopCount=0
+		assign TestLoopCount=0
+		assign FinalLoopCount=0
+		assign DisconnectLoopCount=0
+	comment title="###########################LOADING DEVICES###################################";
+	$configdir\conn_load.art
+	sleep 2
+	calculate BoardsProcessed=$BoardsProcessed+1;
+	#\common\cls.art
+	
+	comment title="###########################LOADING COMPLETE###################################";
+	comment title='';
+	comment title='';
+
+LABEL name=BEGIN_SERIAL_ENTRY
+	calculate SerialLoopCount=$SerialLoopCount+1
+	comment title='Please enter the serial number for radio$SerialLoopCount:';
+	comment title=$referenceID[$SerialLoopCount];
+	comment title='(Enter "ffff" to exit.)';
+	comment title='';
+	comment title='';
+	prompt serialNum[$SerialLoopCount];
+	comment title='';
+	comment title='';
+GOTO name=BEGIN_SERIAL_ENTRY; condition='$SerialLoopCount<$number.radios';
+
+LABEL name=BEGIN_TEST_FLOW
+	
+	GOTO name=SKIP_ASSIGNING_TIME; condition='$inst>0'
+		assign T_TestBegan=$time;
+	LABEL name=SKIP_ASSIGNING_TIME;
+	
+	calculate TestLoopCount=$TestLoopCount+1
+	assign refdesign=$referenceID[$TestLoopCount]
+	assign ref_filename=$referenceID[$TestLoopCount]
+	assign refID=$referenceID[$TestLoopCount]
+	assign sernum1=$serialNum[$TestLoopCount]
+	#\common\cls.art
+	comment title="#############################################################################";
+	comment title="                        ";
+	comment title="";
+	comment title="                      ##      ##    ###    #### ######## ";
+	comment title="                      ##  ##  ##   ## ##    ##     ##    ";
+	comment title="                      ##  ##  ##  ##   ##   ##     ##    ";
+	comment title="                      ##  ##  ## ##     ##  ##     ##    ";
+	comment title="                      ##  ##  ## #########  ##     ##    ";
+	comment title="                      ##  ##  ## ##     ##  ##     ##    ";
+	comment title="                       ###  ###  ##     ## ####    ##  ";
+	comment title="";
+	comment title="                            TESTING IN PROGRESS";
+	comment title="                        ";
+	comment title="                      Testing device number $TestLoopCount of $number.radios  ";
+	comment title="                      Instance:         $inst    ";
+	comment title="                      Device Type:      $referenceID[$TestLoopCount]";
+	comment title="                      Serial Number:    $serialNum[$TestLoopCount] ";
+	comment title="";
+	comment title="#############################################################################";
+
+	######### Board initialization section
+		\refdesigns\$referenceID[$TestLoopCount]\ref_file.art
+		\refdesigns\$referenceID[$TestLoopCount]\ctl_table.art
+		\refdesigns\$referenceID[$TestLoopCount]\trg_pwr.art
+		\refdesigns\$referenceID[$TestLoopCount]\cal_scheme.art
+		#Note: Setup_overwrite is the only reference file not explicitly called 
+		#      at this time. It must be called after all other test_flow_flag files
+	        #      are run.
+		# 	\refdesigns\$referenceID[$TestLoopCount]\setup_overwrite;
+		macid i=$inst;
+	#########
+	common\test_flow-inst.art
+	calculate inst=$inst+1;
+LABEL name=END_TEST_FLOW
+GOTO name=BEGIN_TEST_FLOW; condition='$number.radios>$TestLoopCount'
+
+LABEL name=BEGIN_DISCONNECT_LOOP
+	assign inst=$DisconnectLoopCount;
+	calculate DisconnectLoopCount=$DisconnectLoopCount+1
+	comment title="#############################################################################";
+	comment title="                        ";
+	comment title="                      Disconnecting Radio";
+	comment title="                      Instance $inst    ";
+	comment title="                      Device Number $DisconnectLoopCount of $number.radios ";
+	comment title="                        ";
+	disconnect i=$inst;
+GOTO name=BEGIN_DISCONNECT_LOOP; condition='$number.radios>$DisconnectLoopCount'
+
+	comment title="";
+	comment title="";
+	comment title="                              TEST COMPLETE                       ";
+	comment title="";
+	comment title="                      You may now remove the board"; 
+	comment title="                      1+[ENTER] to continue to next board
+	comment title="                      0+[ENTER] to quit";
+	comment title="";
+GOTO name=THE_END; condition='$OneShot=1';
+	prompt Your_Response
+GOTO name=THE_END; condition='$Your_Response=0';
+	\common\cls.art
+GOTO name=PROCESS_BOARDS;
+	 	
+LABEL name=THE_END;
+	comment title="#############################################################################";
+	comment title="";
+	comment title="                      EXITING";
+	comment title="                      GoodBye";
+	comment title="";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_DEVICES_FILE
+	comment title="#############################################################################";
+	comment title="                        ";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      DEVICE_INFO.ART FILE NOT FOUND IN $configdir';
+	comment title="                      EXITING                        ";
+	comment title="                        ";
+	comment title="#############################################################################";
+STOP
+
+LABEL name=ERROR_NO_RADIOS_DEFINED
+	comment title="#############################################################################";
+	comment title="";
+	comment title="                      ERROR!"; 
+	comment title="";
+	comment title="                      NO DEFINED RADIOS $configdir\ref_devices.art";
+	comment title="                      First Radio RefID=$referenceID[1]";
+	comment title="                      EXITING                        ";
+	comment title="";
+	comment title="#############################################################################";
+STOP
+

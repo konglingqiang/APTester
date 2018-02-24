@@ -1,0 +1,217 @@
+assign 5G.TxEVM.test.Enable=0
+#___________________________________________
+# TX EVM Test OFDM Rate List
+#___________________________________________
+assign empty = 1
+assign 5G.TxEVM.1Stream.Rate = " "
+
+GOTO name=TXRATE_OFDM_DONE; condition='$5G.TxEVM.Legacy.Enable=0'
+assign 5G.TxEVM.1Stream.Rate = $5G.TxEVM.Legacy.Rate
+assign empty = 0
+LABEL name=TXRATE_OFDM_DONE;
+
+#___________________________________________
+#TX EVM Test Rate List HT20 1stream
+#___________________________________________
+GOTO name=TXRATE_HT20_1S_DONE; condition='$5G.TxEVM.HT20.1Stream.Enable=0'
+GOTO name=TXRATE_HT20_1S; condition='$empty=0'
+assign 5G.TxEVM.1Stream.Rate = $5G.TxEVM.HT20.1Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_HT20_1S_DONE;
+LABEL name=TXRATE_HT20_1S;
+assign 5G.TxEVM.1Stream.Rate = $5G.TxEVM.1Stream.Rate, $5G.TxEVM.HT20.1Stream.Rate
+LABEL name=TXRATE_HT20_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List HT40 1stream
+#___________________________________________
+GOTO name=TXRATE_HT40_1S_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TXRATE_HT40_1S_DONE; condition='$5G.TxEVM.HT40.1Stream.Enable=0'
+assign empty = 0
+LABEL name=TXRATE_HT40_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT20 1stream
+#___________________________________________
+GOTO name=TXRATE_VHT20_1S_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TXRATE_VHT20_1S_DONE; condition='$5G.TxEVM.VHT20.1Stream.Enable=0'
+assign empty = 0
+LABEL name=TXRATE_VHT20_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT40 1stream
+#___________________________________________
+GOTO name=TXRATE_VHT40_1S_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TXRATE_VHT40_1S_DONE; condition='$5G.TxEVM.VHT40.1Stream.Enable=0'
+assign empty = 0
+LABEL name=TXRATE_VHT40_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT80 1stream
+#___________________________________________
+GOTO name=TXRATE_VHT80_1S_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TXRATE_VHT80_1S_DONE; condition='$5G.TxEVM.VHT80.1Stream.Enable=0'
+assign empty = 0
+LABEL name=TXRATE_VHT80_1S_DONE;
+
+#___________________________________________
+# check 1stream enable or not
+#___________________________________________
+GOTO name=TXRATE_1Stream_ENABLE; condition='$empty=0'
+assign 5G.TxEVM.1Stream.Enable=0
+GOTO name=TXRATE_1Stream_DONE;
+LABEL name=TXRATE_1Stream_ENABLE;
+assign 5G.TxEVM.1Stream.Enable=1
+assign 5G.TxEVM.test.Enable=1
+LABEL name=TXRATE_1Stream_DONE;
+
+assign 5G.TxEVM.MStream.Enable=0
+#___________________________________________
+# TX EVM Test Rate List HT20 2stream
+#___________________________________________
+assign empty = 1
+assign 5G.TxEVM.2Stream.Rate = " "
+
+GOTO name=TXRATE_HT20_2S_DONE; condition='$5G.TxEVM.HT20.2Stream.Enable=0'
+assign 5G.TxEVM.2Stream.Rate = $5G.TxEVM.HT20.2Stream.Rate
+assign empty = 0
+LABEL name=TXRATE_HT20_2S_DONE;
+
+#___________________________________________
+# TX EVM Test Rate List HT40 2stream
+#___________________________________________
+GOTO name=TXRATE_HT40_2S_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TXRATE_HT40_2S_DONE; condition='$5G.TxEVM.HT40.2Stream.Enable=0'
+GOTO name=TXRATE_HT40_2S; condition='$empty=0'
+assign 5G.TxEVM.2Stream.Rate = $5G.TxEVM.HT40.2Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_HT40_2S_DONE;
+LABEL name=TXRATE_HT40_2S;
+assign 5G.TxEVM.2Stream.Rate = $5G.TxEVM.2Stream.Rate, $5G.TxEVM.HT40.2Stream.Rate
+LABEL name=TXRATE_HT40_2S_DONE;
+
+#___________________________________________
+# TX EVM Test Rate List VHT20 2stream
+#___________________________________________
+GOTO name=TXRATE_VHT20_2S_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TXRATE_VHT20_2S_DONE; condition='$5G.TxEVM.VHT20.2Stream.Enable=0'
+GOTO name=TXRATE_VHT20_2S; condition='$empty=0'
+assign 5G.TxEVM.2Stream.Rate = $5G.TxEVM.VHT20.2Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT20_2S_DONE;
+LABEL name=TXRATE_VHT20_2S;
+assign 5G.TxEVM.2Stream.Rate = $5G.TxEVM.2Stream.Rate, $5G.TxEVM.VHT20.2Stream.Rate
+LABEL name=TXRATE_VHT20_2S_DONE;
+
+#___________________________________________
+# TX EVM Test Rate List VHT40 2stream
+#___________________________________________
+GOTO name=TXRATE_VHT40_2S_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TXRATE_VHT40_2S_DONE; condition='$5G.TxEVM.VHT40.2Stream.Enable=0'
+GOTO name=TXRATE_VHT40_2S; condition='$empty=0'
+assign 5G.TxEVM.2Stream.Rate = $5G.TxEVM.VHT40.2Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT40_2S_DONE;
+LABEL name=TXRATE_VHT40_2S;
+assign 5G.TxEVM.2Stream.Rate = $5G.TxEVM.2Stream.Rate, $5G.TxEVM.VHT40.2Stream.Rate
+LABEL name=TXRATE_VHT40_2S_DONE;
+
+#___________________________________________
+# TX EVM Test Rate List VHT80 2stream
+#___________________________________________
+GOTO name=TXRATE_VHT80_2S_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TXRATE_VHT80_2S_DONE; condition='$5G.TxEVM.VHT80.2Stream.Enable=0'
+GOTO name=TXRATE_VHT80_2S; condition='$empty=0'
+assign 5G.TxEVM.2Stream.Rate = $5G.TxEVM.VHT80.2Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT80_2S_DONE;
+LABEL name=TXRATE_VHT80_2S;
+assign 5G.TxEVM.2Stream.Rate = $5G.TxEVM.2Stream.Rate, $5G.TxEVM.VHT80.2Stream.Rate
+LABEL name=TXRATE_VHT80_2S_DONE;
+
+#___________________________________________
+# check 2stream enable or not
+#___________________________________________
+GOTO name=TXRATE_2Stream_ENABLE; condition='$empty=0'
+assign 5G.TxEVM.2Stream.Enable=0
+GOTO name=TXRATE_2Stream_DONE;
+LABEL name=TXRATE_2Stream_ENABLE;
+assign 5G.TxEVM.2Stream.Enable=1
+assign 5G.TxEVM.MStream.Enable=1
+assign 5G.TxEVM.test.Enable=1
+LABEL name=TXRATE_2Stream_DONE;
+
+#___________________________________________
+# TX EVM Test Rate List HT20 3stream
+#___________________________________________
+assign empty = 1
+assign 5G.TxEVM.3Stream.Rate = " "
+
+GOTO name=TXRATE_HT20_3S_DONE; condition='$5G.TxEVM.HT20.3Stream.Enable=0'
+assign 5G.TxEVM.3Stream.Rate = $5G.TxEVM.HT20.3Stream.Rate
+assign empty = 0
+LABEL name=TXRATE_HT20_3S_DONE;
+
+#___________________________________________
+# TX EVM Test Rate List HT40 3stream
+#___________________________________________
+GOTO name=TXRATE_HT40_3S_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TXRATE_HT40_3S_DONE; condition='$5G.TxEVM.HT40.3Stream.Enable=0'
+GOTO name=TXRATE_HT40_3S; condition='$empty=0'
+assign 5G.TxEVM.3Stream.Rate = $5G.TxEVM.HT40.3Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_HT40_3S_DONE;
+LABEL name=TXRATE_HT40_3S;
+assign 5G.TxEVM.3Stream.Rate = $5G.TxEVM.3Stream.Rate, $5G.TxEVM.HT40.3Stream.Rate
+LABEL name=TXRATE_HT40_3S_DONE;
+
+#___________________________________________
+# TX EVM Test Rate List VHT20 3stream
+#___________________________________________
+GOTO name=TXRATE_VHT20_3S_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TXRATE_VHT20_3S_DONE; condition='$5G.TxEVM.VHT20.3Stream.Enable=0'
+GOTO name=TXRATE_VHT20_3S; condition='$empty=0'
+assign 5G.TxEVM.3Stream.Rate = $5G.TxEVM.VHT20.3Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT20_3S_DONE;
+LABEL name=TXRATE_VHT20_3S;
+assign 5G.TxEVM.3Stream.Rate = $5G.TxEVM.3Stream.Rate, $5G.TxEVM.VHT20.3Stream.Rate
+LABEL name=TXRATE_VHT20_3S_DONE;
+
+#___________________________________________
+# TX EVM Test Rate List VHT40 3stream
+#___________________________________________
+GOTO name=TXRATE_VHT40_3S_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TXRATE_VHT40_3S_DONE; condition='$5G.TxEVM.VHT40.3Stream.Enable=0'
+GOTO name=TXRATE_VHT40_3S; condition='$empty=0'
+assign 5G.TxEVM.3Stream.Rate = $5G.TxEVM.VHT40.3Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT40_3S_DONE;
+LABEL name=TXRATE_VHT40_3S;
+assign 5G.TxEVM.3Stream.Rate = $5G.TxEVM.3Stream.Rate, $5G.TxEVM.VHT40.3Stream.Rate
+LABEL name=TXRATE_VHT40_3S_DONE;
+
+#___________________________________________
+# TX EVM Test Rate List VHT80 3stream
+#___________________________________________
+GOTO name=TXRATE_VHT80_3S_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TXRATE_VHT80_3S_DONE; condition='$5G.TxEVM.VHT80.3Stream.Enable=0'
+GOTO name=TXRATE_VHT80_3S; condition='$empty=0'
+assign 5G.TxEVM.3Stream.Rate = $5G.TxEVM.VHT80.3Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT80_3S_DONE;
+LABEL name=TXRATE_VHT80_3S;
+assign 5G.TxEVM.3Stream.Rate = $5G.TxEVM.3Stream.Rate, $5G.TxEVM.VHT80.3Stream.Rate
+LABEL name=TXRATE_VHT80_3S_DONE;
+
+#___________________________________________
+# check 3stream enable or not
+#___________________________________________
+GOTO name=TXRATE_3Stream_ENABLE; condition='$empty=0'
+assign 5G.TxEVM.3Stream.Enable=0
+GOTO name=TXRATE_3Stream_DONE;
+LABEL name=TXRATE_3Stream_ENABLE;
+assign 5G.TxEVM.3Stream.Enable=1
+assign 5G.TxEVM.MStream.Enable=1
+assign 5G.TxEVM.test.Enable=1
+LABEL name=TXRATE_3Stream_DONE;

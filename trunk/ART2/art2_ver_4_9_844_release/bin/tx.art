@@ -1,0 +1,12 @@
+#2G load 
+#load devid=3f;cal=flash
+#5G load
+#connect i=0;192.168.1.1:2391;
+#load devid=3c;memory=flash
+
+stop
+tx tx=0; pl=4000;pc=1000000;f=2412;r=t7;ir=2;txch=1;evm=1;tx99=1;avg=$2G.TxEVM.Average;
+# tx=0 ≤‚ ‘2G£¨tx=1
+#
+#
+tx pl=4000;pc=-1;f=5180;r=t7;ir=2;txch=1;tx99=1;tp=target£ª

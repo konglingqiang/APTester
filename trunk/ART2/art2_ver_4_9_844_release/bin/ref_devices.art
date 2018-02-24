@@ -1,0 +1,14 @@
+# number.radios is the number of radios to be tested on a specific device
+assign number.radios=1;
+
+# referenceID[x] describes each reference design
+assign referenceID[2]=hb97;
+assign referenceID[2]=
+#assign referenceID[3]=
+
+# These flags control programming of the MAC address
+assign mac.address.enable=1;
+assign mac.address.restore=0;
+
+#The following flag eliminates the "shift" and makes the flow a single run
+assign OneShot=0;

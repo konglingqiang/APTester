@@ -1,0 +1,244 @@
+assign 5G.TxMask.test.Enable=0
+#___________________________________________
+# TX Power Test CCK Rate List
+#___________________________________________
+assign empty = 1
+assign 5G.TxMask.1Stream.Rate = " "
+
+#___________________________________________
+# TX Power Test OFDM Rate List
+#___________________________________________
+GOTO name=TXRATE_OFDM_DONE; condition='$5G.TxMask.Legacy.Enable=0'
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.Legacy.Rate
+assign empty = 0
+LABEL name=TXRATE_OFDM_DONE;
+
+#___________________________________________
+#TX Power Test Rate List HT20 1stream
+#___________________________________________
+GOTO name=TXRATE_HT20_1S_DONE; condition='$5G.TxMask.HT20.1Stream.Enable=0'
+GOTO name=TXRATE_HT20_1S; condition='$empty=0'
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.HT20.1Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_HT20_1S_DONE;
+LABEL name=TXRATE_HT20_1S;
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.1Stream.Rate, $5G.TxMask.HT20.1Stream.Rate
+LABEL name=TXRATE_HT20_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List HT40 1stream
+#___________________________________________
+GOTO name=TXRATE_HT40_1S_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TXRATE_HT40_1S_DONE; condition='$5G.TxMask.HT40.1Stream.Enable=0'
+GOTO name=TXRATE_HT40_1S; condition='$empty=0'
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.HT40.1Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_HT40_1S_DONE;
+LABEL name=TXRATE_HT40_1S;
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.1Stream.Rate, $5G.TxMask.HT40.1Stream.Rate
+LABEL name=TXRATE_HT40_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT20 1stream
+#___________________________________________
+GOTO name=TXRATE_VHT20_1S_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TXRATE_VHT20_1S_DONE; condition='$5G.TxMask.VHT20.1Stream.Enable=0'
+GOTO name=TXRATE_VHT20_1S; condition='$empty=0'
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.VHT20.1Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT20_1S_DONE;
+LABEL name=TXRATE_VHT20_1S;
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.1Stream.Rate, $5G.TxMask.VHT20.1Stream.Rate
+LABEL name=TXRATE_VHT20_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT40 1stream
+#___________________________________________
+GOTO name=TXRATE_VHT40_1S_DONE;
+GOTO name=TXRATE_VHT40_1S_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TXRATE_VHT40_1S_DONE; condition='$5G.TxMask.VHT40.1Stream.Enable=0'
+GOTO name=TXRATE_VHT40_1S; condition='$empty=0'
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.VHT40.1Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT40_1S_DONE;
+LABEL name=TXRATE_VHT40_1S;
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.1Stream.Rate, $5G.TxMask.VHT40.1Stream.Rate
+LABEL name=TXRATE_VHT40_1S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT80 1stream
+#___________________________________________
+GOTO name=TXRATE_VHT80_1S_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TXRATE_VHT80_1S_DONE; condition='$5G.TxMask.VHT80.1Stream.Enable=0'
+GOTO name=TXRATE_VHT80_1S; condition='$empty=0'
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.VHT80.1Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT80_1S_DONE;
+LABEL name=TXRATE_VHT80_1S;
+assign 5G.TxMask.1Stream.Rate = $5G.TxMask.1Stream.Rate, $5G.TxMask.VHT80.1Stream.Rate
+LABEL name=TXRATE_VHT80_1S_DONE;
+
+#___________________________________________
+# check 1stream enable or not
+#___________________________________________
+GOTO name=TXRATE_1Stream_ENABLE; condition='$empty=0'
+assign 5G.TxMask.1Stream.Enable=0
+GOTO name=TXRATE_1Stream_DONE;
+LABEL name=TXRATE_1Stream_ENABLE;
+assign 5G.TxMask.1Stream.Enable=1
+assign 5G.TxMask.test.Enable=1
+LABEL name=TXRATE_1Stream_DONE;
+
+assign 5G.TxMask.MStream.Enable=0
+#___________________________________________
+# TX Power Test Rate List HT20 2stream
+#___________________________________________
+assign empty = 1
+assign 5G.TxMask.Streams.Rate = " "
+
+GOTO name=TXRATE_HT20_2S_DONE; condition='$5G.TxMask.HT20.2Stream.Enable=0'
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.HT20.2Stream.Rate
+assign empty = 0
+LABEL name=TXRATE_HT20_2S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List HT40 2stream
+#___________________________________________
+GOTO name=TXRATE_HT40_2S_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TXRATE_HT40_2S_DONE; condition='$5G.TxMask.HT40.2Stream.Enable=0'
+GOTO name=TXRATE_HT40_2S; condition='$empty=0'
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.HT40.2Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_HT40_2S_DONE;
+LABEL name=TXRATE_HT40_2S;
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.Streams.Rate, $5G.TxMask.HT40.2Stream.Rate
+LABEL name=TXRATE_HT40_2S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT20 2stream
+#___________________________________________
+GOTO name=TXRATE_VHT20_2S_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TXRATE_VHT20_2S_DONE; condition='$5G.TxMask.VHT20.2Stream.Enable=0'
+GOTO name=TXRATE_VHT20_2S; condition='$empty=0'
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.VHT20.2Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT20_2S_DONE;
+LABEL name=TXRATE_VHT20_2S;
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.Streams.Rate, $5G.TxMask.VHT20.2Stream.Rate
+LABEL name=TXRATE_VHT20_2S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT40 2stream
+#___________________________________________
+GOTO name=TXRATE_VHT40_2S_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TXRATE_VHT40_2S_DONE; condition='$5G.TxMask.VHT40.2Stream.Enable=0'
+GOTO name=TXRATE_VHT40_2S; condition='$empty=0'
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.VHT40.2Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT40_2S_DONE;
+LABEL name=TXRATE_VHT40_2S;
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.Streams.Rate, $5G.TxMask.VHT40.2Stream.Rate
+LABEL name=TXRATE_VHT40_2S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT80 2stream
+#___________________________________________
+GOTO name=TXRATE_VHT80_2S_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TXRATE_VHT80_2S_DONE; condition='$5G.TxMask.VHT80.2Stream.Enable=0'
+GOTO name=TXRATE_VHT80_2S; condition='$empty=0'
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.VHT80.2Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT80_2S_DONE;
+LABEL name=TXRATE_VHT80_2S;
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.Streams.Rate, $5G.TxMask.VHT80.2Stream.Rate
+LABEL name=TXRATE_VHT80_2S_DONE;
+
+#___________________________________________
+# check 2stream enable or not
+#___________________________________________
+GOTO name=TXRATE_2Stream_ENABLE; condition='$empty=0'
+assign 5G.TxMask.2Stream.Enable=0
+GOTO name=TXRATE_2Stream_DONE;
+LABEL name=TXRATE_2Stream_ENABLE;
+assign 5G.TxMask.2Stream.Enable=1
+assign 5G.TxMask.MStream.Enable=1
+assign 5G.TxMask.test.Enable=1
+LABEL name=TXRATE_2Stream_DONE;
+
+#___________________________________________
+# TX Power Test Rate List HT20 3stream
+#___________________________________________
+GOTO name=TXRATE_HT20_3S_DONE; condition='$5G.TxMask.HT20.3Stream.Enable=0'
+GOTO name=TXRATE_HT20_3S; condition='$empty=0'
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.HT20.3Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_HT20_3S_DONE;
+LABEL name=TXRATE_HT20_3S;
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.Streams.Rate, $5G.TxMask.HT20.3Stream.Rate
+LABEL name=TXRATE_HT20_3S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List HT40 3stream
+#___________________________________________
+GOTO name=TXRATE_HT40_3S_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TXRATE_HT40_3S_DONE; condition='$5G.TxMask.HT40.3Stream.Enable=0'
+GOTO name=TXRATE_HT40_3S; condition='$empty=0'
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.HT40.3Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_HT40_3S_DONE;
+LABEL name=TXRATE_HT40_3S;
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.Streams.Rate, $5G.TxMask.HT40.3Stream.Rate
+LABEL name=TXRATE_HT40_3S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT20 3stream
+#___________________________________________
+GOTO name=TXRATE_VHT20_3S_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TXRATE_VHT20_3S_DONE; condition='$5G.TxMask.VHT20.3Stream.Enable=0'
+GOTO name=TXRATE_VHT20_3S; condition='$empty=0'
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.VHT20.3Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT20_3S_DONE;
+LABEL name=TXRATE_VHT20_3S;
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.Streams.Rate, $5G.TxMask.VHT20.3Stream.Rate
+LABEL name=TXRATE_VHT20_3S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT40 3stream
+#___________________________________________
+GOTO name=TXRATE_VHT40_3S_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TXRATE_VHT40_3S_DONE; condition='$5G.TxMask.VHT40.3Stream.Enable=0'
+GOTO name=TXRATE_VHT40_3S; condition='$empty=0'
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.VHT40.3Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT40_3S_DONE;
+LABEL name=TXRATE_VHT40_3S;
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.Streams.Rate, $5G.TxMask.VHT40.3Stream.Rate
+LABEL name=TXRATE_VHT40_3S_DONE;
+
+#___________________________________________
+# TX Power Test Rate List VHT80 3stream
+#___________________________________________
+GOTO name=TXRATE_VHT80_3S_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TXRATE_VHT80_3S_DONE; condition='$5G.TxMask.VHT80.3Stream.Enable=0'
+GOTO name=TXRATE_VHT80_3S; condition='$empty=0'
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.VHT80.3Stream.Rate
+assign empty = 0
+GOTO name=TXRATE_VHT80_3S_DONE;
+LABEL name=TXRATE_VHT80_3S;
+assign 5G.TxMask.Streams.Rate = $5G.TxMask.Streams.Rate, $5G.TxMask.VHT80.3Stream.Rate
+LABEL name=TXRATE_VHT80_3S_DONE;
+
+#___________________________________________
+# check 3stream enable or not
+#___________________________________________
+GOTO name=TXRATE_3Stream_ENABLE; condition='$empty=0'
+assign 5G.TxMask.3Stream.Enable=0
+GOTO name=TXRATE_3Stream_DONE;
+LABEL name=TXRATE_3Stream_ENABLE;
+assign 5G.TxMask.3Stream.Enable=1
+assign 5G.TxMask.MStream.Enable=1
+assign 5G.TxMask.test.Enable=1
+LABEL name=TXRATE_3Stream_DONE;
+
+

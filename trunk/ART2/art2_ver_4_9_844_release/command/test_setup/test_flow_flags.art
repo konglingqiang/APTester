@@ -1,0 +1,94 @@
+##-----------------------------------------------------------------
+#  test level
+#  0: Default Flow - This flow is of substantial lenght and is used for software engineering purposes
+#  1: Manufacturing Sample - This is a sample manufacturing flow created for example purposes only
+#  2: Engineering - This is an extremely long flow with nearly all features enabled
+##-----------------------------------------------------------------
+assign test.level=0;
+
+##-----------------------------------------------------------------
+# manufAuto: 1 	For manufacure auto test, no user enter required
+# 		refID need to be setup correctly, BoardIDType=1
+#	     0  For manufacure test with user selection
+#		refID and SSID will be entered by user
+#	     2  for atheros internal
+#		BoardIDType, refID need to be entered by user
+##-----------------------------------------------------------------
+assign manufAuto=1
+assign BoardIDType=1
+#assign refID=cus223
+##-----------------------------------------------------------------
+
+## default test selection 0: run the test,  1: disable the test 
+##-----------------------------------------------------------------
+## Select TP, FT test
+##-----------------------------------------------------------------
+assign ptTestDisable=0
+assign ftTestDisable=0
+
+##-----------------------------------------------------------------
+## Select Golden DUT loading HAL dll 
+## HAL.DLL.Disable= 0:default dll AR9300, 1: use dll=GoldenHA.DLLNAME 
+##-----------------------------------------------------------------
+assign GoldenHAL.DLL.Disable=0;
+assign GoldenHAL.DLL.NAME=ar9300_9-3-0
+
+##-----------------------------------------------------------------
+## Select DUT loading HAL dll 
+## HAL.DLL.Disable= 0:default dll AR9300, 1: use dll=HAL.DLLNAME 
+##-----------------------------------------------------------------
+assign HAL.DLL.Disable=0;
+assign HAL.DLL.NAME=ar9300_9-3-0
+#assign HAL.DLL.NAME=ar9300_9-2-0_U8
+#assign HAL.DLL.NAME=ar9300Aquila
+#assign HAL.DLL.NAME=ar9300CbuMain
+##-----------------------------------------------------------------
+## Select DUT loading memory (default 0, load without define memory), 
+## HAL.Memory.Input.Disable= 0:default eeprom, 1: use memory=HAL.Memory.Input 
+##-----------------------------------------------------------------
+assign HAL.Memory.Input.Disable=0;
+assign HAL.Memory.Input=flash;
+##-----------------------------------------------------------------
+## Select DUT calibration data writing memory (default 0, save without define memory), 
+## HAL.Memory.Output.Disable= 0:default eeprom, 1: use memory=HAL.Memory.Input 
+##-----------------------------------------------------------------
+assign HAL.Memory.Output.Disable=0;
+assign HAL.Memory.Output=flash;
+
+##-----------------------------------------------------------------
+# For single band DUT, the not exist band will be automatically disabled
+# Change this setting, only if user wants to disable one band's test for dual band DUT.
+##-----------------------------------------------------------------
+assign 2G.Disable = 0
+assign 5G.Disable = 0
+
+assign 2G.HT40.Disable = 0
+assign 5G.HT40.Disable = 0
+assign 5G.VHT20.Disable = 1
+assign 5G.VHT40.Disable = 1
+assign 5G.VHT80.Disable = 1
+
+
+##-----------------------------------------------------------------
+## select tx,rx test flow flags based on selected test level
+##-----------------------------------------------------------------
+GOTO name=MFG_SAMPLE; condition='$test.level=1'
+GOTO name=ENGINEERING; condition='$test.level=2'
+test_setup\test_flow_flags_tx.art
+test_setup\test_flow_flags_rx.art
+GOTO name=FLOW_FLAGS_SET_DONE;
+
+LABEL name=MFG_SAMPLE;
+test_setup\mfg_sample\test_flow_flags_tx.art
+test_setup\mfg_sample\test_flow_flags_rx.art
+GOTO name=FLOW_FLAGS_SET_DONE;
+
+LABEL name=ENGINEERING;
+test_setup\engineering\test_flow_flags_tx.art
+test_setup\engineering\test_flow_flags_rx.art
+
+LABEL name=FLOW_FLAGS_SET_DONE;
+
+GOTO name=SKIP_ARTGUI_MODE; condition='$artGuiMode=0'
+test_setup\artGui_test_flow_flags.art
+LABEL name=SKIP_ARTGUI_MODE

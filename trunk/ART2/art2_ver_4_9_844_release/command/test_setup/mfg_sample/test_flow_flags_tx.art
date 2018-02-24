@@ -1,0 +1,123 @@
+#___________________________________________
+# Tx power Calibration settings
+#___________________________________________
+assign 2G.TxPowerCal.Enable=0
+assign 5G.TxPowerCal.Enable=1
+
+assign 2G.XtalCal.Enable=0
+assign 5G.XtalCal.Enable=0
+
+assign 2G.XtalCal.11AC=0
+assign 5G.XtalCal.11AC=0
+
+#___________________________________________
+# Tx Test type disable/enable
+#___________________________________________
+assign 2G.TxPower.Enable=0
+assign 2G.TxMASK.Enable=0
+assign 2G.TxEVM.Enable=0
+assign 2G.TxFreqAccuracy.Enable=0
+
+assign 5G.TxPower.Enable=1
+assign 5G.TxMASK.Enable=1
+assign 5G.TxEVM.Enable=1
+assign 5G.TxFreqAccuracy.Enable=1
+
+GOTO name=NO_VSA; condition='$Equipment.VSA.Chains=0'
+assign 2G.TxEVM.Enable=0
+assign 5G.TxEVM.Enable=1
+LABEL name=NO_VSA
+
+#___________________________________________
+# target power verification test settings
+#___________________________________________
+assign 2G.TxPower.CCK.Enable=0
+assign 2G.TxPower.Legacy.Enable=0
+assign 2G.TxPower.HT20.1Stream.Enable=0
+assign 2G.TxPower.HT40.1Stream.Enable=0
+assign 2G.TxPower.HT20.2Stream.Enable=0
+assign 2G.TxPower.HT40.2Stream.Enable=0
+assign 2G.TxPower.HT20.3Stream.Enable=0
+assign 2G.TxPower.HT40.3Stream.Enable=0
+
+#___________________________________________
+assign 5G.TxPower.Legacy.Enable=0
+assign 5G.TxPower.HT20.1Stream.Enable=0
+assign 5G.TxPower.HT40.1Stream.Enable=0
+assign 5G.TxPower.VHT20.1Stream.Enable=1
+assign 5G.TxPower.VHT40.1Stream.Enable=0
+assign 5G.TxPower.VHT80.1Stream.Enable=0
+assign 5G.TxPower.HT20.2Stream.Enable=0
+assign 5G.TxPower.HT40.2Stream.Enable=0
+assign 5G.TxPower.VHT20.2Stream.Enable=0
+assign 5G.TxPower.VHT40.2Stream.Enable=0
+assign 5G.TxPower.VHT80.2Stream.Enable=0
+assign 5G.TxPower.HT20.3Stream.Enable=0
+assign 5G.TxPower.HT40.3Stream.Enable=0
+assign 5G.TxPower.VHT20.3Stream.Enable=0
+assign 5G.TxPower.VHT40.3Stream.Enable=0
+assign 5G.TxPower.VHT80.3Stream.Enable=0
+
+#___________________________________________
+# TxPower.combined=0 use the external attenuator measure chain power for 2/3 stream
+# 			 1 without external attenuator measure combined power for 2/3 stream
+#___________________________________________
+assign TxPower.combined=0
+
+#___________________________________________
+# Mask test settings 
+#___________________________________________
+assign 2G.TxMASK.CCK.Enable=0
+assign 2G.TxMASK.Legacy.Enable=0
+assign 2G.TxMASK.HT20.1Stream.Enable=0
+assign 2G.TxMASK.HT40.1Stream.Enable=0
+assign 2G.TxMASK.HT20.2Stream.Enable=0
+assign 2G.TxMASK.HT40.2Stream.Enable=0
+assign 2G.TxMASK.HT20.3Stream.Enable=0
+assign 2G.TxMASK.HT40.3Stream.Enable=0
+
+assign 5G.TxMASK.Legacy.Enable=0
+assign 5G.TxMASK.HT20.1Stream.Enable=0
+assign 5G.TxMASK.HT40.1Stream.Enable=0
+assign 5G.TxMASK.VHT20.1Stream.Enable=0
+assign 5G.TxMASK.VHT40.1Stream.Enable=0
+assign 5G.TxMASK.VHT80.1Stream.Enable=1
+assign 5G.TxMASK.HT20.2Stream.Enable=0
+assign 5G.TxMASK.HT40.2Stream.Enable=0
+assign 5G.TxMASK.VHT20.2Stream.Enable=0
+assign 5G.TxMASK.VHT40.2Stream.Enable=0
+assign 5G.TxMASK.VHT80.2Stream.Enable=0
+assign 5G.TxMASK.HT20.3Stream.Enable=0
+assign 5G.TxMASK.HT40.3Stream.Enable=0
+assign 5G.TxMASK.VHT20.3Stream.Enable=0
+assign 5G.TxMASK.VHT40.3Stream.Enable=0
+assign 5G.TxMASK.VHT80.3Stream.Enable=0
+
+#___________________________________________
+# EVM test settings 
+#___________________________________________
+assign 2G.TxEVM.CCK.Enable=0
+assign 2G.TxEVM.Legacy.Enable=0
+assign 2G.TxEVM.HT20.1Stream.Enable=0
+assign 2G.TxEVM.HT40.1Stream.Enable=0
+assign 2G.TxEVM.HT20.2Stream.Enable=0
+assign 2G.TxEVM.HT40.2Stream.Enable=0
+assign 2G.TxEVM.HT20.3Stream.Enable=0
+assign 2G.TxEVM.HT40.3Stream.Enable=0
+
+assign 5G.TxEVM.Legacy.Enable=0
+assign 5G.TxEVM.HT20.1Stream.Enable=0
+assign 5G.TxEVM.HT40.1Stream.Enable=0
+assign 5G.TxEVM.VHT20.1Stream.Enable=0
+assign 5G.TxEVM.VHT40.1Stream.Enable=0
+assign 5G.TxEVM.VHT80.1Stream.Enable=1
+assign 5G.TxEVM.HT20.2Stream.Enable=0
+assign 5G.TxEVM.HT40.2Stream.Enable=0
+assign 5G.TxEVM.VHT20.2Stream.Enable=0
+assign 5G.TxEVM.VHT40.2Stream.Enable=0
+assign 5G.TxEVM.VHT80.2Stream.Enable=0
+assign 5G.TxEVM.HT20.3Stream.Enable=0
+assign 5G.TxEVM.HT40.3Stream.Enable=0
+assign 5G.TxEVM.VHT20.3Stream.Enable=0
+assign 5G.TxEVM.VHT40.3Stream.Enable=0
+assign 5G.TxEVM.VHT80.3Stream.Enable=0

@@ -1,0 +1,385 @@
+# -*- coding: gbk -*-
+import sys
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+from configui import Ui_configBox
+import dev_rc
+from myconfig import *
+
+class MyConfigForm(QDialog):
+    def __init__(self, parent=None):
+        QWidget.__init__(self,parent)
+        self.location = self.geometry()
+        self.Max = False;
+        self.ui=Ui_configBox()
+        self.ui.setupUi(self)
+        #self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint)
+        self.setWindowFlags(Qt.FramelessWindowHint)
+        self.connect(self.ui.btnMenu_Close,SIGNAL("clicked()"),SLOT("close()"))
+        self.connect(self.ui.btnCancel,SIGNAL("clicked()"),SLOT("close()"))
+        self.connect(self.ui.btnOk,SIGNAL("clicked()"),self.btnOk_clicked)
+        self.fontId = QFontDatabase.addApplicationFont(":/image/icomoon.ttf")
+        self.fontName = QFontDatabase.applicationFontFamilies(self.fontId).takeAt(0)
+        self.iconFont = QFont(self.fontName)
+        self.SetIcon(self.ui.btnMenu_Close, QChar(0xf00d), 10)
+        self.SetIcon(self.ui.lab_Ico, QChar(0xf015), 12)
+        qss = QFile("black.css"); 
+        qss.open(QFile.ReadOnly); 
+        q = QString(qss.readAll())
+        self.setStyleSheet(q); 
+        self.show_current_config()
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.dragPosition = event.globalPos() - self.frameGeometry().topLeft()
+            QApplication.postEvent(self, QEvent(174))
+            event.accept()
+ 
+    def mouseMoveEvent(self, event):
+        if event.buttons() == Qt.LeftButton:
+            self.move(event.globalPos() - self.dragPosition)
+            event.accept()
+
+    def SetIcon(self, obj, text, size):
+        self.iconFont.setPointSize(size)
+        obj.setFont(self.iconFont)
+        obj.setText(text)
+    
+    def SetMessage(self, msg, mytype):
+        if(mytype == 0):
+            self.ui.labIcoMain.setStyleSheet("border-image: url(:/image/myconfig.png);")
+            self.ui.btnCancel.setVisible(False)
+            self.ui.lab_Title.setText(u"Ã· æ")
+        elif(mytype == 1):
+            self.ui.labIcoMain.setStyleSheet("border-image: url(:/image/question.png);")
+            self.ui.lab_Title.setText(u"—ØŒ ")
+        elif(mytype == 2):
+            self.ui.labIcoMain.setStyleSheet("border-image: url(:/image/error.png);")
+            self.ui.btnCancel.setVisible(False)
+            self.ui.lab_Title.setText(u"¥ÌŒÛ")
+        self.ui.labInfo.setText(msg)
+        
+    def btnOk_clicked(self):
+        self.set_current_config()
+        self.emit(SIGNAL("click_ok"))
+        self.done(1)
+        self.close()
+    
+    def show_current_config(self):
+        self.show_how_to_test()
+        self.show_2G_freq_for_lost()
+        self.show_5G_freq_for_lost()
+        self.show_2G_lost_for_freq()
+        self.show_5G_lost_for_freq()
+        self.show_2G_pcdac()
+        self.show_5G_pcdac()
+        self.show_2G_ppm_limit()
+        self.show_5G_ppm_limit()
+        self.show_2G_power_limit_ht20()
+        self.show_5G_power_limit_ht20()
+        self.show_2G_power_limit_ht40()
+        self.show_5G_power_limit_ht40()
+        self.show_2G_freq_rate_chain()
+        self.show_5G_freq_rate_chain()
+        self.show_2G_other_config()
+        self.show_5G_other_config()
+    
+    def show_how_to_test(self):
+        testconfig = TestConf()
+        how_to_test = testconfig.get_howtotest()
+        if(how_to_test == "2"):
+            self.ui.radioButton_3.setChecked(True)
+        elif(how_to_test == "1"):
+            self.ui.radioButton_2.setChecked(True)
+        else:
+            self.ui.radioButton.setChecked(True)
+    
+    def show_2G_freq_for_lost(self):
+        testconfig = TestConf()
+        freq_for_lost = testconfig.get_2G_freq_for_lost()
+        self.ui.lineEdit_12.setText(freq_for_lost)
+    
+    def show_5G_freq_for_lost(self):
+        testconfig = TestConf()
+        freq_for_lost = testconfig.get_5G_freq_for_lost()
+        self.ui.lineEdit_7.setText(freq_for_lost)
+    
+    def show_2G_lost_for_freq(self):
+        testconfig = TestConf()
+        lost_for_freq = testconfig.get_2G_lost_for_freq()
+        self.ui.lineEdit_13.setText(lost_for_freq)
+    
+    def show_5G_lost_for_freq(self):
+        testconfig = TestConf()
+        lost_for_freq = testconfig.get_5G_lost_for_freq()
+        self.ui.lineEdit_8.setText(lost_for_freq)
+    
+    def show_2G_pcdac(self):
+        testconfig = TestConf()
+        pcdac = testconfig.get_2G_pcdac()
+        self.ui.lineEdit_11.setText(pcdac)
+    
+    def show_5G_pcdac(self):
+        testconfig = TestConf()
+        pcdac = testconfig.get_5G_pcdac()
+        self.ui.lineEdit_6.setText(pcdac)
+        
+    def show_2G_ppm_limit(self):
+        testconfig = TestConf()
+        ppm_limit = testconfig.get_2G_ppm_limit()
+        self.ui.lineEdit_14.setText(ppm_limit)
+    
+    def show_5G_ppm_limit(self):
+        testconfig = TestConf()
+        ppm_limit = testconfig.get_5G_ppm_limit()
+        self.ui.lineEdit_9.setText(ppm_limit)
+    
+    def show_2G_power_limit_ht20(self):
+        testconfig = TestConf()
+        power_limit_ht20 = testconfig.get_2G_power_limit_ht20()
+        self.ui.lineEdit_15.setText(power_limit_ht20)
+    
+    def show_5G_power_limit_ht20(self):
+        testconfig = TestConf()
+        power_limit_ht20 = testconfig.get_5G_power_limit_ht20()
+        self.ui.lineEdit_10.setText(power_limit_ht20)
+    
+    def show_2G_power_limit_ht40(self):
+        testconfig = TestConf()
+        power_limit_ht40 = testconfig.get_2G_power_limit_ht40()
+        self.ui.lineEdit.setText(power_limit_ht40)
+    
+    def show_5G_power_limit_ht40(self):
+        testconfig = TestConf()
+        power_limit_ht40 = testconfig.get_5G_power_limit_ht40()
+        self.ui.lineEdit_2.setText(power_limit_ht40)
+    
+    def show_2G_freq_rate_chain(self):
+        testconfig = TestConf()
+        self.ui.lineEdit_3.setText(testconfig.get_something("2G","tx_ht20_freq"))
+        self.ui.lineEdit_18.setText(testconfig.get_something("2G","tx_ht20_rate"))
+        self.ui.lineEdit_20.setText(testconfig.get_something("2G","tx_ht20_chain"))
+        self.ui.lineEdit_4.setText(testconfig.get_something("2G","tx_ht40_freq"))
+        self.ui.lineEdit_21.setText(testconfig.get_something("2G","tx_ht40_rate"))
+        self.ui.lineEdit_22.setText(testconfig.get_something("2G","tx_ht40_chain"))
+        s = '''
+        self.ui.lineEdit_3.setText(testconfig.get_something("2G","tx_power_ht20_freq"))
+        self.ui.lineEdit_18.setText(testconfig.get_something("2G","tx_power_ht20_rate"))
+        self.ui.lineEdit_20.setText(testconfig.get_something("2G","tx_power_ht20_chain"))
+        self.ui.lineEdit_4.setText(testconfig.get_something("2G","tx_power_ht40_freq"))
+        self.ui.lineEdit_21.setText(testconfig.get_something("2G","tx_power_ht40_rate"))
+        self.ui.lineEdit_22.setText(testconfig.get_something("2G","tx_power_ht40_chain"))
+        self.ui.lineEdit_25.setText(testconfig.get_something("2G","tx_evm_ht20_freq"))
+        self.ui.lineEdit_26.setText(testconfig.get_something("2G","tx_evm_ht20_rate"))
+        self.ui.lineEdit_27.setText(testconfig.get_something("2G","tx_evm_ht20_chain"))
+        self.ui.lineEdit_31.setText(testconfig.get_something("2G","tx_evm_ht40_freq"))
+        self.ui.lineEdit_32.setText(testconfig.get_something("2G","tx_evm_ht40_rate"))
+        self.ui.lineEdit_33.setText(testconfig.get_something("2G","tx_evm_ht40_chain"))
+        self.ui.lineEdit_37.setText(testconfig.get_something("2G","tx_evm_ppm_freq"))
+        self.ui.lineEdit_38.setText(testconfig.get_something("2G","tx_evm_ppm_rate"))
+        self.ui.lineEdit_39.setText(testconfig.get_something("2G","tx_evm_ppm_chain"))
+        self.ui.lineEdit_43.setText(testconfig.get_something("2G","tx_mask_freq"))
+        self.ui.lineEdit_44.setText(testconfig.get_something("2G","tx_mask_rate"))
+        self.ui.lineEdit_45.setText(testconfig.get_something("2G","tx_mask_chain"))
+        '''
+        self.ui.lineEdit_49.setText(testconfig.get_something("2G","rx_freq"))
+        self.ui.lineEdit_50.setText(testconfig.get_something("2G","rx_rate"))
+        self.ui.lineEdit_51.setText(testconfig.get_something("2G","rx_chain"))
+    
+    def show_5G_freq_rate_chain(self):
+        testconfig = TestConf()
+        s = '''
+        self.ui.lineEdit_5.setText(testconfig.get_something("5G","tx_power_ht20_freq"))
+        self.ui.lineEdit_17.setText(testconfig.get_something("5G","tx_power_ht20_rate"))
+        self.ui.lineEdit_19.setText(testconfig.get_something("5G","tx_power_ht20_chain"))
+        self.ui.lineEdit_16.setText(testconfig.get_something("5G","tx_power_ht40_freq"))
+        self.ui.lineEdit_23.setText(testconfig.get_something("5G","tx_power_ht40_rate"))
+        self.ui.lineEdit_24.setText(testconfig.get_something("5G","tx_power_ht40_chain"))
+        self.ui.lineEdit_28.setText(testconfig.get_something("5G","tx_evm_ht20_freq"))
+        self.ui.lineEdit_29.setText(testconfig.get_something("5G","tx_evm_ht20_rate"))
+        self.ui.lineEdit_30.setText(testconfig.get_something("5G","tx_evm_ht20_chain"))
+        self.ui.lineEdit_34.setText(testconfig.get_something("5G","tx_evm_ht40_freq"))
+        self.ui.lineEdit_35.setText(testconfig.get_something("5G","tx_evm_ht40_rate"))
+        self.ui.lineEdit_36.setText(testconfig.get_something("5G","tx_evm_ht40_chain"))
+        self.ui.lineEdit_40.setText(testconfig.get_something("5G","tx_evm_ppm_freq"))
+        self.ui.lineEdit_41.setText(testconfig.get_something("5G","tx_evm_ppm_rate"))
+        self.ui.lineEdit_42.setText(testconfig.get_something("5G","tx_evm_ppm_chain"))
+        self.ui.lineEdit_46.setText(testconfig.get_something("5G","tx_mask_freq"))
+        self.ui.lineEdit_47.setText(testconfig.get_something("5G","tx_mask_rate"))
+        self.ui.lineEdit_48.setText(testconfig.get_something("5G","tx_mask_chain"))
+        '''
+        self.ui.lineEdit_52.setText(testconfig.get_something("5G","rx_freq"))
+        self.ui.lineEdit_53.setText(testconfig.get_something("5G","rx_rate"))
+        self.ui.lineEdit_54.setText(testconfig.get_something("5G","rx_chain"))
+    
+    def show_2G_other_config(self):
+        testconfig = TestConf()
+        self.ui.lineEdit_55.setText(testconfig.get_something("2G","rate_for_powerlevel"))
+        self.ui.lineEdit_56.setText(testconfig.get_something("2G","powerlevel_for_rate"))
+    
+    def show_5G_other_config(self):
+        testconfig = TestConf()
+        self.ui.lineEdit_57.setText(testconfig.get_something("5G","rate_for_powerlevel"))
+        self.ui.lineEdit_58.setText(testconfig.get_something("5G","powerlevel_for_rate"))
+        
+    def set_how_to_test(self):
+        testconfig = TestConf()
+        if(self.ui.radioButton_3.isChecked()):
+            testconfig.set_howtotest_both()
+        elif(self.ui.radioButton_2.isChecked()):
+            testconfig.set_howtotest_5G()
+        else:
+            testconfig.set_howtotest_2G()
+    
+    def set_2G_freq_for_lost(self):
+        testconfig = TestConf()
+        freq_for_lost = self.ui.lineEdit_12.text()
+        testconfig.set_2G_freq_for_lost(freq_for_lost)
+    
+    def set_5G_freq_for_lost(self):
+        testconfig = TestConf()
+        freq_for_lost = self.ui.lineEdit_7.text()
+        testconfig.set_5G_freq_for_lost(freq_for_lost)
+    
+    def set_2G_lost_for_freq(self):
+        testconfig = TestConf()
+        lost_for_freq = self.ui.lineEdit_13.text()
+        testconfig.set_2G_lost_for_freq(lost_for_freq)
+    
+    def set_5G_lost_for_freq(self):
+        testconfig = TestConf()
+        lost_for_freq = self.ui.lineEdit_8.text()
+        testconfig.set_5G_lost_for_freq(lost_for_freq)
+    
+    def set_2G_pcdac(self):
+        testconfig = TestConf()
+        pcdac = self.ui.lineEdit_11.text()
+        testconfig.set_2G_pcdac(pcdac)
+    
+    def set_5G_pcdac(self):
+        testconfig = TestConf()
+        pcdac = self.ui.lineEdit_6.text()
+        testconfig.set_5G_pcdac(pcdac)
+    
+    def set_2G_ppm_limit(self):
+        testconfig = TestConf()
+        ppm_limit = self.ui.lineEdit_14.text()
+        testconfig.set_2G_ppm_limit(ppm_limit)
+    
+    def set_5G_ppm_limit(self):
+        testconfig = TestConf()
+        ppm_limit = self.ui.lineEdit_9.text()
+        testconfig.set_5G_ppm_limit(ppm_limit)
+    
+    def set_2G_power_limit_ht20(self):
+        testconfig = TestConf()
+        power_limit_ht20 = self.ui.lineEdit_15.text()
+        testconfig.set_2G_power_limit_ht20(power_limit_ht20)
+    
+    def set_5G_power_limit_ht20(self):
+        testconfig = TestConf()
+        power_limit_ht20 = self.ui.lineEdit_10.text()
+        testconfig.set_5G_power_limit_ht20(power_limit_ht20)
+    
+    def set_2G_power_limit_ht40(self):
+        testconfig = TestConf()
+        power_limit_ht40 = self.ui.lineEdit.text()
+        testconfig.set_2G_power_limit_ht40(power_limit_ht40)
+    
+    def set_5G_power_limit_ht40(self):
+        testconfig = TestConf()
+        power_limit_ht40 = self.ui.lineEdit_2.text()
+        testconfig.set_5G_power_limit_ht40(power_limit_ht40)
+    
+    def set_2G_freq_rate_chain(self):
+        testconfig = TestConf()
+        testconfig.set_something("2G","tx_ht20_freq",self.ui.lineEdit_3.text())
+        testconfig.set_something("2G","tx_ht20_rate",self.ui.lineEdit_18.text())
+        testconfig.set_something("2G","tx_ht20_chain",self.ui.lineEdit_20.text())
+        testconfig.set_something("2G","tx_ht40_freq",self.ui.lineEdit_4.text())
+        testconfig.set_something("2G","tx_ht40_rate",self.ui.lineEdit_21.text())
+        testconfig.set_something("2G","tx_ht40_chain",self.ui.lineEdit_22.text())
+        s = '''
+        testconfig.set_something("2G","tx_power_ht20_freq",self.ui.lineEdit_3.text())
+        testconfig.set_something("2G","tx_power_ht20_rate",self.ui.lineEdit_18.text())
+        testconfig.set_something("2G","tx_power_ht20_chain",self.ui.lineEdit_20.text())
+        testconfig.set_something("2G","tx_power_ht40_freq",self.ui.lineEdit_4.text())
+        testconfig.set_something("2G","tx_power_ht40_rate",self.ui.lineEdit_21.text())
+        testconfig.set_something("2G","tx_power_ht40_chain",self.ui.lineEdit_22.text())
+        testconfig.set_something("2G","tx_evm_ht20_freq",self.ui.lineEdit_25.text())
+        testconfig.set_something("2G","tx_evm_ht20_rate",self.ui.lineEdit_26.text())
+        testconfig.set_something("2G","tx_evm_ht20_chain",self.ui.lineEdit_27.text())
+        testconfig.set_something("2G","tx_evm_ht40_freq",self.ui.lineEdit_31.text())
+        testconfig.set_something("2G","tx_evm_ht40_rate",self.ui.lineEdit_32.text())
+        testconfig.set_something("2G","tx_evm_ht40_chain",self.ui.lineEdit_33.text())
+        testconfig.set_something("2G","tx_evm_ppm_freq",self.ui.lineEdit_37.text())
+        testconfig.set_something("2G","tx_evm_ppm_rate",self.ui.lineEdit_38.text())
+        testconfig.set_something("2G","tx_evm_ppm_chain",self.ui.lineEdit_39.text())
+        testconfig.set_something("2G","tx_mask_freq",self.ui.lineEdit_43.text())
+        testconfig.set_something("2G","tx_mask_rate",self.ui.lineEdit_44.text())
+        testconfig.set_something("2G","tx_mask_chain",self.ui.lineEdit_45.text())
+        '''
+        testconfig.set_something("2G","rx_freq",self.ui.lineEdit_49.text())
+        testconfig.set_something("2G","rx_rate",self.ui.lineEdit_50.text())
+        testconfig.set_something("2G","rx_chain",self.ui.lineEdit_51.text())
+    
+    def set_5G_freq_rate_chain(self):
+        testconfig = TestConf()
+        testconfig.set_something("5G","tx_ht20_freq",self.ui.lineEdit_5.text())
+        testconfig.set_something("5G","tx_ht20_rate",self.ui.lineEdit_17.text())
+        testconfig.set_something("5G","tx_ht20_chain",self.ui.lineEdit_19.text())
+        testconfig.set_something("5G","tx_ht40_freq",self.ui.lineEdit_16.text())
+        testconfig.set_something("5G","tx_ht40_rate",self.ui.lineEdit_23.text())
+        testconfig.set_something("5G","tx_ht40_chain",self.ui.lineEdit_24.text())
+        s = '''
+        testconfig.set_something("5G","tx_power_ht20_freq",self.ui.lineEdit_5.text())
+        testconfig.set_something("5G","tx_power_ht20_rate",self.ui.lineEdit_17.text())
+        testconfig.set_something("5G","tx_power_ht20_chain",self.ui.lineEdit_19.text())
+        testconfig.set_something("5G","tx_power_ht40_freq",self.ui.lineEdit_16.text())
+        testconfig.set_something("5G","tx_power_ht40_rate",self.ui.lineEdit_23.text())
+        testconfig.set_something("5G","tx_power_ht40_chain",self.ui.lineEdit_24.text())
+        testconfig.set_something("5G","tx_evm_ht20_freq",self.ui.lineEdit_28.text())
+        testconfig.set_something("5G","tx_evm_ht20_rate",self.ui.lineEdit_29.text())
+        testconfig.set_something("5G","tx_evm_ht20_chain",self.ui.lineEdit_30.text())
+        testconfig.set_something("5G","tx_evm_ht40_freq",self.ui.lineEdit_34.text())
+        testconfig.set_something("5G","tx_evm_ht40_rate",self.ui.lineEdit_35.text())
+        testconfig.set_something("5G","tx_evm_ht40_chain",self.ui.lineEdit_36.text())
+        testconfig.set_something("5G","tx_evm_ppm_freq",self.ui.lineEdit_40.text())
+        testconfig.set_something("5G","tx_evm_ppm_rate",self.ui.lineEdit_41.text())
+        testconfig.set_something("5G","tx_evm_ppm_chain",self.ui.lineEdit_42.text())
+        testconfig.set_something("5G","tx_mask_freq",self.ui.lineEdit_46.text())
+        testconfig.set_something("5G","tx_mask_rate",self.ui.lineEdit_47.text())
+        testconfig.set_something("5G","tx_mask_chain",self.ui.lineEdit_48.text())
+        '''
+        testconfig.set_something("5G","rx_freq",self.ui.lineEdit_52.text())
+        testconfig.set_something("5G","rx_rate",self.ui.lineEdit_53.text())
+        testconfig.set_something("5G","rx_chain",self.ui.lineEdit_54.text())
+        
+    def set_2G_other_config(self):
+        testconfig = TestConf()
+        testconfig.set_something("2G","rate_for_powerlevel",self.ui.lineEdit_55.text())
+        testconfig.set_something("2G","powerlevel_for_rate",self.ui.lineEdit_56.text())
+    
+    def set_5G_other_config(self):
+        testconfig = TestConf()
+        testconfig.set_something("5G","rate_for_powerlevel",self.ui.lineEdit_57.text())
+        testconfig.set_something("5G","powerlevel_for_rate",self.ui.lineEdit_58.text())
+        
+    def set_current_config(self):
+        self.set_how_to_test()
+        self.set_2G_freq_for_lost()
+        self.set_5G_freq_for_lost()
+        self.set_2G_lost_for_freq()
+        self.set_5G_lost_for_freq()
+        self.set_2G_pcdac()
+        self.set_5G_pcdac()
+        self.set_2G_ppm_limit()
+        self.set_5G_ppm_limit()
+        self.set_2G_power_limit_ht20()
+        self.set_5G_power_limit_ht20()
+        self.set_2G_power_limit_ht40()
+        self.set_5G_power_limit_ht40()
+        self.set_2G_freq_rate_chain()
+        self.set_5G_freq_rate_chain()
+        self.set_2G_other_config()
+        self.set_5G_other_config()

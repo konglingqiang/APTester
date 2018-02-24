@@ -1,0 +1,14 @@
+#
+# enables rfkill switch on gpio7
+#
+# usually done as part of a ref file. you must issue commit and pcie commands and power cycle the card for this to take effect.
+#
+
+
+set i=$inst; rfsilent=1d;
+set i=$inst; config=1; address=408c;
+set i=$inst; config=8000; address=405c;
+set i=$inst; config=70; address=4064;
+
+
+

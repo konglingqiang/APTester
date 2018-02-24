@@ -1,0 +1,114 @@
+#--------------------------------------------------------------------------------------
+# this build is for DB120 
+#--------------------------------------------------------------------------------------
+
+# AP specified test selection, over write the test selection in test_flow_flags.art
+# and Invalid testSel selection.
+# db120\test_flow_flags_DB120.art
+
+#subsystem and subverdor ID's
+set i=$inst; ssid=a120;
+set i=$inst; svid=168c;
+
+# set device type 
+# 1=>Cardbus, 2=>PCI, 3=>miniPCI, 4=>AP, 5=>PCIe mini, 6=>pcie express, 7=>pcie desktop
+set i=$inst; devicetype=4
+
+# set Reg domain
+# customers can set regulatory domain index here
+set i=$inst; regdmn[0]=0
+set i=$inst; regdmn[1]=0x1f
+
+#tx and rx chain mask: bit0 = chain0 enable, 
+#                      bit1 = chain1 enable, 
+#                      bit2 = chain2 enable 
+Set i=$inst; txmask=3;
+Set i=$inst; rxmask=3;
+
+#configure modes: 
+#	    bit0 = enable 5GHz
+#           bit1 = enable 2GHz
+#           bit2 = disable 5G HT40
+#           bit3 = disable 2G HT40
+#           bit4 = disable 5G HT20
+#           bit5 = disable 2G HT20
+#Note: these flags will be given individual commands in subsequent release 
+set i=$inst; opflags=2;
+
+#configuration for internal regulator
+set i=$inst; internalregulator=1;
+
+#antenna switch table control
+#2GHz
+set i=$inst; antctrlcommon2g=110
+set i=$inst; antctrlcommon22g=ccccc;
+
+# for TB486
+#set i=$inst; antctrlcommon2g=110;
+#set i=$inst; antctrlcommon22g=ccccc;
+
+set i=$inst; antCtrlChain2g=150, 150, 150;
+
+#5GHz
+#set i=$inst; antctrlcommon5g=110;  -dh
+#set i=$inst; antctrlcommon25g=ccccc;  -dh
+
+# tx gain table
+#             0(lowest_ob_db) ? for xpa design - will provide lower power consumption 
+#             1(high_ob_db) ? for no xpa design 
+#             2(low_ob_db) ? for xpa design ? will provide normal power consumption at 5G
+#             3(high_power) ? for XPA design 
+#             4 ? Mixed Gain table (5G XPA; 2G no XPA) Comment:  2GHz same as tx gain type 1, 5 GHz same as tx gain type 2
+#             5 ? UB124 Tx gain table 
+#             6 ? for XPA design. 2G spur is improved
+set i=$inst; txgainTable=6;
+
+# rxgainTable	0: xlna	1: no xlna
+set i=$inst; rxgainTable=0;
+
+
+
+#Temperature compensation
+set i=$inst; temperatureCompensation=1
+set i=$inst; tempSlope2g=28
+set i=$inst; tempSlope5g=64
+set i=$inst; tempSlopelow=58
+set i=$inst; tempSlopehigh=82
+
+
+set i=$inst; thermometer=0
+
+#enable spur mitigation
+set i=$inst; spurchans2g=2464;
+
+#flags not supported yet - will be added in subsequent release
+# set i=$inst; eepmisc=   bit1: wakeupwireless
+# set i=$inst; rfSilent=0  bit0   bit1:polarity            bit2:5 GPIO line 
+
+set i=$inst; papdenable=0;
+set i=$inst; 2GHz.PaPredistortion.Ht20=0x0c00e0e0;
+set i=$inst; 2GHz.PaPredistortion.Ht40=0x0000e0e0;
+#5G does not require PaPreD
+#huanghao
+#set i=$inst; 5GHz.PaPredistortion.Ht20=0x0;
+#set i=$inst; 5GHz.PaPredistortion.Ht40=0x0;
+
+set i=$inst; xpabiaslvl5g=0xf
+
+# Set calibration data memory type.
+# Valid options are --
+# set i=$inst; caldata.memory=eeprom
+# set i=$inst; caldata.memory=flash
+# set i=$inst; caldata.memory=otp
+
+set i=$inst; caldata.memory=flash
+
+#target power files
+refDesigns\DB120-030\db120_trg_pwr.art
+
+#CTL Files
+common\ctl_generic.art
+
+#1 point -Cal Scheme
+common\setupcal-scheme0.art
+

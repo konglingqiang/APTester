@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Threshold>
+	<IPX>
+        <COUNT_INFO>
+            <MAC_ADD>00016c5f84bb</MAC_ADD>
+                <MAX_COUNT>10000</MAX_COUNT>
+        </COUNT_INFO>
+	</IPX>
+	<PING>
+		<MAX_COUNT>4</MAX_COUNT>
+	</PING>
+	<RETEST>
+		<MAX_COUNT>3</MAX_COUNT>
+	</RETEST>
+	<AGETEST>
+		<MAX_COUNT>24</MAX_COUNT>
+	</AGETEST>
+</Threshold>

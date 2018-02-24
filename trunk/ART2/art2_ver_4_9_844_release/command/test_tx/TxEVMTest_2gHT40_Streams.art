@@ -1,0 +1,41 @@
+assign 2G.TxEVM.HT40.Streams.Pass=0
+assign 2G.TxEVMPower.HT40.Streams.Pass=0
+assign 2G.TxEVM.HT40.Streams.Fail=0
+assign 2G.TxEVMPower.HT40.Streams.Fail=0
+
+# target power offset 1.8 for 2 stream, 3 chains, no offset for 2 stream, 2 chain DUT
+#assign tp2s=1.8/0	# this is assigned in TxInit.art
+
+#2 isolate, 1 combined
+
+# tx all chain mask for 2/3chain DUT (3/7)
+# $txALLChainMask=3/7 
+# $2G.TxPower.Limit.HT20=1.5
+# $2G.TxEVM.HT40.Freq=2412,2437,2452
+# $2G.TxEVM.HT40.2Stream.Rate=15
+# $2G.TxEVM.HT40.3Stream.Rate=23
+# target power offset for 2/3 chain 2 stream DUT (0/1.8)
+# $tp2s=0/1.8 
+
+sw i=$inst; a=BB_scrambler_seed.fixed_scrambler_seed;v=1
+sw i=$inst; a=BB_phyonly_control.generate_scrambler;v=0
+
+GOTO name=NO_KIWI_SUPPORT; condition='$Kiwi.Enable=0'
+sw i=$inst; a=PHY_ONLY_C.bb_generate_scrambler;v=0
+LABEL name=NO_KIWI_SUPPORT;
+
+tx tx=$inst; pl=4000;pc=1000000;f=$2G.TxEVM.HT40.Freq;r=$2G.TxEVM.HT40.2Stream.Rate;ir=2;txch=$txALLChainMask;evm=1;tx99=1;avg=$2G.TxEVM.Average;stop='$Test.Error';
+report style=column; f=evm.freq;l=freq;width=5;f=rate;l=rate;f=txchain;l=stream;f=tp+$tp2s;l=target;f=tx.temp;l=temp;f=evm.power;l=meas pwr;f=evmv;l=meas_EVM;f=lookup(rate,@rate,@TxEVM.Limit);l=EVMLimit;f=test((evmv<=lookup(rate,@rate,@TxEVM.Limit)),$PassText,$FailText,@2G.TxEVM.HT40.Streams.Pass,@2G.TxEVM.HT40.Streams.Fail);l=evmP/F;type=s;width=7;screen=1;title=2GHz EVM Accuracy with chain power;
+GOTO name=TX2G_DONE;test='$Test.Error<>0';
+
+GOTO name=TX2G_DONE; condition='$IsTx3Chains=0'
+GOTO name=TX2G_DONE; condition='$2G.TxEVM.HT40.3Stream.Enable=0'
+
+sw i=$inst;a="BB_gen_controls.cf_3_chains_use_walsh";v=0
+
+tx tx=$inst; pl=4000;pc=1000000;f=$2G.TxEVM.HT40.Freq;r=$2G.TxEVM.HT40.3Stream.Rate;ir=2;txch=7;evm=1;tx99=1;avg=$2G.TxEVM.Average;stop='$Test.Error';
+report style=column; f=evm.freq;l=freq;width=5;f=rate;l=rate;f=txchain;l=stream;f=tp;l=target;f=tx.temp;l=temp;f=evm.power;l=meas pwr;f=evmv;l=meas_EVM;f=lookup(rate,@rate,@TxEVM.Limit);l=EVMLimit;f=test((evmv<=lookup(rate,@rate,@TxEVM.Limit)),$PassText,$FailText,@2G.TxEVM.HT40.Streams.Pass,@2G.TxEVM.HT40.Streams.Fail);l=evmP/F;type=s;width=7;screen=1;title=2GHz EVM Accuracy with chain power;
+
+sc i=$inst;a="BB_gen_controls.cf_3_chains_use_walsh";
+
+LABEL name=TX2G_DONE; 

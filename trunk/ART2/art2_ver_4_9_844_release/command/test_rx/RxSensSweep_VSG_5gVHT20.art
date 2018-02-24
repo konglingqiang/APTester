@@ -1,0 +1,98 @@
+assign dipCount=0
+
+assign 5G.RxSensSweep.VHT20.Pass=0
+assign 5G.RxSensSweep.VHT20.Fail=0
+
+#___________________________________________
+#___________________________________________
+GOTO name=SENS_SingleChain_DONE; condition='$5G.RxSensSweep.SingleChain.VHT20.Enable=0'
+#___________________________________________
+# 1 stream signal sensitivity test, sweep each single chain
+#___________________________________________
+assign itRate=1;
+calculate 5G.RxSensSweep.SingleChain.Rate.Num=count(5G.RxSensSweep.SingleChain.VHT20.Rate)
+#___________________________________________
+label name=TOP_Rate;
+calculate sel_rate=element(5G.RxSensSweep.SingleChain.VHT20.Rate,$itRate);
+
+assign itFreq=1;
+calculate 5G.RxSensSweep.SingleChain.Freq.Num=count(5G.RxSensSweep.SingleChain.VHT20.Freq)
+#___________________________________________
+label name=TOP_FREQ;
+calculate freq=element(5G.RxSensSweep.SingleChain.VHT20.Freq,$itFreq);
+
+assign itChain=1;
+#___________________________________________
+label name=TOP_CHAIN;
+calculate sel_chain=element(rxchainList,$itChain);
+
+#___________________________________________
+#run rxIQ Cal if its enabled.
+GOTO name=SENS_SingleChain; condition='$5G.RxIQCal.Enable=0'
+rx rx=$inst; f=$freq;r=t0;tp=8;ch=$sel_chain;pc=500;pl=100;iss=$5G.RxSensSweep.SingleChain.ISS.MAX;rxiqcal=1;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+GOTO name=RX5G_DONE;test='$Test.Error<>0';
+LABEL name=SENS_SingleChain;
+#___________________________________________
+
+rx rx=$inst; f=$freq;r=$sel_rate;tp=8;ch=$sel_chain;iss=$5G.RxSensSweep.SingleChain.ISS.MAX:$5G.RxSensSweep.SingleChain.ISS.MIN:$5G.RxSensSweep.SingleChain.ISS.INC;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+report style=summary; title="5GHZ SingleChain SENSITIVITY"; k=frequency,rate;k=rxchain;f=dip(iss,psr,$5G.RxSens.OFDM.PsrThreshold);label=dip;width=8;f=fit(iss,psr,50,$5G.RxSens.OFDM.PsrThreshold);label=fit 10%;width=8;f=lookup(rate,@RxSens.Rate,@RxSens.isslimit);label=limit 10%;w=8;f=fit(iss,psr,50,$5G.RxSens.OFDM.PsrThreshold)-lookup(rate,@RxSens.Rate,@RxSens.isslimit);label=delta 10%;w=8;f=test(fit(iss,psr,50,$5G.RxSens.OFDM.PsrThreshold)-lookup(rate,@RxSens.Rate,@RxSens.isslimit)<=0,$passtext,$failtext,@5G.RxSensSweep.VHT20.Pass,@5G.RxSensSweep.VHT20.Fail);label=limit 10%;type=s,w=8;
+report style=graph; x=rx.iss;min=$5G.RxSensSweep.SingleChain.ISS.MIN;max=$5G.RxSensSweep.SingleChain.ISS.MAX;inc=$5G.RxSensSweep.SingleChain.ISS.INC;y=rx.psr;min=0;max=100;inc=10;sort=rx.frequency,rx.rate,rx.rxchain;file=$SensReportFile;screen=0;
+GOTO name=RX5G_DONE;test='$Test.Error<>0';
+
+test itChain=$itChain+1;
+GOTO name=TOP_CHAIN;  test='$itChain<=$rxChains';
+#___________________________________________
+
+test itFreq=$itFreq+1;
+GOTO name=TOP_FREQ;  test='$itFreq<=$5G.RxSensSweep.SingleChain.Freq.Num';
+#___________________________________________
+
+test itRate=$itRate+1;
+GOTO name=TOP_RATE;  test='$itRate<=$5G.RxSensSweep.SingleChain.Rate.Num';
+#___________________________________________
+
+label name=SENS_SingleChain_DONE;
+#___________________________________________
+#___________________________________________
+
+
+#___________________________________________
+#___________________________________________
+GOTO name=RX5G_DONE; condition='$5G.RxSensSweep.AllChains.VHT20.Enable=0'
+#___________________________________________
+# MIMO sensitivity test, test all chain together
+#___________________________________________
+
+assign itRate=1;
+calculate 5G.RxSensSweep.AllChains.Rate.Num=count(5G.RxSensSweep.AllChains.VHT20.Rate)
+#___________________________________________
+label name=TOP_5GRate;
+calculate sel_rate=element(5G.RxSensSweep.AllChains.VHT20.Rate,$itRate);
+
+#___________________________________________
+assign it=1;
+calculate 5G.RxSensSweep.AllChains.Freq.Num=count(5G.RxSensSweep.AllChains.VHT20.Freq)
+label name=TOP_5G;
+
+calculate freq=element(5G.RxSensSweep.AllChains.VHT20.Freq,$it);
+
+GOTO name=SENS_5G; condition='$5G.RxIQCal.Enable=0'
+rx rx=$inst; f=$freq;r=t0;tp=8;ch=$rxALLChainMask;pc=500;pl=100;iss=$5G.RxSensSweep.AllChains.ISS.MAX;rxiqcal=1;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+GOTO name=RX5G_DONE;test='$Test.Error<>0';
+
+LABEL name=SENS_5G;
+rx rx=$inst; f=$freq;r=$sel_rate;tp=8;ch=$rxALLChainMask;iss=$5G.RxSensSweep.AllChains.ISS.MAX:$5G.RxSensSweep.AllChains.ISS.MIN:$5G.RxSensSweep.AllChains.ISS.INC;rxvsg=1;bandwidth=automatic;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+
+report style=summary; title=5GHZ SENSITIVITY;k=frequency,rate;k=rxchain;f=dip(iss,psr,$5G.RxSens.OFDM.PsrThreshold);label=dip;width=8;f=fit(iss,psr,50,$5G.RxSens.OFDM.PsrThreshold);label=fit 10%;width=8;f=lookup(rate,@RxSens.Rate,@RxSens.isslimit);label=limit 10%;w=8;f=fit(iss,psr,50,$5G.RxSens.OFDM.PsrThreshold)-lookup(rate,@RxSens.Rate,@RxSens.isslimit);label=delta 10%;w=8;f=test(fit(iss,psr,50,$5G.RxSens.OFDM.PsrThreshold)-lookup(rate,@RxSens.Rate,@RxSens.isslimit)<=0,$passtext,$failtext,@5G.RxSensSweep.VHT20.Pass,@5G.RxSensSweep.VHT20.Fail);label=limit 10%;type=s,w=8;
+report style=graph; x=rx.iss;min=$5G.RxSensSweep.AllChains.ISS.MIN;max=$5G.RxSensSweep.AllChains.ISS.MAX;inc=$5G.RxSensSweep.AllChains.ISS.INC;y=rx.psr;min=0;max=100;inc=10;sort=rx.frequency,rx.rate;file=$SensReportFile;screen=0;
+GOTO name=RX5G_DONE;test='$Test.Error<>0';
+
+test it=$it+1;
+GOTO name=TOP_5G;  test='$it<=$5G.RxSensSweep.AllChains.Freq.Num';
+#___________________________________________
+
+test itRate=$itRate+1;
+GOTO name=TOP_5GRATE;  test='$itRate<=$5G.RxSensSweep.AllChains.Rate.Num';
+#___________________________________________
+
+LABEL name=RX5G_DONE;

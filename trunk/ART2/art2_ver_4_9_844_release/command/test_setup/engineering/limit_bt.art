@@ -1,0 +1,55 @@
+#___________________________________________
+# Output Power limit
+#___________________________________________
+
+assign OP_MAX_POWER = 20
+assign OP_MIN_POWER = -6 
+assign OP_PEAK_POWER = 23
+#___________________________________________
+# freq offset limit 
+#___________________________________________
+assign FREQ_OFFSET = 75
+
+#___________________________________________
+# freq drift limit
+#___________________________________________
+assign CFD_AVG_FREQ_DRIFT = 20
+
+#___________________________________________
+# modulation index limit
+#___________________________________________
+assign MC_F1_AVG_MIN = 140
+assign MC_F1_AVG_MAX = 175
+assign MC_F2_MAX_MIN = 115
+
+#___________________________________________
+# edr power limit
+#___________________________________________
+assign ERTP_POWER_DIFF_MIN = -4
+assign ERTP_POWER_DIFF_MAX = 1
+
+#___________________________________________
+# edr freq mod limit
+#___________________________________________
+assign ECM_INITIAL_FREQ_ERROR_MIN = -75 
+assign ECM_INITIAL_FREQ_ERROR_MAX = 75
+assign ECM_FREQ_ERROR_MIN = -10             
+assign ECM_FREQ_ERROR_MAX = 10
+assign ECM_BLOCK_FREQ_ERROR_MIN = -75 
+assign ECM_BLOCK_FREQ_ERROR_MAX = 75
+assign RMS_2M_MAX = 0.2
+assign RMS_3M_MAX = 0.13
+assign PEAK_2M_MAX = 0.35
+assign PEAK_3M_MAX = 0.25
+assign 99_2M_MAX = 99
+assign 99_3M_MAX = 99
+
+#___________________________________________
+# BER
+#___________________________________________
+assign BER_threshold = 0.1
+assign NUM_OF_BITS_LEVEL1 = 1600000
+assign NUM_OF_BITS_LEVEL2 = 16000000   
+assign BER_THRESHOLD_LEVEL1 = 0.00007
+assign BER_THRESHOLD_LEVEL2 = 0.0001
+

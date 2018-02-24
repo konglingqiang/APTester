@@ -1,0 +1,52 @@
+assign 2G.Tx.Fail=0
+
+comment title="                         2GHz PT TEST SUMMARY"
+comment title="=================================================================="
+comment title="                                 Fail#"
+
+#___________________________________________
+# target power verification test
+#___________________________________________
+GOTO name=2G.TxPowerTest_DONE; condition='$2G.TxPower.test.Enable=0'
+assign 2G.TxPower.Fail=0
+calculate 2G.TxPower.Fail = $2G.TxPower.1Stream.Fail + $2G.TxPower.HT20.Streams.Fail + $2G.TxPower.HT40.Streams.Fail
+comment title="          2GHz Tx Power Test:     $2G.TxPower.Fail"
+calculate 2G.Tx.Fail = $2G.Tx.Fail + $2G.TxPower.Fail
+LABEL name=2G.TxPowerTest_DONE;
+
+#___________________________________________
+# EVM test
+#___________________________________________
+GOTO name=2G.TxEVMTest_DONE; condition='$2G.TxEVM.test.Enable=0'
+
+assign 2G.TxEVMPowerTest.Fail=0
+calculate 2G.TxEVMPowerTest.Fail = $2G.TxEVMPower.1Stream.Fail + $2G.TxEVMPower.HT20.Streams.Fail + $2G.TxEVMPower.HT40.Streams.Fail
+comment title="2GHz Power accuracy EVM Test:     $2G.TxEVMPowerTest.Fail"
+calculate 2G.Tx.Fail = $2G.Tx.Fail + $2G.TxEVMPowerTest.Fail
+
+assign 2G.TxEVM.Fail=0
+calculate 2G.TxEVM.Fail = $2G.TxEVM.1Stream.Fail + $2G.TxEVM.HT20.Streams.Fail + $2G.TxEVM.HT40.Streams.Fail
+comment title="               2GHz EVM Test:     $2G.TxEVM.Fail"
+calculate 2G.Tx.Fail = $2G.Tx.Fail + $2G.TxEVM.Fail
+LABEL name=2G.TxEVMTest_DONE;
+
+#___________________________________________
+# Mask test
+#___________________________________________
+GOTO name=2G.TxMaskTest_DONE; condition='$2G.TxMASK.test.Enable=0'
+comment title="              2GHz Mask Test:     $2G.TxMASK.Fail"
+calculate 2G.Tx.Fail = $2G.Tx.Fail + $2G.TxMASK.Fail
+LABEL name=2G.TxMaskTest_DONE;
+
+#___________________________________________
+# freq accuracy test
+#___________________________________________
+GOTO name=2G.TxFreqAccuracyTest_DONE; condition='$2G.TxFreqAccuracy.Enable=0'
+comment title="     2GHz freq accuracy Test:     $2G.TxPPM.Fail"
+calculate 2G.Tx.Fail = $2G.Tx.Fail + $2G.TxPPM.Fail
+LABEL name=2G.TxFreqAccuracyTest_DONE;
+
+
+comment title="=================================================================="
+comment title="                  2GHz Total:     $2G.Tx.Fail"
+comment title="=================================================================="

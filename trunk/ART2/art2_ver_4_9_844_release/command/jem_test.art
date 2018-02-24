@@ -1,0 +1,38 @@
+
+set i=1;5GHz.Target.Power.Legacy[0]=17,17,17,15;
+set i=1;5GHz.Target.Power.Legacy[1]=20,20,20,18;
+set i=1;5GHz.Target.Power.Legacy[2]=20,20,20,18;
+set i=1;5GHz.Target.Power.Legacy[3]=20,20,20,18;
+set i=1;5GHz.Target.Power.Legacy[4]=20,20,20,18;
+set i=1;5GHz.Target.Power.Legacy[5]=20,20,20,18;
+
+set i=1;5GHz.Target.Power.Legacy[0]=14,14,14,13;
+set i=1;5GHz.Target.Power.Legacy[1]=14,14,14,13;
+set i=1;5GHz.Target.Power.Legacy[2]=14,14,14,13;
+set i=1;5GHz.Target.Power.Legacy[3]=14,14,14,13;
+set i=1;5GHz.Target.Power.Legacy[4]=14,14,14,13;
+set i=1;5GHz.Target.Power.Legacy[5]=14,14,14,13;
+
+
+
+connect i=0;192.168.1.1:2390;
+load i=0;devid=3f;
+
+
+connect i=1;192.168.1.1:2391;
+#setconfig i=1;EEPROM_FILE = .\boardData_3_QC98XX_cus223_120_gld.bin
+#setconfig i=1;DEVDRV_INTERFACE = 5
+load i=1;devid=3c;memory=file
+
+
+
+
+GOTO name=jemtest_DONE; condition='$inst=1'
+	GOTO name=jemtest_1;
+LABEL name=jemtest_DONE;
+	stop
+
+LABEL name=jemtest_1;
+
+
+

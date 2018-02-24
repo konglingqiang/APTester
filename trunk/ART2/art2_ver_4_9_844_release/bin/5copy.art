@@ -1,0 +1,10 @@
+
+
+
+rx rx=1;f=5180;r=54;ch=1;iss=-20:-90:-2;rxvsg=1;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+report r='col f=rx.frequency;f=rx.correct;f=rx.rxchain;f=rx.iss;f=rx.rate;f=rx.rssi';
+
+
+rx rx=1;f=5180;r=t7;ch=1;iss=-20:-90:-2;rxvsg=1;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+report r='col f=rx.frequency;f=rx.correct;f=rx.rxchain;f=rx.iss;f=rx.rate;f=rx.rssi';
+

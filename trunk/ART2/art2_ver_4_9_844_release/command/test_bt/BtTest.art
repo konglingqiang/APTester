@@ -1,0 +1,110 @@
+
+rw a=0x20044;v=0x63533
+btconn
+
+#___________________________________________
+# TX - 3 data rates(1M, 2M, 3M) for 3 channels(Low, Med, High)
+#___________________________________________
+GOTO name=TX_Low_1M_DONE; condition='$TX_Low_1M_Disable=1'
+test_bt\tx_Low_1M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=TX_Low_1M_DONE;
+
+GOTO name=TX_Low_2M_DONE; condition='$TX_Low_2M_Disable=1'
+test_bt\tx_Low_2M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=TX_Low_2M_DONE;
+
+GOTO name=TX_Low_3M_DONE; condition='$TX_Low_3M_Disable=1'
+test_bt\tx_Low_3M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=TX_Low_3M_DONE;
+
+GOTO name=TX_Med_1M_DONE; condition='$TX_Med_1M_Disable=1'
+test_bt\tx_Med_1M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=TX_Med_1M_DONE;
+
+GOTO name=TX_Med_2M_DONE; condition='$TX_Med_2M_Disable=1'
+test_bt\tx_Med_2M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=TX_Med_2M_DONE;
+
+GOTO name=TX_Med_3M_DONE; condition='$TX_Med_3M_Disable=1'
+test_bt\tx_Med_3M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=TX_Med_3M_DONE;
+
+GOTO name=TX_High_1M_DONE; condition='$TX_High_1M_Disable=1'
+test_bt\tx_High_1M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=TX_High_1M_DONE;
+
+GOTO name=TX_High_2M_DONE; condition='$TX_High_2M_Disable=1'
+test_bt\tx_High_2M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=TX_High_2M_DONE;
+
+GOTO name=TX_High_3M_DONE; condition='$TX_High_3M_Disable=1'
+test_bt\tx_High_3M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=TX_High_3M_DONE;
+
+#
+#  RX - 3 data rates(1M, 2M, 3M) for 3 channels(Low, Med, High)
+#___________________________________________
+
+GOTO name=RX_Low_1M_DONE; condition='$RX_Low_1M_Disable=1'
+test_bt\rx_Low_1M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=RX_Low_1M_DONE;
+
+GOTO name=RX_Low_2M_DONE; condition='$RX_Low_2M_Disable=1'
+test_bt\rx_Low_2M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=RX_Low_2M_DONE;
+
+GOTO name=RX_Low_3M_DONE; condition='$RX_Low_3M_Disable=1'
+test_bt\rx_Low_3M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=RX_Low_3M_DONE;
+
+GOTO name=RX_Med_1M_DONE; condition='$RX_Med_1M_Disable=1'
+test_bt\rx_Med_1M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=RX_Med_1M_DONE;
+
+GOTO name=RX_Med_2M_DONE; condition='$RX_Med_2M_Disable=1'
+test_bt\rx_Med_2M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=RX_Med_2M_DONE;
+
+GOTO name=RX_Med_3M_DONE; condition='$RX_Med_3M_Disable=1'
+test_bt\rx_Med_3M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=RX_Med_3M_DONE;
+
+GOTO name=RX_High_1M_DONE; condition='$RX_High_1M_Disable=1'
+test_bt\rx_High_1M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=RX_High_1M_DONE;
+
+GOTO name=RX_High_2M_DONE; condition='$RX_High_2M_Disable=1'
+test_bt\rx_High_2M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=RX_High_2M_DONE;
+
+GOTO name=RX_High_3M_DONE; condition='$RX_High_3M_Disable=1'
+test_bt\rx_High_3M.art
+GOTO name=BT_DONE;test='$Test.Error<>0';
+LABEL name=RX_High_3M_DONE;
+
+#___________________________________________
+LABEL name=BT_DONE;
+comment title='	BT test Done!'
+btdisconn
+# 
+# Enable or disable BT_DFU_DISABLE, BT_over_USB according to 
+# flags set in test_flow_flags_bt.art
+# 
+common\bt_settings.art

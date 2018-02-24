@@ -1,0 +1,17 @@
+#----------------------------------------------------------------
+# For automatic connect and load, add your connect and load 
+# statements below this line
+#----------------------------------------------------------------
+
+#----------------------------------------------------------------
+# The following example commands would be used to recalibrate a
+# a cus223 without using up a new MAC address.
+#----------------------------------------------------------------
+#connect i=0; localhost;
+#setconfig i=0;EEPROM_FILE = ./boardData_2_QC98xx_cus223_gld.bin
+#setconfig i=0;DEVDRV_INTERFACE = 5
+#load i=0;devid=3c;memory=otp;preference=cus223
+#get mac
+#assign savedmac=$mac
+#unload i=0;
+#load i=0;devid=3c;memory=file;preference=cus223

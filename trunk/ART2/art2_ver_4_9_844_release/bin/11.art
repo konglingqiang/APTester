@@ -1,0 +1,69 @@
+#set antDivCtrl=0x09;
+
+assign passtext=.
+assign failtext=fail
+
+assign issmin=-90
+assign issmax=-0
+assign issinc=-2
+
+assign isslimit=-10,-10,-10.-10
+assign psrthreshold=90
+assign dipLimit=-3
+assign psrthreshold=90
+assign FailSens5gGood=0
+assign dipCount=0
+
+
+
+
+#link f=5180,5500,5785;r=54,t7,f7;tp=0;ch=1,2,4;iss=$issmax:$issmin:$issinc;
+
+
+rx f=2422;r=f7;ch=1;iss=$issmax:$issmin:$issinc;delay=400;rxvsg=1;ht40=1;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+report r='col f=rx.frequency;f=rx.correct;f=rx.iss;f=rx.rate;f=rx.rssi'
+#report r='sum title=2GHZ SENSITIVITY REPORT;k=frequency,rate,rxchain;l=chain;f=dip(iss,psr,$psrthreshold);label=dip;width=8;f=fit(iss,psr,10,$psrthreshold);label=fit;width=8;f=lookup(rate,@rate,@isslimit);label=limit;w=8;f=fit(iss,psr,10,$psrthreshold)-lookup(rate,@rate,@isslimit);label=delta;w=8;f=test(fit(iss,psr,10,$psrthreshold)-lookup(rate,@rate,@isslimit)<0,$passtext,$failtext,0,@FailSens5gGood);label=limit;type=s,w=8;'
+report r='g x=rx.iss;min=$issmin;max=$issmax;inc=$issinc;y=rx.psr;min=0;max=100;inc=10;sort=rx.frequency,rx.rate,rx.rxchain;file=$SensReportFile;screen=0';
+branch name=RX5G_DONE;action=goto;test='$Test.Error<>0';
+        
+
+rx f=2422;r=11s;ch=1;iss=$issmax:$issmin:$issinc;delay=400;rxvsg=1;ht40=1;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+report r='col f=rx.frequency;f=rx.correct;f=rx.iss;f=rx.rate;f=rx.rssi'
+#report r='sum title=2GHZ SENSITIVITY REPORT;k=frequency,rate,rxchain;l=chain;f=dip(iss,psr,$psrthreshold);label=dip;width=8;f=fit(iss,psr,10,$psrthreshold);label=fit;width=8;f=lookup(rate,@rate,@isslimit);label=limit;w=8;f=fit(iss,psr,10,$psrthreshold)-lookup(rate,@rate,@isslimit);label=delta;w=8;f=test(fit(iss,psr,10,$psrthreshold)-lookup(rate,@rate,@isslimit)<0,$passtext,$failtext,0,@FailSens5gGood);label=limit;type=s,w=8;'
+report r='g x=rx.iss;min=$issmin;max=$issmax;inc=$issinc;y=rx.psr;min=0;max=100;inc=10;sort=rx.frequency,rx.rate,rx.rxchain;file=$SensReportFile;screen=0';
+branch name=RX5G_DONE;action=goto;test='$Test.Error<>0';
+        
+rx f=2422;r=54;ch=1;iss=$issmax:$issmin:$issinc;delay=400;rxvsg=1;ht40=1;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+report r='col f=rx.frequency;f=rx.correct;f=rx.iss;f=rx.rate;f=rx.rssi'
+#report r='sum title=2GHZ SENSITIVITY REPORT;k=frequency,rate,rxchain;l=chain;f=dip(iss,psr,$psrthreshold);label=dip;width=8;f=fit(iss,psr,10,$psrthreshold);label=fit;width=8;f=lookup(rate,@rate,@isslimit);label=limit;w=8;f=fit(iss,psr,10,$psrthreshold)-lookup(rate,@rate,@isslimit);label=delta;w=8;f=test(fit(iss,psr,10,$psrthreshold)-lookup(rate,@rate,@isslimit)<0,$passtext,$failtext,0,@FailSens5gGood);label=limit;type=s,w=8;'
+report r='g x=rx.iss;min=$issmin;max=$issmax;inc=$issinc;y=rx.psr;min=0;max=100;inc=10;sort=rx.frequency,rx.rate,rx.rxchain;file=$SensReportFile;screen=0';
+branch name=RX5G_DONE;action=goto;test='$Test.Error<>0';
+        
+rx f=2422;r=t7;ch=1;iss=$issmax:$issmin:$issinc;delay=400;rxvsg=1;ht40=1;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;stop='$Test.Error';
+report r='col f=rx.frequency;f=rx.correct;f=rx.iss;f=rx.rate;f=rx.rssi'
+#report r='sum title=2GHZ SENSITIVITY REPORT;k=frequency,rate,rxchain;l=chain;f=dip(iss,psr,$psrthreshold);label=dip;width=8;f=fit(iss,psr,10,$psrthreshold);label=fit;width=8;f=lookup(rate,@rate,@isslimit);label=limit;w=8;f=fit(iss,psr,10,$psrthreshold)-lookup(rate,@rate,@isslimit);label=delta;w=8;f=test(fit(iss,psr,10,$psrthreshold)-lookup(rate,@rate,@isslimit)<0,$passtext,$failtext,0,@FailSens5gGood);label=limit;type=s,w=8;'
+report r='g x=rx.iss;min=$issmin;max=$issmax;inc=$issinc;y=rx.psr;min=0;max=100;inc=10;sort=rx.frequency,rx.rate,rx.rxchain;file=$SensReportFile;screen=0';
+branch name=RX5G_DONE;action=goto;test='$Test.Error<>0';
+        
+
+
+        
+reset
+
+
+
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          

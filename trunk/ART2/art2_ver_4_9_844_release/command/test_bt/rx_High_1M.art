@@ -1,0 +1,11 @@
+
+
+#limit
+assign BER_threshold = 0.1
+
+btrx f=$HighCH;pt=1DH1;pwr=-70;berThreshold=0.1;bitsL1=1600000
+report r='r f=RX_BDR_L1.frequency;l=frequency;f=Packet,GoodBits,TotalBits,BER;f=test((BER<=$BER_threshold),$passtext,$FailText,0,@FailRxBT);l=result;type=s;title=BT RX High 1M';
+
+
+
+

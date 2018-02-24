@@ -1,0 +1,124 @@
+assign 2G.RxSensPoint.HT20.Pass=0
+assign 2G.RxSensPoint.HT20.Fail=0
+
+GOTO name=SENS_CCK_DONE; condition='$2G.RxSensPoint.CCK.Enable=0'
+#___________________________________________
+#  CCK sensitivity test, test single chain
+#___________________________________________
+assign it=1;
+label name=TOP_CCK;
+
+calculate sel_chain=element(rxchainList,$it);
+calculate sel_iss=lookup($2G.RxSensPoint.CCK.Rate, @RxSens.rate, @RxSens.isslimit)
+
+calculate perctLimit=100-$2G.RxSens.CCK.PsrThreshold
+
+#run rxIQ Cal if its enabled.
+GOTO name=SENS_CCK; condition='$2G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;f=$2G.RxSensPoint.CCK.Freq;r=11s;tp=8;ch=$sel_chain;pc=500;pl=100;iss=-60;rxiqcal=1;stop='$Test.Error';
+GOTO name=RX2G_DONE;test='$Test.Error<>0';
+
+LABEL name=SENS_CCK;
+link rx=$inst;tx=$instGolden;f=$2G.RxSensPoint.CCK.Freq;r=$2G.RxSensPoint.CCK.Rate;tp=8;ch=$sel_chain;iss=$sel_iss;stop='$Test.Error';
+report style=summary;title=2GHZ SENS Point;k=frequency,rate;k=rxchain;f=psr;label=$perctLimit%PSR;w=8;f=psr-$2G.RxSens.CCK.PsrThreshold;label=$perctLimit%delta;w=8;f=test(psr-$2G.RxSens.OFDM.PsrThreshold>=0,$passtext,$failtext,@2G.RxSensPoint.HT20.Pass,@2G.RxSensPoint.HT20.Fail);label=$perctLimit%limit;type=s,w=8;f=lookup(rate,@RxSens.Rate,@RxSens.isslimit);label=issPoint;w=8;
+GOTO name=RX2G_DONE;test='$Test.Error<>0';
+
+calculate it=$it+1;
+GOTO name=TOP_CCK;  test='$it<=$rxChains';
+label name=SENS_CCK_DONE;
+
+calculate perctLimit=100-$2G.RxSens.OFDM.PsrThreshold
+
+GOTO name=SENS_SingleChain_DONE; condition='$2G.RxSensPoint.SingleChain.HT20.Enable=0'
+#___________________________________________
+# 1 stream signal sensitivity test, sweep each single chain
+#___________________________________________
+assign itFreq=1;
+#___________________________________________
+calculate 2G.RxSensPoint.SingleChain.Freq.Num=count(2G.RxSensPoint.SingleChain.HT20.Freq)
+label name=TOP_FREQ;
+calculate freq=element(2G.RxSensPoint.SingleChain.HT20.Freq,$itFreq);
+
+assign it=1;
+#___________________________________________
+label name=TOP_CHAIN;
+calculate sel_chain=element(rxchainList,$it);
+calculate sel_iss=lookup($2G.RxSensPoint.SingleChain.HT20.Rate, @RxSens.rate, @RxSens.isslimit)
+
+#run rxIQ Cal if its enabled.
+GOTO name=SENS_SingleChain; condition='$2G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;f=$freq;r=f0;tp=8;ch=$sel_chain;pc=500;pl=100;iss=-60;rxiqcal=1;stop='$Test.Error';
+GOTO name=RX2G_DONE;test='$Test.Error<>0';
+
+LABEL name=SENS_SingleChain;
+#___________________________________________
+assign itRate=1;
+calculate 2G.RxSensPoint.SingleChain.Rate.Num=count(2G.RxSensPoint.SingleChain.HT20.Rate)
+#___________________________________________
+label name=TOP_Rate;
+calculate sel_rate=element(2G.RxSensPoint.SingleChain.HT20.Rate,$itRate);
+calculate sel_iss=lookup($sel_rate, @RxSens.rate, @RxSens.isslimit)
+
+link rx=$inst;tx=$instGolden;f=$freq;r=$sel_rate;tp=8;ch=$sel_chain;iss=$sel_iss;stop='$Test.Error';
+report style=summary;title=2GHZ SENS Point;k=frequency,rate;k=rxchain;f=psr;label=$perctLimit%PSR;w=8;f=psr-$2G.RxSens.OFDM.PsrThreshold;label=$perctLimit%delta;w=8;f=test(psr-$2G.RxSens.OFDM.PsrThreshold>=0,$passtext,$failtext,@2G.RxSensPoint.HT20.Pass,@2G.RxSensPoint.HT20.Fail);label=$perctLimit%limit;type=s,w=8;f=lookup(rate,@RxSens.Rate,@RxSens.isslimit);label=issPoint;w=8;
+GOTO name=RX2G_DONE;test='$Test.Error<>0';
+#___________________________________________
+
+test itRate=$itRate+1;
+GOTO name=TOP_RATE;  test='$itRate<=$2G.RxSensPoint.SingleChain.Rate.Num';
+#___________________________________________
+
+test it=$it+1;
+GOTO name=TOP_CHAIN;  test='$it<=$rxChains';
+#___________________________________________
+
+test itFreq=$itFreq+1;
+GOTO name=TOP_FREQ;  test='$itFreq<=$2G.RxSensPoint.SingleChain.Freq.Num';
+#___________________________________________
+
+
+label name=SENS_SingleChain_DONE;
+#___________________________________________
+#___________________________________________
+
+
+
+GOTO name=RX2G_DONE; condition='$2G.RxSensPoint.AllChains.HT20.Enable=0'
+#___________________________________________
+# MIMO sensitivity test, test all chain together
+#___________________________________________
+assign it=1;
+calculate 2G.RxSensPoint.AllChains.Freq.Num=count(2G.RxSensPoint.AllChains.HT20.Freq)
+label name=TOP_2G;
+
+calculate freq=element(2G.RxSensPoint.AllChains.HT20.Freq,$it);
+
+GOTO name=SENS_2G; condition='$2G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;f=$freq;r=f0;tp=8;ch=$rxALLChainMask;pc=500;pl=100;iss=-60;rxiqcal=1;stop='$Test.Error';
+GOTO name=RX2G_DONE;test='$Test.Error<>0';
+
+#___________________________________________
+LABEL name=SENS_2G;
+#___________________________________________
+
+assign itRate=1;
+calculate 2G.RxSensPoint.AllChains.Rate.Num=count(2G.RxSensPoint.AllChains.HT20.Rate)
+#___________________________________________
+label name=TOP_2GRate;
+calculate sel_rate=element(2G.RxSensPoint.AllChains.HT20.Rate,$itRate);
+calculate sel_iss=lookup($sel_rate, @RxSens.rate, @RxSens.isslimit)
+
+link rx=$inst;tx=$instGolden;f=$freq;r=$sel_rate;tp=8;ch=$rxALLChainMask;iss=$sel_iss;stop='$Test.Error';
+report style=summary;title=2GHZ SENS Point;k=frequency,rate;k=rxchain;f=psr;label=$perctLimit%PSR;w=8;f=psr-$2G.RxSens.OFDM.PsrThreshold;label=$perctLimit%delta;w=8;f=test(psr-$2G.RxSens.OFDM.PsrThreshold>=0,$passtext,$failtext,@2G.RxSensPoint.HT20.Pass,@2G.RxSensPoint.HT20.Fail);label=$perctLimit%limit;type=s,w=8;f=lookup(rate,@RxSens.Rate,@RxSens.isslimit);label=issPoint;w=8;
+GOTO name=RX2G_DONE;test='$Test.Error<>0';
+#___________________________________________
+
+test itRate=$itRate+1;
+GOTO name=TOP_2GRATE;  test='$itRate<=$2G.RxSensPoint.AllChains.Rate.Num';
+#___________________________________________
+
+calculate it=$it+1;
+GOTO name=TOP_2G;  test='$it<=$2G.RxSensPoint.AllChains.Freq.Num';
+#___________________________________________
+
+LABEL name=RX2G_DONE;

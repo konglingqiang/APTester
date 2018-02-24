@@ -1,0 +1,5 @@
+// TESTER TYPE AND IP Address
+// -----------------------------------------------------------------
+IQ_INSTRUMENT_TYPE             = 1    //   1-IQXEL ,2-IQFLEX/IQVIEW/IQNXN , 3-IQ2010
+IQ_IP_ADDRESS	= 192.168.100.254   // IQ2010 127.0.0.1  // 192.168.100.254
+

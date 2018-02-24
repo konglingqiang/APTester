@@ -1,0 +1,37 @@
+#payload
+#
+#// tBRM_TestMode
+#enum { 
+#   eBRM_TestMode_Pause = 0,
+#   eBRM_TestMode_TX_0,
+#   eBRM_TestMode_TX_1,
+#   eBRM_TestMode_TX_1010,
+#   eBRM_TestMode_TX_PRBS,
+#   eBRM_TestMode_Loop_ACL,
+#   eBRM_TestMode_Loop_SCO,
+#   eBRM_TestMode_Loop_ACL_No_Whitening,
+#   eBRM_TestMode_Loop_SCO_No_Whitening,
+#   eBRM_TestMode_TX_11110000,
+#   eBRM_TestMode_Exit = 255,
+#};
+
+
+# Output Power limit
+assign OP_MAX_POWER = 20
+assign OP_MIN_POWER = -6 
+assign OP_PEAK_POWER = 23
+
+# freq offset limit
+assign FREQ_OFFSET = 75
+
+# freq drift limit
+assign CFD_AVG_FREQ_DRIFT = 20
+
+# modulation index limit
+assign MC_F1_AVG_MIN = 140
+assign MC_F1_AVG_MAX = 175
+assign MC_F2_MAX_MIN = 115
+
+bttx f=$LowCH;pt=1DH1;payload=4;pwr=8
+report r='r f=BDRTXPWR.frequency;f=Packet;f=BDRTXPWR.powerAv;l=Average Power;f=BDRTXPWR.FreqEst;l=FREQ_EST;f=BDRTXF2.FreqEstHdr;l=FREQ_EST_HEADER;f=BDRTXF2.FreqDrift;l=Average Drift;f=BDRTXF1.F1avg;l=F1avg;f=BDRTXF2.F2avg;l=F2avg;f=BDRTXF2.F2max;l=F2max;f=test((BDRTXPWR.powerAvMax<$OP_MAX_POWER)&(BDRTXPWR.powerAvMin>$OP_MIN_POWER)&(BDRTXPWR.powerPk<$OP_PEAK_POWER)&(BDRTXPWR.FreqEst<$FREQ_OFFSET)&(BDRTXF2.FreqEstHdr<$FREQ_OFFSET)&(BDRTXF2.FreqDrift<=$CFD_AVG_FREQ_DRIFT)&((BDRTXF1.F1avg>=$MC_F1_AVG_MIN)&(BDRTXF1.F1avg<=$MC_F1_AVG_MAX))&(BDRTXF2.F2max>=$MC_F2_MAX_MIN),$passtext,$FailText,0,@FailTxBT);l=result;type=s;title=BT TX Low 1M';
+

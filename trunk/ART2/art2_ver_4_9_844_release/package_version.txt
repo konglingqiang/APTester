@@ -1,0 +1,51 @@
+Art package version: 4_9_844 
+packaging Art Windows: ART2CS10.2v4.9.341 
+packaging Art Linux: LinuxART2CS10.2v4.9.352 
+packaging Art Driver: swift_driver_support 
+packaging Art AP image/Firmware: \\waffle\builds649\TEST\APSS.LN_LSDK.10.2-00195-External-1.tiberium 
+ 
+ 
+packaging cus223 golden bin: 3 
+packaging xb140 golden bin: 2 
+packaging cus223_523 golden bin: 2 
+packaging xb141 golden bin: 2 
+packaging cus223_120 golden bin: 3 
+packaging cus261 golden bin: 1 
+packaging xb241 golden bin: 4 
+packaging xb243 golden bin: 4 
+packaging xb143 golden bin: 2 
+ 
+ 
+including ap135 image: no 
+including db120 image: no 
+including honeybee image: no 
+ 
+ 
+kill hack for ArtGui: yes 
+kill hack for OSR: no  
+Package was generated on: 
+Thu 10/16/2014 
+05:35 AM
+ArtPackager suite version = 15 
+ 
+ 
+ 
+Additional steps to create this ART package: 
+-- Copied xb140 golden bin from \\scfileserver\Engineering\SJ_Lab\art2_rel\art2_ver_4_x\golden_bins\xb140\ver_2\boardData_2_QC98XX_xb140_gld.bin 
+-- Copied cus223 golden bin from \\scfileserver\Engineering\SJ_Lab\art2_rel\art2_ver_4_x\golden_bins\cus223\ver_3\boardData_2_QC98XX_cus223_gld.bin  
+-- Copied cus223-523 golden bin from \\scfileserver\Engineering\SJ_Lab\art2_rel\art2_ver_4_x\golden_bins\cus223_523\ver_2\boardData_2_QC98XX_cus223_523_gld.bin 
+-- Copied xb141 golden bin from \\scfileserver\Engineering\SJ_Lab\art2_rel\art2_ver_4_x\golden_bins\xb141\ver_2\boardData_3_QC98XX_xb141_gld.bin 
+-- Copied cus223-120 golden bin from \\scfileserver\Engineering\SJ_Lab\art2_rel\art2_ver_4_x\golden_bins\cus223_120\ver_3\boardData_3_QC98XX_cus223_120_gld.bin 
+-- Copied cus261 golden bin from \\scfileserver\Engineering\SJ_Lab\art2_rel\art2_ver_4_x\golden_bins\cus261\ver_1\boardData_3_QC98XX_cus261_gld.bin  
+-- Copied xb241 golden bin from \\scfileserver\Engineering\SJ_Lab\art2_rel\art2_ver_4_x\golden_bins\xb241\ver_4\boardData_4_QC98XX_xb241_gld.bin  
+-- Copied xb243 golden bin from \\scfileserver\Engineering\SJ_Lab\art2_rel\art2_ver_4_x\golden_bins\xb243\ver_4\boardData_4_QC98XX_xb243_gld.bin  
+-- Copied xb143 golden bin from \\scfileserver\Engineering\SJ_Lab\art2_rel\art2_ver_4_x\golden_bins\xb143\ver_2\boardData_2_QC98XX_xb143_gld.bin  
+-- Replace .\driver\Firmware\fakeBoardData_AR6004.bin with .\driver\BoardData\boardData_2_QC98XX_xb140_gld.bin 
+       that has been renamed to fakeBoardData_AR6004.bin  
+ 
+ 
+Additional steps to create this ART package: 
+  OSR police processing for:  
+     c:\ArtPackager\packages\art2_ver_4_9_844\bin\devcon.exe 
+     c:\ArtPackager\packages\art2_ver_4_9_844\bin\devcon_amd64.exe  
+     c:\ArtPackager\packages\art2_ver_4_9_844\bin\dva.dll  

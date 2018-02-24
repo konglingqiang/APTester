@@ -1,0 +1,52 @@
+#########################################################################
+# DEVICE NAME: AP152-030_2     						#
+# FILE TYPE:   cal_scheme     						#
+#                             						#
+# 									#
+#########################################################################
+#									#
+# The "_loaded" is a variable to be used for error checking		#
+# within the test flow. Valid data values are:				#
+#	0: 	file was never loaded, flow should halt with error 	#
+#		indicating file missing					#
+#	1: 	blank placeholder was loaded, no values will be 	#
+#		applied							#
+#	2:	populated file was loaded and values 			#
+#		will be applied						#
+#									#
+#########################################################################
+
+#########################################################################
+
+        assign cal_scheme_loaded = 2;
+
+
+#rev: 1:00 initial
+#rev: 1.10 3 cal points at low and high band and 2 cal points at mid band
+setcal i=$inst; dll=cal-2p;
+setcal i=$inst; scheme=2;
+setcal i=$inst; PowerGoalMode=1;
+#setcal i=$inst; 2gfreq=2412,2437,2462;
+#setcal i=$inst; 2gGainIndex1Ch0=12,12,12;
+#setcal i=$inst; 2gGainIndex1Ch1=11,11,11;
+#setcal i=$inst; 2gGainIndex1Ch2=11,11,11;
+#setcal i=$inst; 2gDacGain1=0,0,0;
+#setcal i=$inst; 2gPowerGoal1=13,13,13;
+#setcal i=$inst; 2gGainIndex2Ch0=16,16,16;
+#setcal i=$inst; 2gGainIndex2Ch1=15,15,15;
+#setcal i=$inst; 2gGainIndex2Ch2=15,15,15;
+#setcal i=$inst; 2gDacGain2=-8,-8,-8;
+#setcal i=$inst; 2gPowerGoal2=14,14,14;
+#setcal i=$inst; 5gfreq=5180,5240,5260,5320,5500,5700,5745,5805;
+#setcal i=$inst; 5gfreq=5200,5300,5520,5580,5640,5700,5765,5805;
+setcal i=$inst; 5gfreq=5180,5240,5320,5520,5640,5745,5785,5825;
+setcal i=$inst; 5gGainIndex1Ch0=18,18,18,18,18,18,18,18;
+setcal i=$inst; 5gGainIndex1Ch1=18,18,18,18,18,18,18,18;
+setcal i=$inst; 5gGainIndex1Ch2=18,18,18,18,18,18,18,18;
+setcal i=$inst; 5gDacGain1=0,0,0,0,0,0,0,0;
+setcal i=$inst; 5gPowerGoal1=17.0,17.0,17.0,17.0,17.0,17.0,17.0,17.0;
+setcal i=$inst; 5gGainIndex2Ch0=22,22,22,22,22,22,22,22;
+setcal i=$inst; 5gGainIndex2Ch1=22,22,22,22,22,22,22,22;
+setcal i=$inst; 5gGainIndex2Ch2=22,22,22,22,22,22,22,22;
+setcal i=$inst; 5gDacGain2=-6,-6,-6,-6,-6,-6,-6,-6;
+setcal i=$inst; 5gPowerGoal2=17.0,17.0,17.0,17.0,17.0,17.0,17.0,17.0;

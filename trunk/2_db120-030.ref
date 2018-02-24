@@ -1,0 +1,92 @@
+#--------------------------------------------------------------------------------------
+# this build is for DB120 Second Radio - Onboard Osprey
+#--------------------------------------------------------------------------------------
+
+#subsystem and subverdor ID's
+set i=$inst; ssid=a120;
+set i=$inst; svid=168c;
+#huanghao
+set i=$inst; devid=0x33;
+pcie
+
+# set device type 
+# 1=>Cardbus, 2=>PCI, 3=>miniPCI, 4=>AP, 5=>PCIe mini, 6=>pcie express, 7=>pcie desktop
+set i=$inst; devicetype=4;
+
+# set Reg domain
+# customers can set regulatory domain index here
+
+set i=$inst; regdmn[0]=0
+set i=$inst; regdmn[1]=0x1f
+
+
+#tx and rx chain mask: bit0 = chain0 enable, 
+#                      bit1 = chain1 enable, 
+#                      bit2 = chain2 enable 
+Set  i=$inst; txmask=3;
+Set  i=$inst; rxmask=3;
+
+#configure modes: 
+#	    bit0 = enable 5GHz
+#           bit1 = enable 2GHz
+#           bit2 = disable 5G HT40
+#           bit3 = disable 2G HT40
+#           bit4 = disable 5G HT20
+#           bit5 = disable 2G HT20
+#Note: these flags will be given individual commands in subsequent release 
+set  i=$inst; opflags=1;
+
+#antenna switch table control
+#2GHz
+set  i=$inst; antctrlcommon5g=110;
+set  i=$inst; antctrlcommon25g=22222;
+set  i=$inst; antCtrlChain5g=150, 150, 150;
+
+# tx gain table
+#             0 (lowest_ob_db) ? for XPA design, will provide lower power consumption at 5G
+#             1 (high_ob_db) ? for no XPA design 
+#             2 (low_ob_db) ? for XPA design, will provide normal power consumption at 5G
+#             3 (high_power) ? for XPA design, spur is lower at 5G.
+#             4 (mixed_ob_db) ? Mixed Gain table (5G XPA; 2G no XPA), not used yet Comment:  2GHz same as Tx gain type 1, 5 GHz same as Tx gain type 2
+set  i=$inst; txgainTable=3;
+
+# rxgainTable	0: xlna	1: no xlna
+set  i=$inst; rxgainTable=0;
+
+
+#Temperature compensation
+set i=$inst; temperatureCompensation=1
+set i=$inst; Tempslope5g=78
+set i=$inst; Tempslopelow=64
+set i=$inst; Tempslopehigh=86
+
+
+#force chainX thermometer at all times
+set i=$inst; thermometer=1;
+
+#enable spur mitigation
+set  i=$inst; spurchans2g=2464;
+
+#enable PA Pre-Distortion for enhanced tx EVM on FEMless design
+#xPA design does not need PA-PreD
+set  i=$inst; papdenable=0
+
+set i=$inst; xpabiaslvl5g=0xf
+
+# Set calibration data memory type.
+# Valid options are --
+# set i=$inst; caldata.memory=eeprom
+# set i=$inst; caldata.memory=flash
+# set i=$inst; caldata.memory=otp
+
+set i=$inst; caldata.memory=flash
+
+#target power files
+refDesigns\DB120-030\2_db120_trg_pwr.art
+
+#CTL Files
+common\ctl_generic_5GHz.art
+
+#1 point -Cal Scheme
+common\setupcal-scheme0.art
+

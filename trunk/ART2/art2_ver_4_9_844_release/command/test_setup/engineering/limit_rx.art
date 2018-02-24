@@ -1,0 +1,21 @@
+#___________________________________________
+# Rx Sensitivity Sweep limits
+#___________________________________________
+
+assign 2G.RxSens.CCK.PsrThreshold=92
+assign 2G.RxSens.OFDM.PsrThreshold=90
+
+assign 5G.RxSens.OFDM.PsrThreshold=90
+
+assign RxSens.Rate=5L,11L,6,54,t7,t8,t15,t16,t23,f7,f8,f15,f16,f23,vt0,vt8,vt10,vt18,vt20,vt29,vf0,vf9,vf10,vf19,vf20,vf29,ve0,ve9,ve10,ve19,ve20,ve29,vt7,vf7,ve7,
+assign RxSens.isslimit=-76,-76,-82,-65,-65,-82,-64,-82,-64,-64,-79,-61,-79,-61,-82,-59,-82,-59,-82,-59,-79,-54,-79,-54,-79,-54,-76,-51,-76,-51,-76,-51,-65,-62,-59,
+assign RxSens.dipLimit=-3
+
+#___________________________________________
+# Tx throughput test
+#___________________________________________
+assign TxTput.Rate=   11L,54,t7,t8,t15,t16,t23,f7, f8,f15,f16,f23,vt0,vt8,vf0,vf9,ve0,ve9,
+assign TxTput.tputlimit=6,30,50,12,100,18, 150,100,25,200,35, 300,4.5,55, 9.5,126,20.5,270,
+
+assign RxTput.Rate=     54,t7,t8,t15,t16,t23,f7, f8,f15,f16,f23,vt0,vt8,vf0,vf9,ve0, ve9,
+assign RxTput.tputlimit=30,50,12,100,18, 150,100,25,200,35, 300,4.5,55, 9.5,126,20.5,270,

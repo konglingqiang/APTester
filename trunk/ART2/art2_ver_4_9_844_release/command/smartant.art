@@ -1,0 +1,10 @@
+
+fw a=wlan_gpio_enable_w1ts_low.data;v=0x1c
+
+fw a=wlan_gpio_out_w1ts_low.data;v=0x1c
+
+fw a=wlan_gpio_pin2.config;v=0
+
+fw a=wlan_gpio_pin3.config;v=0
+
+fw a=wlan_gpio_pin4.config;v=0

@@ -1,0 +1,31 @@
+#
+# 2 GHz power calibration
+#
+# $2G.TxPowerCal.Freq
+# $chainList
+
+show inst;
+show 2G.txgain.init
+#assign chainList=1,4
+show chainList
+#assign chainList=1,2,4
+
+
+
+assign 11nDesign=1
+
+
+tx tx=$inst; att=0; txgain=$2G.txgain.init;txgmaximum=$2G.TxPowerCal.Limit;pl=1500;pc=1000000;r=$2G.TxPowerCal.Rate;cal=$2G.TxPowerCal.Method;ch=$chainList;f=$2G.TxPowerCal.Freq;tx99=1;stop='$Test.Error';
+#tx tx=$inst; att=0; txgain=$2G.txgain.init;txgmaximum=$2G.TxPowerCal.Limit;pl=1500;pc=1000000;r=t0;cal=$2G.TxPowerCal.Method;ch=$chainList;f=$2G.TxPowerCal.Freq;tx99=1;stop='$Test.Error';
+GOTO name=11ACDESIGN; condition='$11nDesign=0'
+
+#11n Report
+report style=column; f=cal.frequency;label=frequency;f=txchain,txgain,power,pcorr,voltage,temp;title=2GHz Calibration Coefficients;
+GOTO name=ENDOFCAL
+
+LABEL name=11ACDESIGN;
+#11ac Report
+report style=column; f=cal.frequency;label=frequency;f=cal.gainIndex;f=cal.dacGain;f=txchain,power,temp;title=2GHz Calibration Coefficients;
+#kingeman
+#report style=column; f=cal.frequency;label=frequency;f=txchain,txgain,power,pcorr,voltage,temp;title=2GHz Calibration Coefficients;		
+LABEL name=ENDOFCAL

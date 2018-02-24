@@ -1,0 +1,161 @@
+#___________________________________________
+# Old Chip support
+#___________________________________________
+assign Kiwi.Enable=0;
+assign tx_pwr_pack_len=4000;
+# packet length has to be held to 4000 bytes due to buffer size on legacy devices
+# the packet length has to be longer for the test of higher rates (11ac) when using
+# power meter
+
+#___________________________________________
+# Tx power Calibration settings
+#___________________________________________
+assign 2G.TxPowerCal.Freq=2412,2437,2462
+#assign 5G.TxPowerCal.Freq=5180,5220,5340,5420,5500,5620,5745,5825
+assign 5G.TxPowerCal.Freq=5180,5240,5260,5320,5500,5700,5745,5805;
+#assign 5G.TxPowerCal.Freq=5200,5300,5520,5580,5640,5700,5765,5805;
+
+assign 2G.TxPowerCal.Method=3
+assign 5G.TxPowerCal.Method=3
+
+assign 2G.TxPowerCal.Rate=t0
+assign 5G.TxPowerCal.Rate=t0
+
+#___________________________________________
+# Maximum txgain allowed during Power Cal
+# For 11ac chips this needs to be overridden to 255
+#___________________________________________
+
+assign 2G.TxPowerCal.Limit=120
+assign 5G.TxPowerCal.Limit=120
+
+assign 2G.txgain.init=40
+assign 5G.txgain.init=40
+
+assign 2G.XtalCal.Freq = 2437
+assign 5G.XtalCal.Freq = 5500
+
+#___________________________________________
+# target power verification test settings
+#___________________________________________
+assign 2G.TxPower.Average=3
+assign 5G.TxPower.Average=3
+
+assign 2G.TxPower.HT20.Freq=2412,2437,2462
+assign 2G.TxPower.HT40.Freq=2412,2437,2452
+
+assign 2G.TxPower.CCK.Rate=11s
+assign 2G.TxPower.Legacy.Rate=6
+assign 2G.TxPower.HT20.1Stream.Rate=t0,t7
+assign 2G.TxPower.HT40.1Stream.Rate=f0,f7
+assign 2G.TxPower.HT20.2Stream.Rate=t8,t15
+assign 2G.TxPower.HT40.2Stream.Rate=f8,f15
+assign 2G.TxPower.HT20.3Stream.Rate=t16,t23
+assign 2G.TxPower.HT40.3Stream.Rate=f16,f23
+
+#___________________________________________
+assign 5G.TxPower.HT20.Freq=5180,5500,5805
+assign 5G.TxPower.HT40.Freq=5180,5500,5785
+assign 5G.TxPower.VHT20.Freq=5180,5500,5745
+assign 5G.TxPower.VHT40.Freq=5200,5520,5765
+assign 5G.TxPower.VHT80.Freq=5210,5530,5690
+assign 5G.TxPower.Legacy.Rate=6
+assign 5G.TxPower.HT20.1Stream.Rate=t0,t7
+assign 5G.TxPower.HT40.1Stream.Rate=f0,f7
+assign 5G.TxPower.VHT20.1Stream.Rate=vt0
+assign 5G.TxPower.VHT40.1Stream.Rate=vf0,vf9
+assign 5G.TxPower.VHT80.1Stream.Rate=ve9
+assign 5G.TxPower.HT20.2Stream.Rate=t8,t15
+assign 5G.TxPower.HT40.2Stream.Rate=f8,f15
+assign 5G.TxPower.VHT20.2Stream.Rate=vt10,vt18
+assign 5G.TxPower.VHT40.2Stream.Rate=vf10,vf19
+assign 5G.TxPower.VHT80.2Stream.Rate=ve10,ve19
+assign 5G.TxPower.HT20.3Stream.Rate=t16,t23
+assign 5G.TxPower.HT40.3Stream.Rate=f16,f23
+assign 5G.TxPower.VHT20.3Stream.Rate=vt20,vt29
+assign 5G.TxPower.VHT40.3Stream.Rate=vf20,vf29
+assign 5G.TxPower.VHT80.3Stream.Rate=ve20,ve29
+
+#___________________________________________
+# Mask test settings 
+#___________________________________________
+assign 2G.TxMASK.Average=2
+assign 5G.TxMASK.Average=2
+
+assign 2G.TxMASK.Freq=2437,2462
+
+assign 2G.TxMASK.CCK.Rate=1L
+assign 2G.TxMASK.Legacy.Rate=6
+assign 2G.TxMASK.HT20.1Stream.Rate=t0
+#assign 2G.TxMASK.HT40.1Stream.Rate=f0
+assign 2G.TxMASK.HT40.1Stream.Rate=t0
+assign 2G.TxMASK.HT20.2Stream.Rate=t8
+assign 2G.TxMASK.HT40.2Stream.Rate=f8
+assign 2G.TxMASK.HT20.3Stream.Rate=t16
+assign 2G.TxMASK.HT40.3Stream.Rate=f16
+
+assign 5G.TxMASK.Freq=5530
+
+assign 5G.TxMASK.Legacy.Rate=6
+assign 5G.TxMASK.HT20.1Stream.Rate=t0
+assign 5G.TxMASK.HT40.1Stream.Rate=f0
+assign 5G.TxMASK.VHT20.1Stream.Rate=vt0
+assign 5G.TxMASK.VHT40.1Stream.Rate=vf0
+assign 5G.TxMASK.VHT80.1Stream.Rate=ve0
+assign 5G.TxMASK.HT20.2Stream.Rate=t8
+assign 5G.TxMASK.HT40.2Stream.Rate=f8
+assign 5G.TxMASK.VHT20.2Stream.Rate=vt10
+assign 5G.TxMASK.VHT40.2Stream.Rate=vf10
+assign 5G.TxMASK.VHT80.2Stream.Rate=ve10
+assign 5G.TxMASK.HT20.3Stream.Rate=t16
+assign 5G.TxMASK.HT40.3Stream.Rate=f16
+assign 5G.TxMASK.VHT20.3Stream.Rate=vt20
+assign 5G.TxMASK.VHT40.3Stream.Rate=vf20
+assign 5G.TxMASK.VHT80.3Stream.Rate=ve20
+
+#___________________________________________
+# freq accuracy test settings 
+#___________________________________________
+assign 2G.TxFreqAccuracy.Freq=2437
+assign 5G.TxFreqAccuracy.Freq=5500
+
+#___________________________________________
+# EVM test settings 
+#___________________________________________
+assign 2G.TxEVM.HT20.Freq=2412,2437,2462
+assign 2G.TxEVM.HT40.Freq=2412,2437,2462
+assign 2G.TxEVM.Average=5
+
+assign 2G.TxEVM.CCK.Rate=11s
+assign 2G.TxEVM.Legacy.Rate=54
+assign 2G.TxEVM.HT20.1Stream.Rate=t7
+assign 2G.TxEVM.HT40.1Stream.Rate=f7
+assign 2G.TxEVM.HT20.2Stream.Rate=t15
+assign 2G.TxEVM.HT40.2Stream.Rate=f15
+assign 2G.TxEVM.HT20.3Stream.Rate=t23
+assign 2G.TxEVM.HT40.3Stream.Rate=f23
+
+assign 5G.TxEVM.HT20.Freq=5180,5500,5805
+assign 5G.TxEVM.HT40.Freq=5180,5500,5785
+assign 5G.TxEVM.VHT20.Freq=5180,5500,5805
+assign 5G.TxEVM.VHT40.Freq=5200,5520,5765
+assign 5G.TxEVM.VHT80.Freq=5210,5530,5745
+
+assign 5G.TxEVM.Average=5
+
+assign 5G.TxEVM.Legacy.Rate=54
+assign 5G.TxEVM.HT20.1Stream.Rate=t7
+assign 5G.TxEVM.HT40.1Stream.Rate=f7
+assign 5G.TxEVM.VHT20.1Stream.Rate=vt8
+assign 5G.TxEVM.VHT40.1Stream.Rate=vf9
+assign 5G.TxEVM.VHT80.1Stream.Rate=ve9
+assign 5G.TxEVM.HT20.2Stream.Rate=t15
+assign 5G.TxEVM.HT40.2Stream.Rate=f15
+assign 5G.TxEVM.VHT20.2Stream.Rate=vt18
+assign 5G.TxEVM.VHT40.2Stream.Rate=vf19
+assign 5G.TxEVM.VHT80.2Stream.Rate=ve19
+assign 5G.TxEVM.HT20.3Stream.Rate=t23
+assign 5G.TxEVM.HT40.3Stream.Rate=f23
+assign 5G.TxEVM.VHT20.3Stream.Rate=vt29
+assign 5G.TxEVM.VHT40.3Stream.Rate=vf29
+assign 5G.TxEVM.VHT80.3Stream.Rate=ve29

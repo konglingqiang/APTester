@@ -1,0 +1,56 @@
+assign 5G.TxPower.1Stream.Pass=0
+assign 5G.TxPower.1Stream.Fail=0
+
+# $chainList=1,2,4
+# $5G.TxPower.Limit=1.5
+# $5G.TxPower.HT20.Freq=5180,5500,5785
+# $5G.TxPower.HT40.Freq=5180,5500,5785
+# $5G.TxPower.VHT20.Freq=5180,5500,5805
+# $5G.TxPower.VHT40.Freq=5180,5500,5805
+# $5G.TxPower.VHT80.Freq=5180,5500,5805
+# $5G.TxPower.HT20.1Stream.Rate=t0,t7
+# $5G.TxPower.HT40.1Stream.Rate=f7,f0
+# $5G.TxPower.VHT20.1Stream.Rate=vt0,vt8
+# $5G.TxPower.VHT40.1Stream.Rate=vf9,vf0
+# $5G.TxPower.VHT80.1Stream.Rate=ve9,ve0
+
+
+#kingeman
+tx tx=$inst; att=0; pl=$tx_pwr_pack_len;pc=1000000;f=$5G.TxPower.HT20.Freq;r=$5G.TxPower.1Stream.Rate;ir=2;txch=$chainList;pm=1;tx99=1;duc=99;avg=$5G.TxPower.Average;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=rate,txchain;f=tx.tp;l=target; f=tx.temp; l=temp; f=pm.power;l=meas pwr;f=pm.power-tx.tp;l=delta;f=test(((pm.power-tx.tp)<=$5G.TxPower.Limit.HT20 & (pm.power-tx.tp)>=-$5G.TxPower.Limit.HT20),$Passtext,$FailText,@5G.TxPower.1Stream.Pass,@5G.TxPower.1Stream.Fail);l=$5G.TxPower.Limit.HT20 dB;type=s;width=8;d=0;screen=1;title=5GHz Power Accuracy;
+GOTO name=TX2G_DONE;test='$Test.Error<>0';
+
+GOTO name=TX_HT40_1S_DONE; condition='$5G.HT40.Disable=1'
+GOTO name=TX_HT40_1S_DONE; condition='$5G.TxPower.HT40.1Stream.Enable=0'
+tx tx=$inst; att=0; pl=$tx_pwr_pack_len;pc=1000000;f=$5G.TxPower.HT40.Freq;r=$5G.TxPower.HT40.1Stream.Rate;ir=2;txch=$chainList;pm=1;tx99=1;duc=99;avg=$5G.TxPower.Average;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=rate,txchain;f=tx.tp;l=target; f=tx.temp; l=temp; f=pm.power;l=meas pwr;f=pm.power-tx.tp;l=delta;f=test(((pm.power-tx.tp)<=$5G.TxPower.Limit.HT40 & (pm.power-tx.tp)>=-$5G.TxPower.Limit.HT40),$Passtext,$FailText,@5G.TxPower.1Stream.Pass,@5G.TxPower.1Stream.Fail);l=$5G.TxPower.Limit.HT40 dB;type=s;width=8;d=0;screen=1;title=5GHz Power Accuracy;
+LABEL name=TX_HT40_1S_DONE;
+
+#___________________________________________
+#TX Power Test of VHT20 1stream
+#___________________________________________
+GOTO name=TX_VHT20_1S_DONE; condition='$5G.VHT20.Disable=1'
+GOTO name=TX_VHT20_1S_DONE; condition='$5G.TxPower.VHT20.1Stream.Enable=0'
+tx tx=$inst; att=0; pl=$tx_pwr_pack_len;pc=1000000;f=$5G.TxPower.VHT20.Freq;r=$5G.TxPower.VHT20.1Stream.Rate;ir=2;txch=$chainList;pm=1;tx99=1;duc=99;avg=$5G.TxPower.Average;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=rate,txchain;f=tx.tp;l=target; f=tx.temp; l=temp; f=pm.power;l=meas pwr;f=pm.power-tx.tp;l=delta;f=test(((pm.power-tx.tp)<=$5G.TxPower.Limit.HT20 & (pm.power-tx.tp)>=-$5G.TxPower.Limit.HT20),$Passtext,$FailText,@5G.TxPower.1Stream.Pass,@5G.TxPower.1Stream.Fail);l=$5G.TxPower.Limit.HT20 dB;type=s;width=8;d=0;screen=1;title=5GHz Power Accuracy;
+LABEL name=TX_VHT20_1S_DONE;
+
+#___________________________________________
+#TX Power Test of VHT40 1stream
+#___________________________________________
+GOTO name=TX_VHT40_1S_DONE; condition='$5G.VHT40.Disable=1'
+GOTO name=TX_VHT40_1S_DONE; condition='$5G.TxPower.VHT40.1Stream.Enable=0'
+tx tx=$inst; att=0; pl=$tx_pwr_pack_len;pc=1000000;f=$5G.TxPower.VHT40.Freq;r=$5G.TxPower.VHT40.1Stream.Rate;ir=2;txch=$chainList;pm=1;tx99=1;duc=99;avg=$5G.TxPower.Average;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=rate,txchain;f=tx.tp;l=target; f=tx.temp; l=temp; f=pm.power;l=meas pwr;f=pm.power-tx.tp;l=delta;f=test(((pm.power-tx.tp)<=$5G.TxPower.Limit.HT40 & (pm.power-tx.tp)>=-$5G.TxPower.Limit.HT40),$Passtext,$FailText,@5G.TxPower.1Stream.Pass,@5G.TxPower.1Stream.Fail);l=$5G.TxPower.Limit.HT40 dB;type=s;width=8;d=0;screen=1;title=5GHz Power Accuracy;
+LABEL name=TX_VHT40_1S_DONE;
+
+#___________________________________________
+#TX Power Test of VHT80 1stream
+#___________________________________________
+GOTO name=TX_VHT80_1S_DONE; condition='$5G.VHT80.Disable=1'
+GOTO name=TX_VHT80_1S_DONE; condition='$5G.TxPower.VHT80.1Stream.Enable=0'
+tx tx=$inst; att=0; pl=$tx_pwr_pack_len;pc=1000000;f=$5G.TxPower.VHT80.Freq;r=$5G.TxPower.VHT80.1Stream.Rate;ir=2;txch=$chainList;pm=1;tx99=1;duc=99;avg=$5G.TxPower.Average;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=rate,txchain;f=tx.tp;l=target; f=tx.temp; l=temp; f=pm.power;l=meas pwr;f=pm.power-tx.tp;l=delta;f=test(((pm.power-tx.tp)<=$5G.TxPower.Limit.HT80 & (pm.power-tx.tp)>=-$5G.TxPower.Limit.HT80),$Passtext,$FailText,@5G.TxPower.1Stream.Pass,@5G.TxPower.1Stream.Fail);l=$5G.TxPower.Limit.HT80 dB;type=s;width=8;d=0;screen=1;title=5GHz Power Accuracy;
+LABEL name=TX_VHT80_1S_DONE;
+
+LABEL name=TX2G_DONE; 

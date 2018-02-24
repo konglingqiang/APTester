@@ -1,0 +1,54 @@
+# Note: This start.art file is a template for your
+# installation. 
+# Contained within this bin directory are additional 
+# template files:
+#
+#	pathloss.art
+#	equipment.art
+#	directories.art
+#	conn_load.art
+#
+# If you have not already populated these files with
+# your configuration data and placed them in a directory
+# located at C:\ART2\station_files, then you should do
+# so at this time.
+#
+# This and all future releases of ART2 will refer to 
+# that "station_files" and ART2 installation directory.
+# This change will allowing you to update your ART2 
+# calibration station without the need of creating or 
+# copying start.art to any new version installed,
+# unless otherwise notified.
+
+# Begin start.art
+
+#-----------------------------------------------------------------
+# For calibration memory Operation
+# 0: Never save
+# 1: ALWAYS save (even when failing)
+# 2: Save only if passing
+#-----------------------------------------------------------------
+assign calibration.data.save.enable = 2
+assign calibration.pcie.save.enable = 0
+assign calibration.memory.check.enable = 0
+
+# Return string/error code suppression line. Add error codes to suppres output to CART console.
+error code=7503,7504,7511,6500,2018,4037;response=none;
+
+# configdir is the station_files directory, also contains ref_devices file
+assign configdir=c:\ART2\station_files
+
+#1 Set Station Pathloss
+c:\ART2\station_files\pathloss.art
+
+#2 Load Equipment Libraries
+c:\ART2\station_files\equipment.art
+
+#3 Set Default Directories For Command, Log, and Reports
+c:\ART2\station_files\directories.art
+
+c:\ART2\station_files\ref_devices.art
+
+#4 Load artgui setup file
+setup_artgui.art
+

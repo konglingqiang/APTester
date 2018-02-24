@@ -1,0 +1,7 @@
+assign CLS_ScreenHeight=100
+assign CLS_CurrentRep=0
+
+LABEL name=TOP
+comment title="";
+calculate CLS_CurrentRep=$CLS_CurrentRep+1;
+GOTO name=TOP; condition='$CLS_ScreenHeight>$CLS_CurrentRep';

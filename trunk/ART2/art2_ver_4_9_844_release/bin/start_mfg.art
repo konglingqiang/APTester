@@ -1,0 +1,63 @@
+# Note: This start.art file is a template for your
+# installation. 
+# Contained within this bin directory are additional 
+# template files:
+#
+#	pathloss.art
+#	equipment.art
+#	directories.art
+#	conn_load.art
+#
+# If you have not already populated these files with
+# your configuration data and placed them in a directory
+# located at C:\ART2\station_files, then you should do
+# so at this time.
+#
+# This and all future releases of ART2 will refer to 
+# that "station_files" and ART2 installation directory.
+# This change will allowing you to update your ART2 
+# calibration station without the need of creating or 
+# copying start.art to any new version installed,
+# unless otherwise notified.
+
+# Begin start.art
+
+# Return string/error code suppression line. Add error codes to suppres output to CART console.
+error code=7503,7504,7511,6500,2018,4037;response=none;
+
+#1 Set Station Pathloss
+c:\ART2\station_files\pathloss.art
+
+#2 Load Equipment Libraries
+c:\ART2\station_files\equipment.art
+
+#3 Set Default Directories For Command, Log, and Reports
+c:\ART2\station_files\directories.art
+
+#4 Perform The Necessary Commands For Connect And Load
+c:\ART2\station_files\conn_load.art
+
+#5 Load artgui setup file
+setup_artgui.art
+
+# Finally get refID for mfg flow
+
+### test by REFID (BoardIDType=1) -------------------------
+LABEL name=REFID_GET;
+prompt refID
+LABEL name=GET_REFDESIGN;
+show $refID
+refdesign refid=$refID;
+GOTO name=GOT_REFID; condition='$refdesign<>0'
+#comment title=NOT FOUND label; 		name=dump.txt
+GOTO name=REFID_NOTFOUND; 
+
+### RefID not found  --------------------------
+LABEL name=REFID_NOTFOUND;
+comment title='	'; 							name=dump.txt
+
+comment title='Here are supported SSID, refID, HWrev:'; 		name=dump.txt
+refDesign
+GOTO name=REFID_GET;
+
+LABEL name=GOT_REFID;

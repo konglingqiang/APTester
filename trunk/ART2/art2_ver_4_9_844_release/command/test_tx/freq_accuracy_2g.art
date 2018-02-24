@@ -1,0 +1,37 @@
+assign 2G.TxPPM.Pass=0
+assign 2G.TxPPM.Fail=0
+
+GOTO name=VSA_TEST; condition='$equipment.vsa.Chains>0'
+
+GOTO name=2G.CARRIER.11AC; condition='$2G.XtalCal.11AC=1'
+
+tx tx=$inst; attenuation=0; carrier=1; txgain=40; ht40=0; fa=1; chain=1; f=$2G.TxFreqAccuracy.Freq; r=$2G.TxFreqAccuracy.Rate;
+report style=column; f=fa.frequency;label=frequency;f=actual;w=15;d=6;f=delta;w=12;d=6;f=ppm;f=test((ppm<=$TxPPM.Limit & ppm>=-$TxPPM.Limit),$Passtext,$FailText,@2G.TxPPM.Pass,@2G.TxPPM.Fail);l=20ppm;type=s;width=8;d=0;title=2GHZ FREQUENCY ACCURACY;
+GOTO name=FREQ_DONE;
+
+LABEL name=2G.CARRIER.11AC;
+sw i=$inst;a=bb_b0_BB7.DACFULLSCALE;v=0x1
+reset i=$inst;f=2412;
+tx tx=$inst; attenuation=0; carrier=1; txgain=40; ht40=0; fa=1; chain=1; f=$2G.TxFreqAccuracy.Freq; r=$2G.TxFreqAccuracy.Rate;
+report style=column; f=fa.frequency;label=frequency;f=actual;w=15;d=6;f=delta;w=12;d=6;f=ppm;f=test((ppm<=$TxPPM.Limit & ppm>=-$TxPPM.Limit),$Passtext,$FailText,@2G.TxPPM.Pass,@2G.TxPPM.Fail);l=20ppm;type=s;width=8;d=0;title=2GHZ FREQUENCY ACCURACY;
+sc i=$inst;a=bb_b0_BB7.DACFULLSCALE;
+reset i=$inst;f=2412;
+
+GOTO name=FREQ_DONE;
+
+LABEL name=VSA_TEST;
+
+#kingeman  
+show chainList
+tx tx=$inst; pl=4000;pc=1000000;f=$2G.TxFreqAccuracy.HT20.Freq;r=$2G.TxFreqAccuracy.HT20.Rate;ir=2;txch=$chainList;evm=1;tx99=1;
+report style=column; f=evm.freq;l=freq;width=5;f=rate;f=tx.txchain;l=chain;f=evm.ppm;f=0-$TxPPM.Limit;l=ppmMin;f=0+$TxPPM.Limit;l=ppmMax;f=test((ppm<=$TxPPM.Limit & ppm>=-$TxPPM.Limit),$PassText,$Failtext,@2G.TxPPM.Pass,@2G.TxPPM.Fail);l=P/F;type=s;width=8;d=0;title=2G Frequency Acuracy
+LABEL name=FREQ_DONE;
+
+#tx tx=$inst; pl=4000;pc=1000000;f=2422;r=f7;ir=2;txch=1;evm=1;tx99=1;
+#report style=column; f=evm.freq;l=freq;width=5;f=rate;f=tx.txchain;l=chain;f=evm.ppm;f=0-$TxPPM.Limit;l=ppmMin;f=0+$TxPPM.Limit;l=ppmMax;f=test((ppm<=$TxPPM.Limit & ppm>=-$TxPPM.Limit),$PassText,$Failtext,@2G.TxPPM.Pass,@2G.TxPPM.Fail);l=P/F;type=s;width=8;d=0;title=2G Frequency Acuracy
+#LABEL name=FREQ_DONE;
+
+tx tx=$inst; pl=4000;pc=1000000;f=$2G.TxFreqAccuracy.HT40.Freq;r=$2G.TxFreqAccuracy.HT40.Rate;ir=2;txch=$chainList;evm=1;tx99=1;
+report style=column; f=evm.freq;l=freq;width=5;f=rate;f=tx.txchain;l=chain;f=evm.ppm;f=0-$TxPPM.Limit;l=ppmMin;f=0+$TxPPM.Limit;l=ppmMax;f=test((ppm<=$TxPPM.Limit & ppm>=-$TxPPM.Limit),$PassText,$Failtext,@2G.TxPPM.Pass,@2G.TxPPM.Fail);l=P/F;type=s;width=8;d=0;title=2G Frequency Acuracy
+LABEL name=FREQ_DONE;
+

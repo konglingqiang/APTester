@@ -1,0 +1,319 @@
+#########################################################################
+# DEVICE NAME: AP152-020     						#
+# FILE TYPE:   setup_overwrite     						#
+#                             						#
+# 									#
+#########################################################################
+#									#
+# The "_loaded" is a variable to be used for error checking		#
+# within the test flow. Valid data values are:				#
+#	0: 	file was never loaded, flow should halt with error 	#
+#		indicating file missing					#
+#	1: 	blank placeholder was loaded, no values will be 	#
+#		applied							#
+#	2:	populated file was loaded and values 			#
+#		will be applied						#
+#									#
+#########################################################################
+
+#########################################################################
+
+        assign setup_overwrite_loaded = 2;
+
+
+# all the setup here might be design or customer specified.
+# This will overwrite all the setup you had in test_setup folder (not overwrite .ref file)
+
+show refdesign
+
+#GOTO name=SKIP_LABEL; condition='$BoardIDType<>2'
+#set i=$inst; label=$AtherosLabel
+#LABEL name=SKIP_LABEL;
+
+assign RxSens.Rate=     1L,11L,  6,  9, 12, 18, 24, 36, 48, 54,   t0, t1, t2, t3, t4, t5, t6, t7,  t8, t9,t10,t11,t12,t13,t14,t15, t16,t17,t18,t19,t20,t21,t22,t23,  f0,  f1, f2, f3, f4, f5, f6, f7,   f8, f9,f10,f11,f12,f13,f14,f15,  f16,f17,f18,f19,f20,f21,f22,f23,  vt0,vt1,vt2,vt3,vt4,vt5,vt6,vt7,vt8,vt9,  vt10,vt11,vt12,vt13,vt14,vt15,vt16,vt17,vt18,vt19,  vt20,vt21,vt22,vt23,vt24,vt25,vt26,vt27,vt28,vt29,  vf0,vf1,vf2,vf3,vf4,vf5,vf6,vf7,vf8,vf9,  vf10,vf11,vf12,vf13,vf14,vf15,vf16,vf17,vf18,vf19,  vf20,vf21,vf22,vf23,vf24,vf25,vf26,vf27,vf28,vf29,  ve0,ve1,ve2,ve3,ve4,ve5,ve6,ve7,ve8,ve9,  ve10,ve11,ve12,ve13,ve14,ve15,ve16,ve17,ve18,ve19,  ve20,ve21,ve22,ve23,ve24,ve25,ve26,ve27,ve28,ve29,
+##assign RxSens.isslimit=-90,-90,-88,-81,-79,-77,-74,-70,-66,-73,-88,-77,-75,-72,-68,-64,-63,-68, -90,-77,-75,-72,-68,-64,-63,-72, -90,-77,-75,-72,-68,-64,-63,-70,  -85,-74,-72,-69,-65,-61,-60,-67,  -87,-74,-72,-69,-65,-61,-60,-69, -87,-74,-72,-69,-65,-61,-60, -68,  -82,-79,-77,-74,-70,-66,-65,-64,-59,-57,  -82, -79, -77, -74, -70, -66, -65, -64, -59,  -57,  -82, -79,  -77, -74, -70,-66, -65, -64, -59,  -57,  -79,-76,-74,-71,-67,-63,-62,-61,-56,-54,   -79,-76, -74, -71, -67, -63, -62, -61, -56, -54,   -79,  -76, -74,-71,  -67,-63,  -62, -61,-56,  -54,  -76,-73,-71,-68,-64,-60,-59,-58,-53,-51,  -76, -73, -71, -68, -64, -60, -59, -58,  -53,-51,    -76,-73,  -71, -68, -64, -60, -59, -58, -53, -51,
+
+
+
+######yidong  da ap jibenyaoqiu############6--20170406 to 86 old is 89; 54  to 72 old is 73##################################
+####################### 1L,11L,  6,  9, 12, 18, 24, 36, 48, 54,   t0, t1, t2, t3, t4, t5, t6, t7,   t8, t9,t10,t11,t12,t13,t14,t15, t16,t17,t18,t19,t20,t21,t22,t23, f0,  f1, f2, f3, f4, f5, f6, f7,   f8, f9, f10,f11,f12,f13,f14,f15,  f16,f17,f18,f19,f20,f21,f22,f23, vt0,vt1,vt2,vt3,vt4,vt5,vt6,vt7,vt8,vt9,vt10,vt11,vt12,vt13,vt14,vt15,vt16,vt17,vt18,vt19,vt20,vt21,vt22,vt23,vt24,vt25,vt26,vt27,vt28,vt29,vf0,vf1,vf2,vf3,vf4,vf5,vf6,vf7,vf8,vf9,vf10,vf11,vf12,vf13,vf14,vf15,vf16,vf17,vf18,vf19,vf20,vf21,vf22,vf23,vf24,vf25,vf26,vf27,vf28,vf29,ve0,ve1,ve2,ve3,ve4,ve5,ve6,ve7,ve8,ve9,ve10,ve11,ve12,ve13,ve14,ve15,ve16,ve17,ve18,ve19,ve20,ve21,ve22,ve23,ve24,ve25,ve26,ve27,ve28,ve29,
+assign RxSens.isslimit=-94,-88,-86,-89,-88,-86,-83,-79,-74,-72,  -86,-83,-81,-78,-74,-70,-69,-68,  -86,-83,-81,-78,-74,-70,-69,-68, -86,-83,-81,-78,-74,-70,-69,-68, -83,-80,-78,-75,-71,-67,-66,-65,  -83,-80,-78,-75,-71,-67,-66,-65,  -83,-80,-78,-75,-71,-67,-66,-65, 
+
+###################################20161116 hxp 6 to -88###########################
+#assign RxSens.isslimit=-94,-91,-88,-89,-88,-86,-83,-79,-74,-73,  -86,-83,-81,-78,-74,-70,-69,-68,  -86,-83,-81,-78,-74,-70,-69,-68,-86,-83,-81,-78,-74,-70,-69,-68,-83,-80,-78,-75,-71,-67,-66,-65,  -83,-80,-78,-75,-71,-67,-66,-65, -83,-80,-78,-75,-71,-67,-66,-65, 
+
+
+
+#======== Options ============
+# Fixed Value (Do not edit)
+assign pllscreen_enabled=0
+assign 2G.RxIQCal.Enable=1
+
+# Save Calibration Result
+## 0: disable, 1: enable alway, 2: enable only when test pass.
+
+#kingeman
+#assign calibration.data.save.enable=2
+assign calibration.data.save.enable=1
+assign calibration.pcie.save.enable=0
+
+# Test Items          
+assign 2G.Disable = 1
+assign 5G.Disable = 1
+
+# --- TX ---
+assign 2G.TxPowerCal.Enable = 1
+assign 2G.XtalCal.Enable = 1
+################################################for chanxian#########################ceshi stop####################
+assign 2G.TxPower.Enable = 0
+assign 2G.TxPower.HT20.2Stream.Enable=0
+assign 2G.TxPower.HT40.2Stream.Enable=0
+assign 2G.TxPower.HT20.3Stream.Enable=0
+assign 2G.TxPower.HT40.3Stream.Enable=0
+
+assign 2G.TxMASK.Enable = 0
+assign 2G.TxMask.HT20.2Stream.Enable=0
+assign 2G.TxMask.HT40.2Stream.Enable=0
+assign 2G.TxMask.HT20.3Stream.Enable=0
+assign 2G.TxMask.HT40.3Stream.Enable=0
+
+# Only enable EVM with Litepoint
+assign 2G.TxEVM.Enable = 0
+assign 2G.TxEVM.HT20.2Stream.Enable=0
+assign 2G.TxEVM.HT40.2Stream.Enable=0
+assign 2G.TxEVM.HT20.3Stream.Enable=0
+assign 2G.TxEVM.HT40.3Stream.Enable=0
+
+assign 2G.TxFreqAccuracy.Enable=1
+
+
+# --- RX ---
+assign 2G.RxCal.Enable = 0
+
+assign 2G.RxSensSweep.Enable = 0
+assign 2G.RxSensSweep.CCK.Enable=0
+assign 2G.RxSensSweep.SingleChain.HT20.Enable=1
+assign 2G.RxSensSweep.SingleChain.HT40.Enable=1
+assign 2G.RxSensSweep.HT20.1Stream.Enable=1
+assign 2G.RxSensSweep.HT40.1Stream.Enable=1
+assign 2G.RxSensSweep.HT20.2Stream.Enable=0
+assign 2G.RxSensSweep.HT40.2Stream.Enable=0
+assign 2G.RxSensSweep.HT20.3Stream.Enable=0
+assign 2G.RxSensSweep.HT40.3Stream.Enable=0
+
+assign 2G.RxSensPoint.Enable = 0
+assign 2G.RxSensPoint.CCK.Enable=0
+assign 2G.RxSensPoint.SingleChain.HT20.Enable=1
+assign 2G.RxSensPoint.SingleChain.HT40.Enable=1
+assign 2G.RxSensPoint.HT20.1Stream.Enable=1
+assign 2G.RxSensPoint.HT40.1Stream.Enable=1
+assign 2G.RxSensPoint.HT20.2Stream.Enable=0
+assign 2G.RxSensPoint.HT40.2Stream.Enable=0
+assign 2G.RxSensPoint.HT20.3Stream.Enable=0
+assign 2G.RxSensPoint.HT40.3Stream.Enable=0
+
+assign 2G.TxTput.Enable = 0
+assign 2G.TxTput.HT20.1Stream.Enable=1
+assign 2G.TxTput.HT40.1Stream.Enable=1
+assign 2G.TxTput.HT20.2Stream.Enable=1
+assign 2G.TxTput.HT40.2Stream.Enable=1
+assign 2G.TxTput.HT20.3Stream.Enable=1
+assign 2G.TxTput.HT40.3Stream.Enable=1
+
+assign 2G.RxTput.Enable = 0
+assign 2G.RxTput.Legacy.Enable=1
+assign 2G.RxTput.HT20.1Stream.Enable=1
+assign 2G.RxTput.HT40.1Stream.Enable=1
+assign 2G.RxTput.HT20.2Stream.Enable=1
+assign 2G.RxTput.HT40.2Stream.Enable=1
+assign 2G.RxTput.HT20.3Stream.Enable=1
+assign 2G.RxTput.HT40.3Stream.Enable=1
+
+#Turn off throughput test if with Litepoint
+GOTO name=NO_LITEPOINT; condition='$Equipment.VSG.Chains<>1'
+assign 2G.TxTput.Enable = 0
+assign 2G.RxTput.Enable = 0
+LABEL name=NO_LITEPOINT;
+
+#======== Test Settings ======
+# 1. Calibration
+assign 2G.TxPowerCal.Freq=2412,2437,2472
+
+
+# assign 2G.txgain.init=40   
+#assign 2G.xtalCal.txgain=35
+
+	
+# 2. Tx
+assign TxTput.tputlimit=6,25,50,10,100,18,140,100,25,150,35,200
+assign 2G.TxEVM.PacketLength=1500
+
+# 3. Rx
+assign 2G.RxSensSweep.SingleChain.HT20.Freq=2412,2437,2462,2472
+assign 2G.RxSensSweep.SingleChain.HT40.Freq=2412,2437,2452
+assign 2G.RxSensSweep.AllChains.HT20.Freq=2412,2437,2462,2472
+assign 2G.RxSensSweep.AllChains.HT40.Freq=2412,2437,2452
+assign 2G.RxSensSweep.SingleChain.HT20.Rate=54,t7
+assign 2G.RxSensSweep.SingleChain.HT40.Rate=f7
+assign 2G.RxSensSweep.HT20.1Stream.Rate=54,t7
+assign 2G.RxSensSweep.HT40.1Stream.Rate=f7
+assign 2G.RxSensSweep.HT20.2Stream.Rate=t8,t15
+assign 2G.RxSensSweep.HT40.2Stream.Rate=f8,f15
+assign 2G.RxSensSweep.HT20.3Stream.Rate=t16,t23
+assign 2G.RxSensSweep.HT40.3Stream.Rate=f16,f23
+
+assign 2G.RxSensPoint.HT20.1Stream.Freq=2412,2437,2462,2472
+assign 2G.RxSensPoint.AllChains.HT20.Freq=2412,2437,2462,2472
+assign 2G.RxSensPoint.AllChains.HT40.Freq=2412,2437,2452
+assign 2G.RxSensPoint.HT20.1Stream.Rate=54,t7
+assign 2G.RxSensPoint.HT40.1Stream.Rate=f7
+assign 2G.RxSensPoint.HT20.2Stream.Rate=t8,t15
+assign 2G.RxSensPoint.HT40.2Stream.Rate=f8,f15
+assign 2G.RxSensPoint.HT20.3Stream.Rate=t16,t23
+assign 2G.RxSensPoint.HT40.3Stream.Rate=f16,f23
+
+assign 2G.TxTput.MIMO.Freq=2412,2437,2462,2472
+assign 2G.TxTput.HT20.1Stream.Freq=2412,2437,2452
+assign 2G.TxTput.HT20.1Stream.Rate=t7
+assign 2G.TxTput.HT40.1Stream.Rate=f7
+assign 2G.TxTput.HT20.2Stream.Rate=t8,t15
+assign 2G.TxTput.HT40.2Stream.Rate=f8,f15
+assign 2G.TxTput.HT20.3Stream.Rate=t16,t23
+assign 2G.TxTput.HT40.3Stream.Rate=f16,f23
+
+assign 2G.RxTput.HT20.1Stream.Freq=2412,2437,2462,2472
+assign 2G.RxTput.MIMO.Freq=2412,2437,2462
+assign 2G.RxTput.HT20.1Stream.Rate=t7
+assign 2G.RxTput.HT40.1Stream.Rate=f7
+assign 2G.RxTput.HT20.2Stream.Rate=t8,t15
+assign 2G.RxTput.HT40.2Stream.Rate=f8,f15
+assign 2G.RxTput.HT20.3Stream.Rate=t16,t23
+assign 2G.RxTput.HT40.3Stream.Rate=f16,f23
+
+# for SelfInit
+assign selfinitDisable=1
+
+# Select calibration scheme for 11n product.
+#common\setupcal-scheme0.art
+
+
+###################
+######BDCOM########
+###################
+##############################################for chance #####################################
+#5G Test only
+assign 2G.Disable = 1
+
+
+#######TX##########
+
+#### calibration#######
+assign 2G.txgain.init=10   
+assign 2G.TxPowerCal.Limit=120
+
+
+
+#### xcal#######
+assign 2G.xtalCal.txgain=10	
+
+
+#### TX:power#######
+#1.HT20
+assign 2G.TxPower.HT20.Freq=2412,2437,2462
+assign 2G.TxPower.1Stream.Rate = 1L,11s,6,54,t0,t5,t6,t7  #############test results no t5,t6###
+
+
+#2.ht40
+assign 2G.TxPower.HT40.Freq=2412,2437,2452
+assign 2G.TxPower.HT40.1Stream.Rate=f0,f5,f6,f7
+
+
+#3.vht20  vht40
+assign 2g.VHT20.Disable=1
+assign 2g.VHT40.Disable=1
+
+ 
+ #### TX:Evm#######
+#         ht20
+assign 2G.TxEVM.HT20.Freq=2412,2437,2462
+
+###########test only 54,t7#####
+assign 2G.TxEVM.1Stream.Rate =1L,11s,6,54,t0,t5,t6,t7   
+##################################################################hxp20161116 add#######20170411 add 6,36,48,54,###########
+assign 2G.TxEVM.HT20.1Stream.Rate=11s,6,36,48,54,t5,t6,t7 
+
+#          ht40
+assign 2G.TxEVM.HT40.Freq=2422,2437,2452
+assign 2G.TxEVM.HT40.1Stream.Rate=f0,f5,f6,f7
+
+
+#### TX: freq#######
+assign 2G.TxFreqAccuracy.HT20.Freq=2422,2437,2462
+
+#       ht20
+assign 2G.TxFreqAccuracy.HT20.Rate=1L,11s,6,54,t0,t5,t6,t7
+
+
+#        ht40
+assign 2G.TxFreqAccuracy.HT40.Freq=2422,2437,2462
+
+assign 2G.TxFreqAccuracy.HT40.Rate = f0,f5,f6,f7
+
+
+#### TX: mask#######
+
+assign 2G.TxMASK.CCK.Enable=1
+assign 2G.TxMASK.Legacy.Enable=1
+assign 2G.TxMASK.HT20.1Stream.Enable=1
+assign 2G.TxMASK.HT40.1Stream.Enable=1
+
+
+assign 2G.TxMASK.Freq=2412,2437,2462
+
+assign 2G.TxMASK.CCK.Rate=1L,11s
+########################################hxp  add 24##########
+assign 2G.TxMASK.Legacy.Rate=6,24,54      
+assign 2G.TxMASK.HT20.1Stream.Rate=t0,t5,t6,t7
+assign 2G.TxMASK.HT40.1Stream.Rate= f0,f5,f6,f7
+
+
+###########no used#####
+assign 2G.TxMask.1Stream.Rate = 1L,5L,5s,11L,11s,6,9,12,18,24,36,48,54,t0,t1,t5,t6,t7, f0,f1,f5,f6,f7  
+
+
+
+
+#########RX#######G23b###########
+assign rxChains=3;
+assign rxALLChainMask = 7
+assign rxchainList=1,2,4
+
+#########RX#######G22b##   20170508#########
+assign rxChains=2;
+assign rxALLChainMask = 3
+assign rxchainList=1,2
+
+
+# legacy
+####################################################20170411 add ###########################################
+assign 2G.RxSensPoint.SingleChain.CCK.Freq=2412,2437,2462
+assign 2G.RxSensPoint.SingleChain.CCK.Rate=1L,11L
+#########################################################hxp###################################################
+
+#ht20
+assign 2G.RxSensPoint.SingleChain.HT20.Freq=2412,2437,2462
+##assign 2G.RxSensPoint.SingleChain.HT20.Rate=6,9,12,18,24,36,48,54,t0,t1,t2,t3,t4,t5,t6,t7  ########################################hxp  add 9-48,t1;t4##########
+####assign 2G.RxSensPoint.SingleChain.HT20.Rate=6, 36,54,t0,t7  ################################20160718 some point #########
+################################20160718 some point #########
+
+assign 2G.RxSensPoint.SingleChain.HT20.Rate=11L,6,54,t0,t1,t4,t7  
+
+
+
+#ht40
+assign 2G.RxSensPoint.SingleChain.HT40.Freq=2412,2437,2462
+##assign 2G.RxSensPoint.SingleChain.HT40.Rate= f0,f1,f2,f3,f4,f5,f6,f7
+assign 2G.RxSensPoint.SingleChain.HT40.Rate= f0,f7  
+
+
+

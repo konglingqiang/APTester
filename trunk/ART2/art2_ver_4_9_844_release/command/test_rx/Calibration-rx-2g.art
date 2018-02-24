@@ -1,0 +1,51 @@
+#
+# Receive noise floor and gain calibration for 5G
+#
+
+calculate 2G.RxCal.Freq.Num = count(2G.RxCal.Freq);
+GOTO name=rxcal_VSG; condition='$equipment.vsg.Chains>0'
+
+########## This is for use of a golden DUT such as a CUS223 as a transmitter ##########
+
+assign it_freq=1;
+label name = TOP_RX_CAL_FREQ_1;
+calculate sel_freq = element(2G.RxCal.Freq,$it_freq);
+
+assign it_chain=1;
+label name = TOP_RX_CAL_CHAIN_1;
+calculate sel_chain = element(rxchainList,$it_chain);
+link rx=$inst;tx=$instGolden;f=$sel_freq;iss=-80;tp=15;nf=100;rssical=1;ss=0;r=t0;pc=100;txchain=1;rxchain=$sel_chain;stop='$Test.Error';
+calculate it_chain = $it_chain + 1;
+GOTO name = TOP_RX_CAL_CHAIN_1; test='$it_chain <= $rxChains';
+calculate it_freq = $it_freq + 1;
+GOTO name = TOP_RX_CAL_FREQ_1; test='$it_freq <= $2G.RxCal.Freq.Num';
+GOTO name=rxcal_VSG_DONE;
+
+LABEL name=rxcal_VSG;
+
+##########  This is for use of a LitePoint box as a transmitter ########## 
+
+assign it_freq=1;
+label name = TOP_RX_CAL_FREQ_2;
+calculate sel_freq = element(2G.RxCal.Freq,$it_freq);
+
+assign it_chain=1;
+label name = TOP_RX_CAL_CHAIN_2;
+calculate sel_chain = element(rxchainList,$it_chain);
+rx rx=$inst;f=$sel_freq;macrx=01.00.00.C0.FF.EE;mactx=01.00.00.C0.FF.EE;bssid=01.00.00.C0.FF.EE;reset=-1;rssical=1;ss=0;nf=100;iss=-80;pc=100;r=t0;ch=$sel_chain;rxvsg=1;
+calculate it_chain = $it_chain + 1;
+GOTO name = TOP_RX_CAL_CHAIN_2; test='$it_chain <= $rxChains';
+calculate it_freq = $it_freq + 1;
+GOTO name = TOP_RX_CAL_FREQ_2; test='$it_freq <= $2G.RxCal.Freq.Num';
+GOTO name=rxcal_VSG_DONE;
+
+
+
+
+
+
+
+LABEL name=rxcal_VSG_DONE;
+
+#rep r='col f=rssi.frequency,chain,ce,rssi,nf,offset,nf+offset;type=d,d,s;label=frequency;title=2GHz RSSI Calibration'
+

@@ -1,0 +1,138 @@
+#########################################################################
+# DEVICE NAME: AP152-030_2     						#
+# FILE TYPE:   ref_file     						#
+#                             						#
+# 									#
+#########################################################################
+#									#
+# The "_loaded" is a variable to be used for error checking		#
+# within the test flow. Valid data values are:				#
+#	0: 	file was never loaded, flow should halt with error 	#
+#		indicating file missing					#
+#	1: 	blank placeholder was loaded, no values will be 	#
+#		applied							#
+#	2:	populated file was loaded and values 			#
+#		will be applied						#
+#									#
+#########################################################################
+
+#########################################################################
+
+        assign ref_file_loaded = 2;
+
+#--------------------------------------------------------------------------------------
+# this build is for QC98XX 
+#--------------------------------------------------------------------------------------
+
+# Specified test selection, over write the test selection in test_flow_flags.art
+# and Invalid testSel selection.
+# the following line was commented out during transition to "shift" style flow
+# # refdesigns\CUS223-120\test_flow_flags_qc98xx.art
+# Updated 5G Rx strong signal parameters for Peregrine 2.0
+
+#subsystem and subverdor ID's
+#set i=$inst;ssid=3223;
+#set i=$inst;svid=168c;
+
+# set i=$inst;Reg domain
+# customers can set i=$inst;regulatory domain index here
+set i=$inst;regdmn[0]=0
+#
+#tx and rx chain mask: bit0 = chain0 enable, 
+#                      bit1 = chain1 enable, 
+#                      bit2 = chain2 enable 
+set i=$inst;txmask=3;
+set i=$inst;rxmask=3;
+
+#configure modes: 
+#	    bit0 = enable 5GHz
+#           bit1 = enable 2GHz
+#           bit2 = enable 5G HT40
+#           bit3 = enable 2G HT40
+#           bit4 = enable 5G HT20
+#           bit5 = enable 2G HT20
+#Note: these flags will be given individual commands in subsequent release 
+#set i=$inst;opflags=0x7d;
+set i=$inst;opflags=0x55;
+
+#configure modes: 
+#	    bit0 = enable 5G VHT20
+#           bit1 = enable 2G VHT20
+#           bit2 = enable 5G VHT40
+#           bit3 = enable 2G VHT40
+#           bit4 = enable 5G VHT80
+set i=$inst;opflags2=0x15;
+
+set i=$inst;xpabiaslvl5g=0xc;
+
+
+#configuration for internal regulator
+#set i=$inst;swregenable=0;
+#internal 1.28
+set i=$inst;swreg=0x98;
+
+
+#5GHz
+set i=$inst;AntCtrlCommon5g=000;
+#set i=$inst;AntCtrlCommon25g=44444;
+set i=$inst;AntCtrlCommon25g=11111;
+#set i=$inst;antCtrlChain5g=150, 150, 150;
+set i=$inst;antCtrlChain5g=10, 10, 10;
+
+# tx gain table
+#	0 ?for xpa design - will provide lower power consumption (this table is still in characterization)
+#	1 ?for no xpa design
+#	2 ?for xpa design ?will provide normal power consumption
+#	3 ?for high power PA design
+#	4 ?for mixed PA design
+#	5 ?for USB ub124 design
+set i=$inst;5GHz.GainTable.Tx=2;
+
+# rxgainTable	0: xlna	1: no xlna
+set i=$inst;5GHz.GainTable.Rx=0;
+
+
+#Temperature compensation . See set_AlphaThermTable.art
+set i=$inst;TempCompEnable=1
+#set i=$inst;thermometer=0
+# the following line was commented out during transition to "shift" style flow
+# refdesigns\CUS223-020\set_AlphaThermTable.art
+
+#frequency offset i=$inst;setting
+set i=$inst;FeatureEnable.TuningCaps=1
+set i=$inst;TuningCaps=0x4f,0x4f
+
+#enable spur mitigation
+#set i=$inst;spurchans2g=2464;
+#set i=$inst;spurchans2g=2400,2440,2480,2464;
+
+#enable paprd
+#set i=$inst;PapdEnable=1;
+
+#strong signal parameters to be supported
+set i=$inst;antctrlchain5g=0x10
+  # Unused set i=$inst;2GHz.Xatten1Db =
+set i=$inst;5GHz.Xatten1Db.Low = 0xd,0xd,0xd
+set i=$inst;5GHz.Xatten1Db.Mid = 0xd,0xd,0xd
+set i=$inst;5GHz.Xatten1Db.High = 0xd,0xd,0xd
+  # Unused set i=$inst;2GHz.Xatten1Margin =
+set i=$inst;5GHz.Xatten1Margin.Low = 0x0,0x0,0x0
+set i=$inst;5GHz.Xatten1Margin.Mid = 0x0,0x0,0x0
+set i=$inst;5GHz.Xatten1Margin.High = 0x0,0x0,0x0
+
+#flags not supported yet - will be added in subsequent release
+# set i=$inst;eepmisc=   bit1: wakeupwireless
+# set i=$inst;rfSilent=0  bit0   bit1:polarity            bit2:5 GPIO line 
+
+#CTL table setting
+# the following line was commented out during transition to "shift" style flow
+# common\ctl_generic_11ac_5Ghz.art
+
+
+#Call Target Power
+# the following line was commented out during transition to "shift" style flow
+# refdesigns\CUS223-020\cus223_trg_pwr.art
+
+#Run the 11ac Calibration Setup file
+# the following line was commented out during transition to "shift" style flow
+# refdesigns\CUS223-020\setupcal-scheme-11ac.art

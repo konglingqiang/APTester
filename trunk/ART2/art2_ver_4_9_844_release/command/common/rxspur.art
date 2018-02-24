@@ -1,0 +1,21 @@
+
+assign artreport=D:\dvt_report\rxspur;
+
+assign SpurLimit=6 
+
+assign SpurPassText=.
+assign SpurFailText=FAIL
+assign SpurPassCount=0
+assign SpurFailCount=0
+
+assign SpurFreq=2412;
+rx f=$SpurFreq;ss=1;duration=100000;
+report r='c f=$SpurFreq+rxsp.spurfreq;l=frequency;f=rxsp.spurLevel;l=spur level;f=test(rxsp.spurLevel <= $SpurLimit,$SpurPassText,$SpurFailText,@SpurPassCount,@SpurFailCount);l=Spur_P/F;type=s;width=12;title=$SpurFreq Spur Scan Result';
+
+assign SpurFreq=2437;
+rx f=$SpurFreq;ss=1;duration=100000;
+report r='c f=$SpurFreq+rxsp.spurfreq;l=frequency;f=rxsp.spurLevel;l=spur level;f=test(rxsp.spurLevel <= $SpurLimit,$SpurPassText,$SpurFailText,@SpurPassCount,@SpurFailCount);l=Spur_P/F;type=s;width=12;title=$SpurFreq Spur Scan Result';
+
+assign SpurFreq=2462;
+rx f=$SpurFreq;ss=1;duration=100000;
+report r='c f=$SpurFreq+rxsp.spurfreq;l=frequency;f=rxsp.spurLevel;l=spur level;f=test(rxsp.spurLevel <= $SpurLimit,$SpurPassText,$SpurFailText,@SpurPassCount,@SpurFailCount);l=Spur_P/F;type=s;width=12;title=$SpurFreq Spur Scan Result';

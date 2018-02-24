@@ -1,0 +1,6 @@
+connect i=0;192.168.1.1:2391;
+load i=0;devid=3f;
+connect i=1;192.168.1.1:2390;
+setconfig i=1;EEPROM_FILE = ./boardData_3_QC98XX_cus223_120_gld.bin
+setconfig i=1;DEVDRV_INTERFACE = 5
+load i=1;devid=3c;memory=file

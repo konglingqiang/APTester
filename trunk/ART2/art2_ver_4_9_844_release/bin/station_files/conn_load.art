@@ -1,0 +1,25 @@
+
+#----------------------------------------------------------------
+# For automatic connect and load, add your connect and load 
+# statements below this line
+#----------------------------------------------------------------
+
+connect i=0;192.168.1.1:2390;
+load i=0;devid=3f;cal=flash
+
+
+connect i=1;192.168.1.1:2391;
+#connect i=1;host=192.168.1.1;port=2391;
+#QCA9880
+#setconfig i=1;EEPROM_FILE = /usr/sbin/boardData_2_QC98XX_cus223_gld.bin
+#QCA9882
+#setconfig i=1;EEPROM_FILE = /usr/sbin/boardData_3_QC98XX_cus223_120_gld.bin
+
+#setconfig i=1;DEVDRV_INTERFACE = 5
+#校准使用
+#load i=1;devid=3c;memory=file
+
+#不校准测试
+load i=1;devid=3c;memory=flash
+
+

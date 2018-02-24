@@ -1,0 +1,42 @@
+assign 2G.Rx.Fail=0
+
+comment title="                         2GHz FT TEST SUMMARY"
+comment title="=================================================================="
+comment title="                                Fail#"
+GOTO name=2G.RxSensSweep_HT20_DONE; condition='$2G.RxSensSweep.test.HT20.Enable=0'
+comment title=" 2GHz HT20 Sensitivity Sweep:     $2G.RxSensSweep.HT20.Fail"
+calculate 2G.Rx.Fail = $2G.Rx.Fail + $2G.RxSensSweep.HT20.Fail
+LABEL name=2G.RxSensSweep_HT20_DONE;
+
+GOTO name=2G.RxSensSweep_HT40_DONE; condition='$2G.RxSensSweep.test.HT40.Enable=0'
+comment title=" 2GHz HT40 Sensitivity Sweep:     $2G.RxSensSweep.HT40.Fail"
+calculate 2G.Rx.Fail = $2G.Rx.Fail + $2G.RxSensSweep.HT40.Fail
+LABEL name=2G.RxSensSweep_HT40_DONE;
+
+GOTO name=2G.RxSensPoint_HT20_DONE; condition='$2G.RxSensPoint.test.HT20.Enable=0'
+comment title=" 2GHz HT20 Sensitivity Point:     $2G.RxSensPoint.HT20.Fail"
+calculate 2G.Rx.Fail = $2G.Rx.Fail + $2G.RxSensPoint.HT20.Fail
+LABEL name=2G.RxSensPoint_HT20_DONE;
+
+GOTO name=2G.RxSensPoint_HT40_DONE; condition='$2G.RxSensPoint.test.HT40.Enable=0'
+comment title=" 2GHz HT40 Sensitivity Point:     $2G.RxSensPoint.HT40.Fail"
+calculate 2G.Rx.Fail = $2G.Rx.Fail + $2G.RxSensPoint.HT40.Fail
+LABEL name=2G.RxSensPoint_HT40_DONE;
+
+GOTO name=2G.TxTput_DONE; condition='$2G.TxTput.test.Enable=0'
+comment title="                 2GHz TxTput:     $2G.TxTput.TPUT.Fail"
+comment title="                 2GHz TxPSR :     $2G.TxTput.PSR.Fail"
+calculate 2G.Rx.Fail = $2G.Rx.Fail + $2G.TxTput.TPUT.Fail
+calculate 2G.Rx.Fail = $2G.Rx.Fail + $2G.TxTput.PSR.Fail
+LABEL name=2G.TxTput_DONE;
+
+GOTO name=2G.RxTput_DONE; condition='$2G.RxTput.test.Enable=0'
+comment title="                 2GHz RxTput:     $2G.RxTput.TPUT.Fail"
+comment title="                 2GHz RxPSR :     $2G.RxTput.PSR.Fail"
+calculate 2G.Rx.Fail = $2G.Rx.Fail + $2G.RxTput.TPUT.Fail
+calculate 2G.Rx.Fail = $2G.Rx.Fail + $2G.RxTput.PSR.Fail
+LABEL name=2G.RxTput_DONE;
+
+comment title="=================================================================="
+comment title="                  2GHz Total:     $2G.Rx.Fail"
+comment title="=================================================================="

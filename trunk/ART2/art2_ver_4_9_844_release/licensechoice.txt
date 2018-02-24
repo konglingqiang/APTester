@@ -1,0 +1,1 @@
+QCA has chosen to take wxWidgets subject to the terms of the wxWindows Library Licence v3.1 and its relevant exceptions.

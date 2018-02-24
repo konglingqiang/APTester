@@ -1,0 +1,98 @@
+assign 5G.RxSensPoint.VHT80.Pass=0
+assign 5G.RxSensPoint.VHT80.Fail=0
+
+calculate perctLimit=100-$5G.RxSens.OFDM.PsrThreshold
+
+GOTO name=SENS_SingleChain_DONE; condition='$5G.RxSensPoint.SingleChain.VHT80.Enable=0'
+#___________________________________________
+# 1 stream signal sensitivity test, sweep each single chain
+#___________________________________________
+assign itFreq=1;
+#___________________________________________
+calculate 5G.RxSensPoint.SingleChain.Freq.Num=count(5G.RxSensPoint.SingleChain.VHT80.Freq)
+label name=TOP_FREQ;
+calculate freq=element(5G.RxSensPoint.SingleChain.VHT80.Freq,$itFreq);
+
+assign it=1;
+#___________________________________________
+label name=TOP_CHAIN;
+calculate sel_chain=element(rxchainList,$it);
+calculate sel_iss=lookup($5G.RxSensPoint.SingleChain.VHT80.Rate, @RxSens.rate, @RxSens.isslimit)
+
+#run rxIQ Cal if its enabled.
+GOTO name=SENS_SingleChain; condition='$5G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;f=$freq;r=f0;tp=8;ch=$sel_chain;pc=500;pl=100;iss=-60;rxiqcal=1;stop='$Test.Error';
+GOTO name=RX5G_DONE;test='$Test.Error<>0';
+
+LABEL name=SENS_SingleChain;
+#___________________________________________
+assign itRate=1;
+calculate 5G.RxSensPoint.SingleChain.Rate.Num=count(5G.RxSensPoint.SingleChain.VHT80.Rate)
+#___________________________________________
+label name=TOP_Rate;
+calculate sel_rate=element(5G.RxSensPoint.SingleChain.VHT80.Rate,$itRate);
+calculate sel_iss=lookup($sel_rate, @RxSens.rate, @RxSens.isslimit)
+
+link rx=$inst;tx=$instGolden;f=$freq;r=$sel_rate;tp=8;ch=$sel_chain;iss=$sel_iss;stop='$Test.Error';
+report style=summary;title=5GHZ SENS Point;k=frequency,rate;k=rxchain;f=psr;label=$perctLimit%PSR;w=8;f=psr-$5G.RxSens.OFDM.PsrThreshold;label=$perctLimit%delta;w=8;f=test(psr-$5G.RxSens.OFDM.PsrThreshold>=0,$passtext,$failtext,@5G.RxSensPoint.VHT80.Pass,@5G.RxSensPoint.VHT80.Fail);label=$perctLimit%limit;type=s,w=8;f=lookup(rate,@RxSens.Rate,@RxSens.isslimit);label=issPoint;w=8;
+GOTO name=RX5G_DONE;test='$Test.Error<>0';
+#___________________________________________
+
+test itRate=$itRate+1;
+GOTO name=TOP_RATE;  test='$itRate<=$5G.RxSensPoint.SingleChain.Rate.Num';
+#___________________________________________
+
+test it=$it+1;
+GOTO name=TOP_CHAIN;  test='$it<=$rxChains';
+#___________________________________________
+
+test itFreq=$itFreq+1;
+GOTO name=TOP_FREQ;  test='$itFreq<=$5G.RxSensPoint.SingleChain.Freq.Num';
+#___________________________________________
+
+
+label name=SENS_SingleChain_DONE;
+#___________________________________________
+#___________________________________________
+
+
+
+GOTO name=RX5G_DONE; condition='$5G.RxSensPoint.AllChains.VHT80.Enable=0'
+#___________________________________________
+# MIMO sensitivity test, test all chain together
+#___________________________________________
+assign it=1;
+calculate 5G.RxSensPoint.AllChains.Freq.Num=count(5G.RxSensPoint.AllChains.VHT80.Freq)
+label name=TOP_5G;
+
+calculate freq=element(5G.RxSensPoint.AllChains.VHT80.Freq,$it);
+
+GOTO name=SENS_5G; condition='$5G.RxIQCal.Enable=0'
+link rx=$inst;tx=$instGolden;f=$freq;r=f0;tp=8;ch=$rxALLChainMask;pc=500;pl=100;iss=-60;rxiqcal=1;stop='$Test.Error';
+GOTO name=RX5G_DONE;test='$Test.Error<>0';
+
+#___________________________________________
+LABEL name=SENS_5G;
+#___________________________________________
+
+assign itRate=1;
+calculate 5G.RxSensPoint.AllChains.Rate.Num=count(5G.RxSensPoint.AllChains.VHT80.Rate)
+#___________________________________________
+label name=TOP_5GRate;
+calculate sel_rate=element(5G.RxSensPoint.AllChains.VHT80.Rate,$itRate);
+calculate sel_iss=lookup($sel_rate, @RxSens.rate, @RxSens.isslimit)
+
+link rx=$inst;tx=$instGolden;f=$freq;r=$sel_rate;tp=8;ch=$rxALLChainMask;iss=$sel_iss;stop='$Test.Error';
+report style=summary;title=5GHZ SENS Point;k=frequency,rate;k=rxchain;f=psr;label=$perctLimit%PSR;w=8;f=psr-$5G.RxSens.OFDM.PsrThreshold;label=$perctLimit%delta;w=8;f=test(psr-$5G.RxSens.OFDM.PsrThreshold>=0,$passtext,$failtext,@5G.RxSensPoint.VHT80.Pass,@5G.RxSensPoint.VHT80.Fail);label=$perctLimit%limit;type=s,w=8;f=lookup(rate,@RxSens.Rate,@RxSens.isslimit);label=issPoint;w=8;
+GOTO name=RX5G_DONE;test='$Test.Error<>0';
+#___________________________________________
+
+test itRate=$itRate+1;
+GOTO name=TOP_5GRATE;  test='$itRate<=$5G.RxSensPoint.AllChains.Rate.Num';
+#___________________________________________
+
+calculate it=$it+1;
+GOTO name=TOP_5G;  test='$it<=$5G.RxSensPoint.AllChains.Freq.Num';
+#___________________________________________
+
+LABEL name=RX5G_DONE;

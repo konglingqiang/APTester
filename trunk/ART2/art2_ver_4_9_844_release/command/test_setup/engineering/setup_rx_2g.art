@@ -1,0 +1,116 @@
+#___________________________________________
+# Rx Calibration settings
+#___________________________________________
+assign 2G.RxCal.Freq=2412,2437,2462
+
+#___________________________________________
+# RX Sensitivity Sweep test settings 
+# For 1 stream signal to sweep each chain
+#___________________________________________
+# sensitivity Sweep test channels
+# For CCK, script only set up for one freq, one rate
+assign 2G.RxSensSweep.CCK.Freq=2437
+assign 2G.RxSensSweep.CCK.Rate=5l
+# For 1 stream single, script allows multi freq, multi rate.
+assign 2G.RxSensSweep.SingleChain.HT20.Freq=2437
+assign 2G.RxSensSweep.SingleChain.HT40.Freq=2437
+assign 2G.RxSensSweep.SingleChain.HT20.Rate=54
+assign 2G.RxSensSweep.SingleChain.HT40.Rate=f7
+# sensitivity sweep range
+assign 2G.RxSensSweep.CCK.ISS.INC=-2
+assign 2G.RxSensSweep.CCK.ISS.MIN=-100
+assign 2G.RxSensSweep.CCK.ISS.MAX=-80
+assign 2G.RxSensSweep.SingleChain.ISS.INC=-2,
+assign 2G.RxSensSweep.SingleChain.ISS.MIN=-90
+assign 2G.RxSensSweep.SingleChain.ISS.MAX=-60
+
+#___________________________________________
+# RX Sensitivity Sweep test settings 
+# For one/multi stream signal to sweep all chain together
+#___________________________________________
+assign 2G.RxSensSweep.AllChains.HT20.Freq=2412,2437,2462
+assign 2G.RxSensSweep.AllChains.HT40.Freq=2412,2437,2452
+assign 2G.RxSensSweep.HT20.1Stream.Rate=t7
+assign 2G.RxSensSweep.HT40.1Stream.Rate=f7
+assign 2G.RxSensSweep.HT20.2Stream.Rate=t8,t15
+assign 2G.RxSensSweep.HT40.2Stream.Rate=f8,f15
+assign 2G.RxSensSweep.HT20.3Stream.Rate=t16,t23
+assign 2G.RxSensSweep.HT40.3Stream.Rate=f16,f23
+# sensitivity sweep range
+assign 2G.RxSensSweep.AllChains.ISS.INC=-2
+assign 2G.RxSensSweep.AllChains.ISS.MIN=-100
+assign 2G.RxSensSweep.AllChains.ISS.MAX=-60
+
+#___________________________________________
+# RX Sensitivity Point test settings
+# For 1 stream signal to test each chain
+#___________________________________________
+# sensitivity Pint test channels
+# For CCK, script only set up for one freq, one rate
+assign 2G.RxSensPoint.CCK.Freq=2437
+assign 2G.RxSensPoint.CCK.Rate=5l
+# For 1 stream single, script allows multi freq, multi rate.
+assign 2G.RxSensPoint.SingleChain.HT20.Freq=2437
+assign 2G.RxSensPoint.SingleChain.HT40.Freq=2437
+assign 2G.RxSensPoint.SingleChain.HT20.Rate=54,t7
+assign 2G.RxSensPoint.SingleChain.HT40.Rate=f7
+
+#___________________________________________
+# RX Sensitivity Point test settings
+# For one/multi stream signal to test all chain together
+#___________________________________________
+assign 2G.RxSensPoint.AllChains.HT20.Freq=2412,2437,2462
+assign 2G.RxSensPoint.AllChains.HT40.Freq=2412,2437,2452
+assign 2G.RxSensPoint.HT20.1Stream.Rate=t7
+assign 2G.RxSensPoint.HT40.1Stream.Rate=f7
+assign 2G.RxSensPoint.HT20.2Stream.Rate=t8,t15
+assign 2G.RxSensPoint.HT40.2Stream.Rate=f8,f15
+assign 2G.RxSensPoint.HT20.3Stream.Rate=t16,t23
+assign 2G.RxSensPoint.HT40.3Stream.Rate=f16,f23
+
+#___________________________________________
+# TX throughput test settings, 
+# script only setup for testing all chain together
+#___________________________________________
+# TX throughput test channels
+assign 2G.TxTput.Legacy.Freq=2437
+assign 2G.TxTput.Legacy.Rate=11L,54
+assign 2G.TxTput.HT20.Freq=2412,2437,2462
+assign 2G.TxTput.HT40.Freq=2412,2437,2452
+assign 2G.TxTput.HT20.1Stream.Rate=t7
+assign 2G.TxTput.HT40.1Stream.Rate=f7
+assign 2G.TxTput.HT20.2Stream.Rate=t8,t15
+assign 2G.TxTput.HT40.2Stream.Rate=f8,f15
+assign 2G.TxTput.HT20.3Stream.Rate=t16,t23
+assign 2G.TxTput.HT40.3Stream.Rate=f16,f23
+
+assign 2G.TxTput.Legacy.attn=40
+assign 2G.TxTput.HT20.attn=40
+assign 2G.TxTput.HT40.attn=40
+
+# TxTput.boardcast = 0 (Unicast), 1 (boardcast)
+assign 2G.TxTput.boardcast = 0
+
+#___________________________________________
+# RX throughput test settings
+# script only setup for testing all chain together
+#___________________________________________
+# RX throughput test channels
+assign 2G.RxTput.Legacy.Freq=2437
+assign 2G.RxTput.Legacy.Rate=11L
+
+assign 2G.RxTput.HT20.Freq=2412,2437,2462
+assign 2G.RxTput.HT40.Freq=2412,2437,2452
+assign 2G.RxTput.HT20.1Stream.Rate=t7
+assign 2G.RxTput.HT40.1Stream.Rate=f7
+assign 2G.RxTput.HT20.2Stream.Rate=t8,t15
+assign 2G.RxTput.HT40.2Stream.Rate=f8,f15
+assign 2G.RxTput.HT20.3Stream.Rate=t16,t23
+assign 2G.RxTput.HT40.3Stream.Rate=f16,f23
+
+assign 2G.RxTput.Legacy.attn=40
+assign 2G.RxTput.HT20.attn=40
+assign 2G.RxTput.HT40.attn=40
+
+# RxTput.boardcast = 0 (Unicast), 1 (boardcast)
+assign 2G.RxTput.boardcast = 0

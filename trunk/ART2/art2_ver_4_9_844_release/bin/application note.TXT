@@ -1,0 +1,76 @@
+                                     
+Application Note: Interfacing litepoint's IQxel Tester with QCA's ART
+Version 1.0.0.Eng5, Jan 16, 2013
+
+1 Introduction
+   Copyright 2012 Litepoint Technology, Inc.
+   This document has no restriction on distribution.
+
+	1.1 Revision History
+	  1.0 September 2012  Initial release
+
+2 RELEASE NOTES 
+
+	2.1 What's New in this release 
+	   This is the initial support for ART2 using litepoint IQxel tester.
+	   Disabled some debug printed messages by default.
+	   Disabled save captured signal files by default.
+	2.2 Requirements 
+	  1) ART2 Software Versions Supported: 
+      art2_ap135_cus223_Pre_RC_ap_Bin
+
+	  2) Litepoint Equipment Tester Interface Library
+      Microsoft .Net Framework 2.0
+      Matlab runtime MCR 7.9
+      VS2008 runtime redistrubition package
+      IQMeasure 3.0.3
+
+	2.3 Installation Procedure
+
+		1) Install the ART software package from QCA.
+		2) Download the tester interface library from litepoint's support site:
+		   (TBD) http://www.litepoint.com/support/ART2_4X_Litepoint_3.0.1.zip
+		3) Unzip package and install to art2 bin folder. The following new files should be present in the art2 bin folder after extraction. 
+			litepoint.dll
+			litepoint_setup.txt
+      
+			AimControl.dll
+			application note.TXT
+			boost_thread-vc90-mt-1_40.dll
+			FMAnalysisDll.dll
+			FWServer.exe 
+			FWServer_gf.exe
+			IQ2010Ext.dll
+			iqapi.dll
+			IQapiExt.dll
+			iqapis.dll
+			IQlite_Logger.dll
+			IQlite_Timer.dll
+			IQmeasure.dll
+			IQmeasure_IQapi_Legacy.dll
+			IQmeasure_IQapi_SCPI.dll
+			IQmeasure_ReleaseNote.txt
+			IQmeasure_SCPI.dll
+			IQmeasure_SCPI_Verifast.dll
+			IQsequence.dll
+			libiqapi.dll
+			Litepoint.dll
+			litepoint_setup.txt
+			LitePointConnectivityServer.exe
+			LP_IQxelDriver.dll
+			ReleaseNotes.txt
+			StartLitePointConnectivityServer.exe
+			StopLitePointConnectivity_FW_Server.exe
+
+	2.4 Limitation 
+	   None   
+
+	2.5 Known Issues 
+	   None
+
+	2.6 Supported Platforms 
+       IQxel FW version 1.7.0
+	   Microsoft Windows 7 32bit
+
+3 CONTACT INFORMATION 
+   Support@litepoint.com

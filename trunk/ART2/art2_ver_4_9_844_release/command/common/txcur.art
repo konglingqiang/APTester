@@ -1,0 +1,20 @@
+
+assign artreport=D:\dvt_report\txcur;
+
+#
+# measure tx current:
+#
+# If use E3631A, turn on two line at start.art:
+#    equipment model=E3631A; arg=5;    # Aglient 3 ports power supply.
+#    equipmentCtl type=ps; arg=P1:v=3.50  ,i=2.00;  		#equipment control port1 on E3631A
+# If use E34401A, turn on one line at start.art:
+#    equipment model=E34401A; arg=6;    # Aglient multimeter.
+#
+
+assign txcur.freq=2412;
+assign txcur.ch	= 1,2,4;
+assign txcur.rate	=t0,f0,11s;
+assign txcur.gain	=0:127:5;
+
+tx pl=1500;agg=32;pc=1000000;f=$txcur.freq;txgain=$txcur.gain;r=$txcur.rate;ir=2;txch=$txcur.ch;cm=2;pm=1;tx99=1;avg=3;stop='$Test.Error';
+report style=column; f=cm.frequency;l=frequency;f=rate,txchain; f=tx.txgain; l=txgain;f=pm.power;f=cm.current; w=15; d=6;l=meas current;title=2GHz Current Measurement;

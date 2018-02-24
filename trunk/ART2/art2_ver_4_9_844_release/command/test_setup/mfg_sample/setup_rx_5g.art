@@ -1,0 +1,215 @@
+#___________________________________________
+# Rx Calibration settings
+#___________________________________________
+#assign 5G.RxCal.Freq=5180,5220,5340,5420,5500,5620,5745
+assign 5G.RxCal.Freq=5180,5240,5260,5320,5500,5700,5745,5825;
+
+#___________________________________________
+# RX Sensitivity Sweep test settings 
+# For 1 stream signal to sweep each chain
+#___________________________________________
+# sensitivity Sweep test channels
+
+# For one/multi stream signal to sweep all chain together
+#___________________________________________
+# sensitivity Sweep test channels
+# For 1 stream single, script allows multi freq, multi rate.
+assign 5G.RxSensSweep.SingleChain.HT20.Freq=5180,5500,5805
+assign 5G.RxSensSweep.SingleChain.HT40.Freq=5500
+assign 5G.RxSensSweep.SingleChain.VHT20.Freq=5180,5500,5805
+assign 5G.RxSensSweep.SingleChain.VHT40.Freq=5200,5520,5765
+assign 5G.RxSensSweep.SingleChain.VHT80.Freq=5210,5530,5775
+assign 5G.RxSensSweep.SingleChain.HT20.Rate=6,54
+assign 5G.RxSensSweep.SingleChain.HT40.Rate=f7
+assign 5G.RxSensSweep.SingleChain.VHT20.Rate=vt8
+assign 5G.RxSensSweep.SingleChain.VHT40.Rate=vf0,vf7,vf9
+assign 5G.RxSensSweep.SingleChain.VHT80.Rate=ve0,ve7,ve9
+
+
+# sensitivity sweep range
+assign 5G.RxSensSweep.SingleChain.ISS.INC=-2
+assign 5G.RxSensSweep.SingleChain.ISS.MIN=-100
+assign 5G.RxSensSweep.SingleChain.ISS.MAX=-60
+
+#___________________________________________
+# RX Sensitivity Sweep test settings 
+# For one/multi stream signal to sweep all chain together
+#___________________________________________
+assign 5G.RxSensSweep.AllChains.HT20.Freq=5180,5500,5805
+assign 5G.RxSensSweep.AllChains.HT40.Freq=5180,5500,5805
+assign 5G.RxSensSweep.AllChains.VHT20.Freq=5180,5500,5805
+assign 5G.RxSensSweep.AllChains.VHT40.Freq=5180,5500,5805
+assign 5G.RxSensSweep.AllChains.VHT80.Freq=5180,5500,5805
+assign 5G.RxSensSweep.HT20.1Stream.Rate=t7
+assign 5G.RxSensSweep.HT40.1Stream.Rate=f7
+assign 5G.RxSensSweep.VHT20.1Stream.Rate=vt8
+assign 5G.RxSensSweep.VHT40.1Stream.Rate=vf9
+assign 5G.RxSensSweep.VHT80.1Stream.Rate=ve9
+assign 5G.RxSensSweep.HT20.2Stream.Rate=t8,t15
+assign 5G.RxSensSweep.HT40.2Stream.Rate=f8,f15
+assign 5G.RxSensSweep.VHT20.2Stream.Rate=vt10,vt18
+assign 5G.RxSensSweep.VHT40.2Stream.Rate=vf10,vf19
+assign 5G.RxSensSweep.VHT80.2Stream.Rate=ve10,ve19
+assign 5G.RxSensSweep.HT20.3Stream.Rate=t16,t23
+assign 5G.RxSensSweep.HT40.3Stream.Rate=f16,f23
+assign 5G.RxSensSweep.VHT20.3Stream.Rate=vt20,vt29
+assign 5G.RxSensSweep.VHT40.3Stream.Rate=vf20,vf29
+assign 5G.RxSensSweep.VHT80.3Stream.Rate=ve20,ve29
+# sensitivity sweep range
+assign 5G.RxSensSweep.AllChains.ISS.INC=-2
+assign 5G.RxSensSweep.AllChains.ISS.MIN=-100
+assign 5G.RxSensSweep.AllChains.ISS.MAX=-60
+
+#___________________________________________
+# RX Sensitivity Point test settings
+# For 1 stream signal to test each chain
+#___________________________________________
+# sensitivity Pint test channels
+# For 1 stream single, script allows multi freq, multi rate.
+assign 5G.RxSensPoint.SingleChain.HT20.Freq=5180,5500,5805
+assign 5G.RxSensPoint.SingleChain.HT40.Freq=5180,5500,5805
+assign 5G.RxSensPoint.SingleChain.VHT20.Freq=5180
+assign 5G.RxSensPoint.SingleChain.VHT40.Freq=5200,5520,5765
+assign 5G.RxSensPoint.SingleChain.VHT80.Freq=5690
+assign 5G.RxSensPoint.SingleChain.HT20.Rate=6,54
+assign 5G.RxSensPoint.SingleChain.HT40.Rate=f7
+assign 5G.RxSensPoint.SingleChain.VHT20.Rate=vt0
+assign 5G.RxSensPoint.SingleChain.VHT40.Rate=vf0,vf7,vf9
+assign 5G.RxSensPoint.SingleChain.VHT80.Rate=ve9
+
+
+#___________________________________________
+# RX Sensitivity Point test settings
+# For one/multi stream signal to test all chain together
+#___________________________________________
+assign 5G.RxSensPoint.AllChains.HT20.Freq=5180,5500,5805
+assign 5G.RxSensPoint.AllChains.HT40.Freq=5180,5500,5805
+assign 5G.RxSensPoint.AllChains.VHT20.Freq=5180,5500,5805
+assign 5G.RxSensPoint.AllChains.VHT40.Freq=5200,5520,5765
+assign 5G.RxSensPoint.AllChains.VHT80.Freq=5210,5530,5775
+assign 5G.RxSensPoint.HT20.1Stream.Rate=6,54
+assign 5G.RxSensPoint.HT40.1Stream.Rate=f7
+assign 5G.RxSensPoint.HT20.2Stream.Rate=t8,t15
+assign 5G.RxSensPoint.HT40.2Stream.Rate=f8,f15
+assign 5G.RxSensPoint.HT20.3Stream.Rate=t16,t23
+assign 5G.RxSensPoint.HT40.3Stream.Rate=f16,f23
+assign 5G.RxSensPoint.VHT20.1Stream.Rate=vt8
+assign 5G.RxSensPoint.VHT40.1Stream.Rate=vf9
+assign 5G.RxSensPoint.VHT80.1Stream.Rate=ve9
+assign 5G.RxSensPoint.VHT20.2Stream.Rate=vt10,vt18
+assign 5G.RxSensPoint.VHT40.2Stream.Rate=vf10,vf19
+assign 5G.RxSensPoint.VHT80.2Stream.Rate=ve10,ve19
+assign 5G.RxSensPoint.VHT20.3Stream.Rate=vt20,vt29
+assign 5G.RxSensPoint.VHT40.3Stream.Rate=vf20,vf29
+assign 5G.RxSensPoint.VHT80.3Stream.Rate=ve20,ve29
+
+#___________________________________________
+# TX throughput test settings
+#___________________________________________
+# TX throughput test channels
+assign 5G.TxTput.test.Enable=0
+assign 5G.TxTput.LEGACY.Freq=5500
+assign 5G.TxTput.LEGACY.Rate=54
+assign 5G.TxTput.HT20.Freq=5180,5500,5805
+assign 5G.TxTput.HT40.Freq=5180,5500,5805
+assign 5G.TxTput.VHT20.Freq=5180,5500,5805
+assign 5G.TxTput.VHT40.Freq=5180,5500,5805
+assign 5G.TxTput.VHT80.Freq=5180,5500,5805
+assign 5G.TxTput.HT20.1Stream.Rate=t7
+assign 5G.TxTput.HT40.1Stream.Rate=f7
+assign 5G.TxTput.HT20.2Stream.Rate=t8,t15
+assign 5G.TxTput.HT40.2Stream.Rate=f8,f15
+assign 5G.TxTput.HT20.3Stream.Rate=t16,t23
+assign 5G.TxTput.HT40.3Stream.Rate=f16,f23
+
+assign 5G.TxTput.Legacy.attn=40
+assign 5G.TxTput.HT20.attn=40
+assign 5G.TxTput.HT40.attn=40
+assign 5G.TxTput.VHT20.attn=40
+assign 5G.TxTput.VHT40.attn=40
+assign 5G.TxTput.VHT80.attn=40
+
+assign 5G.TxTput.HT20.1Stream.Rate=t7
+assign 5G.TxTput.HT40.1Stream.Rate=f7
+assign 5G.TxTput.VHT20.1Stream.Rate=vt8
+assign 5G.TxTput.VHT40.1Stream.Rate=vf9
+assign 5G.TxTput.VHT80.1Stream.Rate=ve9
+assign 5G.TxTput.HT20.2Stream.Rate=t8,t15
+assign 5G.TxTput.HT40.2Stream.Rate=f8,f15
+assign 5G.TxTput.VHT20.2Stream.Rate=vt10,vt18
+assign 5G.TxTput.VHT40.2Stream.Rate=vf10,vf19
+assign 5G.TxTput.VHT80.2Stream.Rate=ve10,ve19
+assign 5G.TxTput.HT20.3Stream.Rate=t16,t23
+assign 5G.TxTput.HT40.3Stream.Rate=f16,f23
+assign 5G.TxTput.VHT20.3Stream.Rate=vt20,vt29
+assign 5G.TxTput.VHT40.3Stream.Rate=vf20,vf29
+assign 5G.TxTput.VHT80.3Stream.Rate=ve20,ve29
+
+# TxTput.boardcast = 0 (Unicast), 1 (boardcast)
+assign 5G.TxTput.boardcast = 0
+
+#___________________________________________
+# RX throughput test settings
+#___________________________________________
+# RX throughput test channels
+assign 5G.RxTput.test.Enable=0
+assign 5G.RxTput.LEGACY.Freq=5500
+assign 5G.RxTput.LEGACY.Rate=54
+assign 5G.RxTput.HT20.Freq=5180,5500,5805
+assign 5G.RxTput.HT40.Freq=5180,5500,5805
+assign 5G.RxTput.VHT20.Freq=5180,5500,5805
+assign 5G.RxTput.VHT40.Freq=5180,5500,5805
+assign 5G.RxTput.VHT80.Freq=5180,5500,5805
+assign 5G.RxTput.HT20.1Stream.Rate=t7
+assign 5G.RxTput.HT40.1Stream.Rate=f7
+assign 5G.RxTput.HT20.2Stream.Rate=t8,t15
+assign 5G.RxTput.HT40.2Stream.Rate=f8,f15
+assign 5G.RxTput.HT20.3Stream.Rate=t16,t23
+assign 5G.RxTput.HT40.3Stream.Rate=f16,f23
+
+assign 5G.RxTput.Legacy.attn=40
+assign 5G.RxTput.HT20.attn=40
+assign 5G.RxTput.HT40.attn=40
+assign 5G.RxTput.VHT20.attn=40
+assign 5G.RxTput.VHT40.attn=40
+assign 5G.RxTput.VHT80.attn=40
+
+assign 5G.RxTput.HT20.1Stream.Rate=t7
+assign 5G.RxTput.HT40.1Stream.Rate=f7
+assign 5G.RxTput.VHT20.1Stream.Rate=vt8
+assign 5G.RxTput.VHT40.1Stream.Rate=vf9
+assign 5G.RxTput.VHT80.1Stream.Rate=ve9
+assign 5G.RxTput.HT20.2Stream.Rate=t8,t15
+assign 5G.RxTput.HT40.2Stream.Rate=f8,f15
+assign 5G.RxTput.VHT20.2Stream.Rate=vt10,vt18
+assign 5G.RxTput.VHT40.2Stream.Rate=vf10,vf19
+assign 5G.RxTput.VHT80.2Stream.Rate=ve10,ve19
+assign 5G.RxTput.HT20.3Stream.Rate=t16,t23
+assign 5G.RxTput.HT40.3Stream.Rate=f16,f23
+assign 5G.RxTput.VHT20.3Stream.Rate=vt20,vt29
+assign 5G.RxTput.VHT40.3Stream.Rate=vf20,vf29
+assign 5G.RxTput.VHT80.3Stream.Rate=ve20,ve29
+
+# RxTput.boardcast = 0 (Unicast), 1 (boardcast)
+assign 5G.RxTput.boardcast = 0
+
+
+
+
+assign 5g.rxsenssweep.test.ht20.enable=0
+assign 5g.rxsenssweep.test.ht40.enable=0
+assign 5g.rxsenssweep.test.vht20.enable=0
+assign 5g.rxsenssweep.test.vht40.enable=0
+assign 5g.rxsenssweep.test.vht80.enable=0
+assign 5g.rxsenspoint.test.ht20.enable=0
+assign 5g.rxsenspoint.test.ht40.enable=0
+assign 5g.rxsenspoint.test.vht20.enable=0
+assign 5g.rxsenspoint.test.vht40.enable=0
+assign 5g.rxsenspoint.test.vht80.enable=0
+
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JDBC>
+	<MSSQL>
+		<HOST>172.16.2.5</HOST>
+		<DATABASE>pmgr</DATABASE>
+		<USERNAME>script_rbot</USERNAME>
+		<PASSWORD>zzb</PASSWORD>
+	</MSSQL>
+</JDBC>

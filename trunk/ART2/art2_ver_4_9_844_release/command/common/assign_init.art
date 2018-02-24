@@ -1,0 +1,31 @@
+assign inst=0;
+assign instGolden=1;
+assign radio.number=1
+
+assign HAL.DLL.Disable=1;
+assign HAL.DLLNAME=ar9300Aquila
+
+
+##-----------------------------------------------------------------
+# load card
+##-----------------------------------------------------------------
+load i=$inst; devid=30; dll=$HAL_DLL
+
+common\test_init.art
+
+#___________________________________________
+# PT test
+#___________________________________________
+test_setup\setup_tx.art
+test_setup\limit_tx.art
+test_tx\TxInit.art
+#test_tx\TxTest.art
+
+#___________________________________________
+# FT test
+#___________________________________________
+test_setup\setup_rx_2g.art
+test_setup\setup_rx_5g.art
+test_setup\limit_rx.art
+test_rx\RxInit.art
+#test_rx\RxTest.art

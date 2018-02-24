@@ -1,0 +1,20 @@
+assign TotalBTFail=0
+
+comment title="                         BT TEST SUMMARY"
+comment title="=================================================================="
+comment title="                                 Fail#"
+
+#___________________________________________
+# TX
+#___________________________________________
+comment title="BT TX:          $FailTxBT"
+
+#___________________________________________
+# RX
+#___________________________________________
+comment title="BT RX:          $FailRxBT"
+
+calculate TotalBTFail = $FailTxBT + $FailRxBT
+comment title="=================================================================="
+comment title="                  BT Total:     $TotalBTFail"
+comment title="=================================================================="

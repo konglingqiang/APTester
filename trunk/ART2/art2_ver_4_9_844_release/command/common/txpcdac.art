@@ -1,0 +1,14 @@
+assign artreport=D:\dvt_report\txpcdac;
+
+
+assign TxPcdac=0:80:1
+assign TxChain=1
+
+tx tx=0; att=0; pl=1500;agg=32;pc=1000000;f=2412;txgain=$TxPcdac;r=f7;ir=2;txch=$TxChain;pm=1;tx99=1;avg=3;stop='$Test.Error';
+report style=column; f=pm.frequency;l=frequency;f=rate,txchain; f=tx.txgain; l=txgain; f=pm.power;l=power;title=2GHz PCDAC Sweep;
+
+#tx tx=0; att=0; pl=1500;agg=32;pc=1000000;f=2437;txgain=$TxPcdac;r=t0;ir=2;txch=$TxChain;pm=1;tx99=1;avg=3;stop='$Test.Error';
+#report style=column; f=pm.frequency;l=frequency;f=rate,txchain; f=tx.txgain; l=txgain; f=pm.power;l=power;title=2GHz PCDAC Sweep;
+
+#tx tx=0; att=0; pl=1500;agg=32;pc=1000000;f=2462;txgain=$TxPcdac;r=t0;ir=2;txch=$TxChain;pm=1;tx99=1;avg=3;stop='$Test.Error';
+#report style=column; f=pm.frequency;l=frequency;f=rate,txchain; f=tx.txgain; l=txgain; f=pm.power;l=power;title=2GHz PCDAC Sweep;
